@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "scope": "physics-after-received-impulse-only",
+  "source": "build\\parity\\combat-03\\ParityB\\telemetry.ndjson",
+  "source_sha256": "9dce37d442713fec5d20a5ba5e80a400e69399d0664934464686d7e2647d06f9",
+  "packet_application": {
+    "event": "self_motion_applied",
+    "client_tick": 154,
+    "epoch_ms": 1794911586942,
+    "sequence": 154,
+    "schema": 1,
+    "monotonic_ns": 406827817839900,
+    "data": {
+      "decoded_velocity": {
+        "z": 0.39998779222364655,
+        "y": 0.36080083012879194,
+        "x": 0.0
+      },
+      "entity_id": 12,
+      "state": {
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -7.0
+        },
+        "velocity": {
+          "x": 0.0,
+          "y": 0.36080083012879194,
+          "z": 0.39998779222364655
+        },
+        "yaw": 180.0,
+        "pitch": 0.0,
+        "on_ground": true,
+        "sprinting": false,
+        "pose": "standing",
+        "fall_distance": 0.0,
+        "jump_delay": 0,
+        "attack_ticks": 138,
+        "sprint_trigger": 0,
+        "crouching": false,
+        "input": {
+          "forward": false,
+          "backward": false,
+          "left": false,
+          "right": false,
+          "jump": false,
+          "sneak": false,
+          "sprint": false
+        }
+      }
+    }
+  },
+  "source_sequences": [
+    155,
+    156,
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    164,
+    165,
+    166,
+    167,
+    168,
+    169,
+    170,
+    171,
+    172,
+    173,
+    174,
+    175,
+    176,
+    177,
+    178,
+    179,
+    180,
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    187,
+    188,
+    189
+  ],
+  "assumed_floor_friction": 0.6
+}

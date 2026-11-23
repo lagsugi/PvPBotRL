@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "pvp_bot",
+  "version": "${version}",
+  "name": "PvP Bot",
+  "description": "Fabric mod development project for Minecraft 26.1.2.",
+  "authors": ["lagsugi"],
+  "license": "GPL-3.0-only",
+  "environment": "*",
+  "mixins": ["pvpbot.client.mixins.json"],
+  "entrypoints": {
+    "main": ["dev.sugi.pvpbot.PvpBot"],
+    "client": ["dev.sugi.pvpbot.client.PvpBotClient"]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "${minecraft_version}",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

@@ -1,0 +1,62 @@
+menu_title: '&8Match Details'
+size: 36
+update_interval: 1
+args:
+  - session
+items:
+  a:
+    material: DIAMOND_SWORD
+    slot: 11
+    display_name: '&bA: %pvpbot_detail_a_name%'
+    lore:
+      - '&f%pvpbot_detail_a_hp% / %pvpbot_detail_a_max_hp% HP'
+    update: true
+  status:
+    material: CLOCK
+    slot: 13
+    display_name: '&e%pvpbot_detail_status%'
+    lore:
+      - '&7%pvpbot_detail_mode% at %pvpbot_detail_arena%'
+      - '&7Elapsed: %pvpbot_detail_seconds% s'
+      - '&7Spectators: %pvpbot_detail_spectators%'
+      - '&f%pvpbot_detail_result%'
+      - '&8%pvpbot_detail_id%'
+    update: true
+  b:
+    material: DIAMOND_SWORD
+    slot: 15
+    display_name: '&bB: %pvpbot_detail_b_name%'
+    lore:
+      - '&f%pvpbot_detail_b_hp% / %pvpbot_detail_b_max_hp% HP'
+    update: true
+  watch:
+    material: SPYGLASS
+    slot: 21
+    display_name: '&aSpectate'
+    view_requirement:
+      requirements:
+        permission:
+          type: has permission
+          permission: pvpbot.spectate
+    left_click_commands:
+      - '[player] pvpbot:pvpbot ui {session} watch'
+  controls:
+    material: ENDER_EYE
+    slot: 22
+    display_name: '&bSpectator Controls'
+    left_click_commands:
+      - '[player] pvpbot:pvpbot ui {session} nav spectator'
+  stop:
+    material: BARRIER
+    slot: 23
+    display_name: '&cStop Match'
+    lore:
+      - '&7Available to fighters, the host, or admins.'
+    left_click_commands:
+      - '[player] pvpbot:pvpbot ui {session} stop'
+  back:
+    material: OAK_DOOR
+    slot: 27
+    display_name: '&7Back to Live Matches'
+    left_click_commands:
+      - '[player] pvpbot:pvpbot ui {session} nav live'

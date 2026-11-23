@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "scope": "charged-single-hit-capture-only",
+  "results": [
+    {
+      "case": "charged_player",
+      "hits": [
+        {
+          "epoch_ms": 1794911586903,
+          "event": "damage",
+          "cancelled": false,
+          "final_damage": 0.6803998947143555,
+          "victim": {
+            "charge": 1.0,
+            "velocity": [
+              0.0,
+              -0.0784000015258789,
+              0.0
+            ],
+            "sprinting": false,
+            "position": [
+              0.5,
+              65.0,
+              -7.0
+            ],
+            "on_ground": true,
+            "fall_distance": 0.0,
+            "hurt_ticks": 0,
+            "invulnerable_ticks": 0,
+            "health": 20.0
+          },
+          "tick": 11,
+          "monotonic_ns": 406827778362400,
+          "raw": 7.0,
+          "server_tick": 1116,
+          "attacker": "human"
+        }
+      ],
+      "captured": true
+    },
+    {
+      "case": "charged_bot",
+      "hits": [
+        {
+          "epoch_ms": 1794911601652,
+          "event": "damage",
+          "cancelled": false,
+          "final_damage": 0.6803998947143555,
+          "victim": {
+            "charge": 1.0,
+            "velocity": [
+              0.0,
+              -0.0784000015258789,
+              0.0
+            ],
+            "sprinting": false,
+            "position": [
+              0.5,
+              65.0,
+              -7.0
+            ],
+            "on_ground": true,
+            "fall_distance": 0.0,
+            "hurt_ticks": 0,
+            "invulnerable_ticks": 0,
+            "health": 20.0
+          },
+          "tick": 10,
+          "monotonic_ns": 406842527268700,
+          "raw": 7.0,
+          "server_tick": 1410,
+          "attacker": "human"
+        }
+      ],
+      "captured": true
+    }
+  ],
+  "jars": {
+    "Citizens-2.0.44-b4269.jar": "e6b0a0e3346bd2cb982bcd3e1b628143629042e1a50479ae3c24858e2cacde22",
+    "packetevents-spigot-2.14.0.jar": "060087c58ec268eae7dd0eb1f17ac3bea1eaadda1693414141ff64e506091bd7",
+    "PvPBotRL.jar": "83a6ef680829d65febfdfcc5c013725c44a3bc828554614d07490bca6d3adf1a",
+    "ViaVersion-5.12.2.jar": "c0b63badcb0f7d38f4443e06820f2b8142dd4f0d3b0511f9330ff1050430e6b2",
+    "ZonePractice-Pro-8.2.0.jar": "baa26ecf06a62cde65c13434fd32a08b25aded13ba944c4bcebf4f60df8daf07"
+  }
+}

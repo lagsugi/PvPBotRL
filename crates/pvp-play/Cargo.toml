@@ -1,0 +1,19 @@
+[package]
+name = "pvp-play"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+description = "First-person, real-time human interface for pvp-sim"
+
+[dependencies]
+pvp-policy = { path = "../pvp-policy" }
+pvp-sim = { path = "../pvp-sim" }
+macroquad = { version = "0.4.16", default-features = false, features = ["audio"] }
+audrey = { version = "0.3", default-features = false, features = ["ogg_vorbis"] }
+hound = "3.5"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["winuser"] }

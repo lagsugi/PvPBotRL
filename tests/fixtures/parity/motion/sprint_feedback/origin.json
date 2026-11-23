@@ -1,0 +1,234 @@
+{
+  "schema": 1,
+  "source_step": 62,
+  "source_trial": "random_013_seat0_0",
+  "source_capture_sha256": "34f56d00c49ee7a6d135b3c79df396b2071f231ab630c130e0cf637c18c72df9",
+  "source_telemetry_sha256": "3f81c09f1052ffa51846925ce3f5b547b0e31a7406fb7cfbe9eaaa61bd8f935b",
+  "client_events": [
+    {
+      "sequence": 1291,
+      "epoch_ms": 1795006526219,
+      "client_tick": 203,
+      "event": "local_pre_movement",
+      "data": {
+        "speed": 0.10000000149011612,
+        "state": {
+          "position": {
+            "x": -0.48368684572092807,
+            "y": 65.79673560066871,
+            "z": 0.5839208554172257
+          },
+          "velocity": {
+            "x": -0.029045648079233394,
+            "y": -0.30153472366278034,
+            "z": 0.02090824370032089
+          },
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "on_ground": false,
+          "sprinting": false,
+          "pose": "standing",
+          "fall_distance": 0.45546773821115494,
+          "jump_delay": 0,
+          "attack_ticks": 129,
+          "sprint_trigger": 0,
+          "crouching": false,
+          "input": {
+            "forward": true,
+            "backward": true,
+            "left": true,
+            "right": true,
+            "jump": false,
+            "sneak": false,
+            "sprint": true
+          }
+        }
+      },
+      "monotonic_ns": 501769816488600,
+      "schema": 1
+    },
+    {
+      "sequence": 1293,
+      "epoch_ms": 1795006526220,
+      "client_tick": 203,
+      "event": "local_post_movement",
+      "data": {
+        "entity_id": 11,
+        "state": {
+          "position": {
+            "x": -0.4943477202914413,
+            "y": 65.49520087700593,
+            "z": 0.6232138726262667
+          },
+          "velocity": {
+            "x": -0.009701396138759621,
+            "y": -0.3739040364667221,
+            "z": 0.03575664669072773
+          },
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "on_ground": false,
+          "sprinting": true,
+          "pose": "crouching",
+          "fall_distance": 0.7570024505257607,
+          "jump_delay": 0,
+          "attack_ticks": 130,
+          "sprint_trigger": 7,
+          "crouching": false,
+          "input": {
+            "forward": true,
+            "backward": false,
+            "left": true,
+            "right": false,
+            "jump": true,
+            "sneak": true,
+            "sprint": true
+          }
+        }
+      },
+      "monotonic_ns": 501769817273300,
+      "schema": 1
+    },
+    {
+      "sequence": 1295,
+      "epoch_ms": 1795006526235,
+      "client_tick": 204,
+      "event": "self_metadata_applied",
+      "data": {
+        "entries": [
+          0
+        ],
+        "state": {
+          "position": {
+            "x": -0.4943477202914413,
+            "y": 65.49520087700593,
+            "z": 0.6232138726262667
+          },
+          "velocity": {
+            "x": -0.009701396138759621,
+            "y": -0.3739040364667221,
+            "z": 0.03575664669072773
+          },
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "on_ground": false,
+          "sprinting": false,
+          "pose": "crouching",
+          "fall_distance": 0.7570024505257607,
+          "jump_delay": 0,
+          "attack_ticks": 130,
+          "sprint_trigger": 7,
+          "crouching": false,
+          "input": {
+            "forward": true,
+            "backward": false,
+            "left": true,
+            "right": false,
+            "jump": true,
+            "sneak": true,
+            "sprint": true
+          }
+        }
+      },
+      "monotonic_ns": 501769832377700,
+      "schema": 1
+    },
+    {
+      "sequence": 1296,
+      "epoch_ms": 1795006526235,
+      "client_tick": 204,
+      "event": "self_attributes_applied",
+      "data": {
+        "updates_movement_speed": true,
+        "speed": 0.10000000149011612,
+        "sprinting": false
+      },
+      "monotonic_ns": 501769832637800,
+      "schema": 1
+    },
+    {
+      "sequence": 1300,
+      "epoch_ms": 1795006526269,
+      "client_tick": 204,
+      "event": "local_pre_movement",
+      "data": {
+        "speed": 0.10000000149011612,
+        "state": {
+          "position": {
+            "x": -0.4943477202914413,
+            "y": 65.49520087700593,
+            "z": 0.6232138726262667
+          },
+          "velocity": {
+            "x": -0.009701396138759621,
+            "y": -0.3739040364667221,
+            "z": 0.03575664669072773
+          },
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "on_ground": false,
+          "sprinting": false,
+          "pose": "crouching",
+          "fall_distance": 0.7570024505257607,
+          "jump_delay": 0,
+          "attack_ticks": 130,
+          "sprint_trigger": 7,
+          "crouching": false,
+          "input": {
+            "forward": true,
+            "backward": false,
+            "left": true,
+            "right": false,
+            "jump": true,
+            "sneak": true,
+            "sprint": true
+          }
+        }
+      },
+      "monotonic_ns": 501769866830500,
+      "schema": 1
+    },
+    {
+      "sequence": 1302,
+      "epoch_ms": 1795006526270,
+      "client_tick": 204,
+      "event": "local_post_movement",
+      "data": {
+        "entity_id": 11,
+        "state": {
+          "position": {
+            "x": -0.5099291168900507,
+            "y": 65.1212968405392,
+            "z": 0.6648505197768443
+          },
+          "velocity": {
+            "x": -0.01417907131337298,
+            "y": -0.4448259643949201,
+            "z": 0.037889349998990095
+          },
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "on_ground": false,
+          "sprinting": false,
+          "pose": "crouching",
+          "fall_distance": 1.1309064999222755,
+          "jump_delay": 0,
+          "attack_ticks": 131,
+          "sprint_trigger": 0,
+          "crouching": true,
+          "input": {
+            "forward": true,
+            "backward": false,
+            "left": false,
+            "right": true,
+            "jump": false,
+            "sneak": true,
+            "sprint": true
+          }
+        }
+      },
+      "monotonic_ns": 501769867610700,
+      "schema": 1
+    }
+  ]
+}

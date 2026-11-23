@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "scope": "measured-server-handlers-only",
+  "passed": false,
+  "matched_states": true,
+  "first_difference": null,
+  "maximum_errors": {
+    "opponent.health": 8.483886730914492e-07,
+    "opponent.last_hurt": 0.0,
+    "opponent.fall_distance": 3.8974809601910465e-08,
+    "opponent.position.x": 0.0,
+    "opponent.position.y": 0.0,
+    "opponent.position.z": 0.0,
+    "opponent.velocity.x": 0.0,
+    "opponent.velocity.y": 0.0,
+    "opponent.velocity.z": 0.0,
+    "opponent.yaw": 0.0,
+    "opponent.pitch": 0.0,
+    "human.health": 0.0,
+    "human.last_hurt": 0.0,
+    "human.fall_distance": 0.0,
+    "human.position.x": 0.0,
+    "human.position.y": 0.0,
+    "human.position.z": 0.0,
+    "human.velocity.x": 0.0,
+    "human.velocity.y": 0.0,
+    "human.velocity.z": 0.0,
+    "human.yaw": 0.0,
+    "human.pitch": 0.0
+  },
+  "rust_attacks": [
+    {
+      "time_ns": 757782500,
+      "event": {
+        "event": "attack",
+        "attacker": 0,
+        "result": {
+          "charge": 1.0,
+          "critical": false,
+          "sprint_hit": false,
+          "sweep": true,
+          "damage": {
+            "accepted": true,
+            "full_hit": true,
+            "raw": 7.0,
+            "applied_raw": 7.0,
+            "after_armor": 1.8899999,
+            "final_damage": 0.68039995,
+            "health_lost": 0.68040085
+          },
+          "motion": {
+            "x": 0.0,
+            "y": 0.36080000519752503,
+            "z": 0.4000000059604645
+          }
+        }
+      }
+    }
+  ],
+  "events": 344,
+  "schedule_sha256": "4653962a0b90206c4b1321b366bfd030b6a6b0945ca961770d0fa640b6afcf2f",
+  "reference_sha256": "d56f2b0c87bf9337fa90ee52ea57d2483ad6d2bc08180fd5a2660a858e38da8d",
+  "damage_matches": true,
+  "decoded_impulse_matches": true
+}

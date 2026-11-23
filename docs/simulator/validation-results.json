@@ -1,0 +1,100 @@
+{
+  "date": "2026-11-05",
+  "scope": "Rust-only verification; no Minecraft, Gradle, or Java probe execution",
+  "rust": "1.99.1 (58cf8f9c3 2026-10-13), x86_64-pc-windows-gnu",
+  "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD",
+  "checks": {
+    "rustfmt": "passed",
+    "clippy_warnings_denied": "passed",
+    "debug_tests": 48,
+    "release_tests": 48,
+    "failed_tests": 0
+  },
+  "duel": {
+    "decision_steps": 619,
+    "dropped_trace_records": 0,
+    "elapsed_seconds": 0.0116291,
+    "outcome": {
+      "status": "victory",
+      "winner": 0
+    },
+    "positions": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -1.0447797170799409
+      },
+      {
+        "x": -1.2333393837082549E-14,
+        "y": 0.0,
+        "z": 1.0447797170799409
+      }
+    ],
+    "seed": 42,
+    "server_health": [
+      0.2683981657028198,
+      0.0
+    ],
+    "virtual_time_ns": 30900000000
+  },
+  "replay": {
+    "decision_steps": 619,
+    "outcome": {
+      "status": "victory",
+      "winner": 0
+    },
+    "positions": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -1.0447797170799409
+      },
+      {
+        "x": -1.2333393837082549E-14,
+        "y": 0.0,
+        "z": 1.0447797170799409
+      }
+    ],
+    "seed": 42,
+    "server_health": [
+      0.2683981657028198,
+      0.0
+    ],
+    "virtual_time_ns": 30900000000
+  },
+  "trace_sha256": "4ed7beca92d528891127330256d848b3eca5ddd65ff7343f680385864aba3f54",
+  "replay_trace_sha256": "4ed7beca92d528891127330256d848b3eca5ddd65ff7343f680385864aba3f54",
+  "vector_example": "lanes=16, features=42, seat_zero_reward=0",
+  "benchmarks": [
+    {
+      "decision_steps": 619000,
+      "decision_steps_per_second": 609788.1138997506,
+      "elapsed_seconds": 1.0151067,
+      "matches": 1000,
+      "matches_per_second": 985.1181161546859,
+      "seed": 42,
+      "threads": 1,
+      "truncated": 0,
+      "virtual_seconds_per_wall_second": 30489.40569498753,
+      "wins": [
+        513,
+        487
+      ]
+    },
+    {
+      "decision_steps": 619000,
+      "decision_steps_per_second": 2121926.8055231804,
+      "elapsed_seconds": 0.291716,
+      "matches": 1000,
+      "matches_per_second": 3427.991608276543,
+      "seed": 42,
+      "threads": 4,
+      "truncated": 0,
+      "virtual_seconds_per_wall_second": 106096.34027615901,
+      "wins": [
+        513,
+        487
+      ]
+    }
+  ]
+}

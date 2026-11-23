@@ -1,0 +1,14 @@
+name: PvPBotRL
+version: '${version}'
+main: dev.sugi.pvpbot.rl.RlPlugin
+api-version: '26.1.2'
+depend: [Citizens]
+commands:
+  rlbot:
+    description: Show available PvPBotRL models and server status.
+    usage: /rlbot [list|status|reload]
+permissions:
+  pvpbotrl.play:
+    default: true
+  pvpbotrl.admin:
+    default: op

@@ -1,0 +1,17 @@
+[package]
+name = "pvp-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+description = "Command line interface for pvp-sim"
+publish = false
+
+[[bin]]
+name = "pvp-sim"
+path = "src/main.rs"
+
+[dependencies]
+pvp-policy = { path = "../pvp-policy" }
+pvp-sim = { path = "../pvp-sim" }
+same-file = "1.0.6"
+serde_json = { version = "1.0", features = ["float_roundtrip"] }

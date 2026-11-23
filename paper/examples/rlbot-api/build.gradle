@@ -1,0 +1,21 @@
+plugins { id 'java' }
+
+java { toolchain { languageVersion = JavaLanguageVersion.of(25) } }
+sourceSets.main.java.srcDir('../../common/src/main/java')
+repositories {
+    mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+
+def sdk = providers.gradleProperty('pvpBotApiJar')
+if (!sdk.isPresent() || !file(sdk.get()).isFile()) {
+    throw new GradleException('Pass -PpvpBotApiJar=<absolute path to the PvPBotRL API JAR>.')
+}
+dependencies {
+    compileOnly files(sdk.get())
+    compileOnly 'io.papermc.paper:paper-api:26.1.2.build.74-stable'
+}
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 25 }
+
+jar { into('META-INF') { from('../../../LICENSE', '../../../LICENSE-EXCEPTIONS.md') } }

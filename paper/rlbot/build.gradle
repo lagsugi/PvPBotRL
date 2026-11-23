@@ -1,0 +1,74 @@
+// SPDX-FileCopyrightText: 2026 lagsugi
+// SPDX-License-Identifier: GPL-3.0-only
+// Additional permissions are in LICENSE-EXCEPTIONS.md at the project root.
+
+plugins {
+    id 'java'
+    id 'io.papermc.paperweight.userdev' version '2.0.0-beta.24'
+}
+
+group = 'dev.sugi.pvpbot'
+version = '0.1.0'
+java { toolchain { languageVersion = JavaLanguageVersion.of(25) } }
+repositories { mavenCentral() }
+
+sourceSets { parityAgent }
+
+dependencies {
+    paperweight.paperDevBundle('26.1.2.build.74-stable')
+    compileOnly files('../.gradle/pvpbot-dependencies/Citizens-2.0.44-b4270.jar')
+    testImplementation platform('org.junit:junit-bom:5.12.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'com.google.code.gson:gson:2.13.2'
+}
+
+tasks.register('parityAgentJar', Jar) {
+    archiveClassifier = 'parity-agent'
+    manifest {
+        attributes('Premain-Class': 'dev.sugi.pvpbot.parity.PaperPacketAgent',
+                'Boot-Class-Path': "${project.name}-${project.version}-parity-agent.jar")
+    }
+    from(sourceSets.parityAgent.output)
+}
+
+tasks.register('apiJar', Jar) {
+    archiveClassifier = 'api'
+    from(sourceSets.main.output.classesDirs) { include 'dev/sugi/pvpbot/api/**' }
+    dependsOn(tasks.named('classes'))
+}
+tasks.named('assemble') { dependsOn(tasks.named('apiJar')) }
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 25 }
+processResources {
+    from('../../models/bundled') {
+        include 'duel_rl.json', 'league_rl.json', 'league_g5.json', 'league_g6.json', 'recurrent_ppo.json', 'recurrent_g2.json'
+        include 'recurrent_g2_plus.json'
+        into 'models'
+    }
+    filesMatching('plugin.yml') { expand(version: project.version) }
+}
+tasks.withType(Jar).configureEach {
+    into('META-INF') { from('../../LICENSE', '../../LICENSE-EXCEPTIONS.md') }
+}
+jar {
+    manifest { attributes('paperweight-mappings-namespace': 'mojang') }
+    from('../../models/README.md') {
+        into 'META-INF'
+        rename { 'MODEL-LICENSE.md' }
+    }
+}
+processTestResources {
+    from('../../tests/fixtures/policy') { into 'dev/sugi/pvpbot/rl/policy' }
+}
+test {
+    useJUnitPlatform()
+    if (project.hasProperty('parityFixture')) {
+        systemProperty 'pvp.parity.policyFixture', project.property('parityFixture')
+        inputs.file(project.property('parityFixture'))
+    }
+    if (project.hasProperty('parityTrainingModel')) {
+        systemProperty 'pvp.parity.trainingModel', project.property('parityTrainingModel')
+        inputs.file(project.property('parityTrainingModel'))
+    }
+}

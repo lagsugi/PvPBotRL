@@ -1,0 +1,8 @@
+* text=auto
+gradlew text eol=lf
+*.bat text eol=crlf
+*.jar binary
+# Model provenance and parity manifests hash the committed LF bytes.
+models/bundled/*.json text eol=lf
+models/archive/*.json text eol=lf
+tests/fixtures/parity/** text eol=lf

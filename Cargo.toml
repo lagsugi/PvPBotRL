@@ -1,0 +1,19 @@
+[workspace]
+members = [
+    "crates/pvp-cli",
+    "crates/pvp-play",
+    "crates/pvp-policy",
+    "crates/pvp-rl",
+    "crates/pvp-sim",
+]
+default-members = ["crates/pvp-cli"]
+resolver = "2"
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.85"
+version = "0.1.0"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1

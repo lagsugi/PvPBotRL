@@ -1,0 +1,31 @@
+{
+  "position": {
+    "x": -0.4943477202914413,
+    "y": 65.49520087700593,
+    "z": 0.6232138726262667
+  },
+  "velocity": {
+    "x": -0.009701396138759621,
+    "y": -0.3739040364667221,
+    "z": 0.03575664669072773
+  },
+  "yaw": 0.0,
+  "pitch": 0.0,
+  "on_ground": false,
+  "sprinting": true,
+  "pose": "crouching",
+  "fall_distance": 0.7570024505257607,
+  "jump_delay": 0,
+  "attack_ticks": 130,
+  "sprint_trigger": 7,
+  "crouching": false,
+  "input": {
+    "forward": true,
+    "backward": false,
+    "left": true,
+    "right": false,
+    "jump": true,
+    "sneak": true,
+    "sprint": true
+  }
+}

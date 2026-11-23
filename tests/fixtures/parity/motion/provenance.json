@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "source_run": "build/parity/motion-07",
+  "scope": "ordinary Minecraft client local motion only",
+  "scenarios": ["diagonal_seat0_0", "backward_seat0_0", "sneak_transition_seat0_0", "held_jump_seat0_0"],
+  "other_captures": {"received_knockback_idle": "See received_knockback_idle/provenance.json and ../combat/received_impulse/provenance.json"},
+  "jars": {
+    "Citizens-2.0.44-b4269.jar": "e6b0a0e3346bd2cb982bcd3e1b628143629042e1a50479ae3c24858e2cacde22",
+    "packetevents-spigot-2.14.0.jar": "060087c58ec268eae7dd0eb1f17ac3bea1eaadda1693414141ff64e506091bd7",
+    "PvPBotRL.jar": "9cc13fd3fa06829a490cbf4d211cf677f53249bf1911a15a6efa27be9bcdc679",
+    "ViaVersion-5.12.2.jar": "c0b63badcb0f7d38f4443e06820f2b8142dd4f0d3b0511f9330ff1050430e6b2",
+    "ZonePractice-Pro-8.2.0.jar": "baa26ecf06a62cde65c13434fd32a08b25aded13ba944c4bcebf4f60df8daf07"
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "scope": "Official server bytecode: item attributes/components, CombatRules, LpVec3, AABB, VecDeltaCodec, Mth. Attack charge arithmetic is separately reconstructed from source; no Player.attack/world/network replay.",
+  "java_version": "25.0.5",
+  "combat_rules_origin": "build/phase1/runtime/versions/26.1.2/server-26.1.2.jar",
+  "equipment": {
+    "armor": 20.0,
+    "toughness": 8.0,
+    "armor_durability_head_chest_legs_feet": [
+      363,
+      528,
+      495,
+      429
+    ],
+    "attack_damage": 7.0,
+    "knockback_resistance": 0.0
+  },
+  "attack_speed_double": 1.5999999046325684,
+  "attack_delay_float": 12.500001,
+  "damage_rows": [
+    {
+      "attackStrengthTicker": 0,
+      "charge": 0.039999995,
+      "strong": false,
+      "raw": 1.40896,
+      "hp_loss": 0.10859171,
+      "hp_loss_float_bits": "3dde6555"
+    },
+    {
+      "attackStrengthTicker": 1,
+      "charge": 0.11999999,
+      "strong": false,
+      "raw": 1.48064,
+      "hp_loss": 0.11449834,
+      "hp_loss_float_bits": "3dea7e1b"
+    },
+    {
+      "attackStrengthTicker": 5,
+      "charge": 0.43999997,
+      "strong": false,
+      "raw": 2.48416,
+      "hp_loss": 0.2010753,
+      "hp_loss_float_bits": "3e4de6af"
+    },
+    {
+      "attackStrengthTicker": 10,
+      "charge": 0.8399999,
+      "strong": false,
+      "raw": 5.3513594,
+      "hp_loss": 0.48839122,
+      "hp_loss_float_bits": "3efa0e6a"
+    },
+    {
+      "attackStrengthTicker": 11,
+      "charge": 0.91999996,
+      "strong": true,
+      "raw": 6.139839,
+      "hp_loss": 0.5777799,
+      "hp_loss_float_bits": "3f13e962",
+      "critical_hp_loss": 0.9684535
+    },
+    {
+      "attackStrengthTicker": 12,
+      "charge": 0.99999994,
+      "strong": true,
+      "raw": 6.999999,
+      "hp_loss": 0.6803999,
+      "hp_loss_float_bits": "3f2e2eb0",
+      "critical_hp_loss": 1.1528999
+    },
+    {
+      "attackStrengthTicker": 13,
+      "charge": 1.0,
+      "strong": true,
+      "raw": 7.0,
+      "hp_loss": 0.68039995,
+      "hp_loss_float_bits": "3f2e2eb1",
+      "critical_hp_loss": 1.1529001
+    }
+  ],
+  "iframe_raw_difference_3_5_hp_loss": 0.29610002,
+  "incorrect_subtraction_of_reduced_hits": 0.47250015,
+  "motion_codec_rows": [
+    {
+      "input": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "decoded": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bytes": 1
+    },
+    {
+      "input": [
+        0.4000000059604645,
+        0.4,
+        0.0
+      ],
+      "decoded": [
+        0.39998779222364655,
+        0.39998779222364655,
+        0.0
+      ],
+      "bytes": 6
+    },
+    {
+      "input": [
+        0.7,
+        0.4,
+        -0.2
+      ],
+      "decoded": [
+        0.6999938961118233,
+        0.39998779222364655,
+        -0.2000244155527071
+      ],
+      "bytes": 6
+    },
+    {
+      "input": [
+        1.0E-5,
+        0.0,
+        0.0
+      ],
+      "decoded": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bytes": 1
+    },
+    {
+      "input": [
+        4.0,
+        -3.9,
+        0.123
+      ],
+      "decoded": [
+        4.0,
+        -3.899896233900995,
+        0.12305438564365545
+      ],
+      "bytes": 7
+    }
+  ],
+  "ray_hit": [
+    0.0,
+    1.62,
+    3.0
+  ],
+  "relative_position_decoded": [
+    0.699951171875,
+    1.0,
+    -2.5
+  ],
+  "passed_check_count": 33,
+  "passed_checks": [
+    "diamond sword attack speed includes widened float modifier",
+    "diamond sword attack damage 7",
+    "diamond sword has no custom attack range",
+    "diamond sword has no minimum charge",
+    "diamond sword durability 1561",
+    "diamond full armor 20",
+    "diamond full toughness 8",
+    "diamond knockback resistance 0",
+    "diamond armor durability",
+    "normal full charge damage approx 0.6804",
+    "critical full charge damage approx 1.1529",
+    "iframe raw difference must be reduced separately",
+    "n10 is not strong",
+    "n11 is strong",
+    "n12 float charge below exactly one",
+    "n13 clamps to one",
+    "LpVec3 fully consumed (0.0, 0.0, 0.0)",
+    "LpVec3 quantization bound (0.0, 0.0, 0.0)",
+    "LpVec3 fully consumed (0.4000000059604645, 0.4, 0.0)",
+    "LpVec3 quantization bound (0.4000000059604645, 0.4, 0.0)",
+    "LpVec3 fully consumed (0.7, 0.4, -0.2)",
+    "LpVec3 quantization bound (0.7, 0.4, -0.2)",
+    "LpVec3 fully consumed (1.0E-5, 0.0, 0.0)",
+    "LpVec3 quantization bound (1.0E-5, 0.0, 0.0)",
+    "LpVec3 fully consumed (4.0, -3.9, 0.123)",
+    "LpVec3 quantization bound (4.0, -3.9, 0.123)",
+    "ray intersects at z3",
+    "client closerThan excludes exact 3",
+    "client closerThan accepts just under 3",
+    "server distance is to box not center",
+    "ray can miss despite short distance",
+    "relative position zero-axis preserves base",
+    "relative position uses 4096 grid"
+  ]
+}

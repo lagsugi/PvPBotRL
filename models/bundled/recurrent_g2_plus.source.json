@@ -1,0 +1,8 @@
+{
+  "name": "recurrent-G2+",
+  "source": "build/recurrent-ppo/recurrent-g2-plus-24h/main-71002/candidate-0001222.json",
+  "sha256": "64798dabaa8364cca0739e6115f9d780120d3302b7826af11538e42584171575",
+  "evaluation": "build/recurrent-ppo/recurrent-g2-plus-24h/final/summary.json",
+  "accepted": false,
+  "registration": "Added to PvPBotRL as a selectable model at user request. The remaining HP gate failed."
+}

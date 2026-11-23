@@ -1,0 +1,8 @@
+{
+  "clients": [
+    {"upstream_ns": 10000000, "downstream_ns": 10000000, "fps": 60},
+    {"upstream_ns": 10000000, "downstream_ns": 10000000, "fps": 60}
+  ],
+  "match_profile": "sword_pvp_fixed_equipment_v1",
+  "unbreakable": true
+}

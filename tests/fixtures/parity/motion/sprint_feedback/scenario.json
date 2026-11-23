@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "id": "sprint_feedback",
+  "floor_y": 65.0,
+  "floor_friction": 0.6,
+  "fps": 60,
+  "warmup": 0,
+  "actions": [
+    {
+      "keys": {
+        "forward": true,
+        "backward": false,
+        "left": false,
+        "right": true,
+        "jump": false,
+        "sneak": true,
+        "sprint": true
+      }
+    }
+  ]
+}

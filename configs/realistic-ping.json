@@ -1,0 +1,6 @@
+{
+  "ping_profile": {
+    "fixed_ms": [null, null],
+    "asymmetry": 0.1
+  }
+}

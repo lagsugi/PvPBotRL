@@ -1,0 +1,73 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        pvp_bot {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+}
+
+processResources {
+    def properties = [
+        version: project.version,
+        minecraft_version: project.minecraft_version,
+        loader_version: project.loader_version
+    ]
+    inputs.properties properties
+    filteringCharset = 'UTF-8'
+
+    filesMatching('fabric.mod.json') {
+        expand properties
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 25
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
+    withSourcesJar()
+}
+
+tasks.withType(Jar).configureEach {
+    into('META-INF') { from('../LICENSE', '../LICENSE-EXCEPTIONS.md') }
+}
+
+// Export Loom's resolved launch configuration for isolated, unattended reference clients.
+tasks.register('parityLaunch') {
+    notCompatibleWithConfigurationCache('Reads the resolved Loom JavaExec launch task')
+    dependsOn 'classes', 'clientClasses', 'configureLaunch'
+    doLast {
+        def client = tasks.named('runClient').get()
+        def destination = layout.buildDirectory.file('parity-launch.json').get().asFile
+        destination.parentFile.mkdirs()
+        destination.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson([
+            main: client.mainClass.get(),
+            classpath: client.classpath.asPath,
+            jvmArgs: client.jvmArgs + client.jvmArgumentProviders.collectMany { it.asArguments().toList() },
+            args: client.args + client.argumentProviders.collectMany { it.asArguments().toList() },
+            environment: client.environment.findAll { k, v -> k.startsWith('FABRIC_') }
+        ]))
+    }
+}

@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "scope": "measured-server-handlers-only",
+  "passed": false,
+  "matched_states": true,
+  "first_difference": null,
+  "maximum_errors": {
+    "human.armor_attribute": 0.0,
+    "human.toughness_attribute": 0.0,
+    "human.attack_damage": 0.0,
+    "human.attack_speed": 0.0,
+    "human.health": 0.0,
+    "human.last_hurt": 0.0,
+    "human.fall_distance": 0.0,
+    "human.position.x": 0.0,
+    "human.position.y": 0.0,
+    "human.position.z": 0.0,
+    "human.velocity.x": 0.0,
+    "human.velocity.y": 0.0,
+    "human.velocity.z": 0.0,
+    "human.yaw": 0.0,
+    "human.pitch": 0.0,
+    "opponent.armor_attribute": 0.0,
+    "opponent.toughness_attribute": 0.0,
+    "opponent.attack_damage": 0.0,
+    "opponent.attack_speed": 0.0,
+    "opponent.health": 8.483886730914492e-07,
+    "opponent.last_hurt": 0.0,
+    "opponent.fall_distance": 3.8974809601910465e-08,
+    "opponent.position.x": 0.0,
+    "opponent.position.y": 0.0,
+    "opponent.position.z": 0.0,
+    "opponent.velocity.x": 0.0,
+    "opponent.velocity.y": 0.0,
+    "opponent.velocity.z": 0.0,
+    "opponent.yaw": 0.0,
+    "opponent.pitch": 0.0
+  },
+  "rust_attacks": [
+    {
+      "time_ns": 579425600,
+      "event": {
+        "event": "attack",
+        "attacker": 0,
+        "result": {
+          "charge": 1.0,
+          "critical": false,
+          "sprint_hit": false,
+          "sweep": true,
+          "damage": {
+            "accepted": true,
+            "full_hit": true,
+            "raw": 7.0,
+            "applied_raw": 7.0,
+            "after_armor": 1.8899999,
+            "final_damage": 0.68039995,
+            "health_lost": 0.68040085
+          },
+          "motion": {
+            "x": 0.0,
+            "y": 0.36080000519752503,
+            "z": 0.4000000059604645
+          }
+        }
+      }
+    }
+  ],
+  "events": 344,
+  "schedule_sha256": "c252c3856656e409944e82a319e55e6562c63c55a14eaa5b09c8a2f58fff55d0",
+  "reference_sha256": "ffa46ed7e30335657b4c6682d5e27b507bfc26b42d7284ae7667debf004c7945",
+  "damage_matches": true
+}

@@ -1,0 +1,4 @@
+bot-rtt-ms: 20
+max-active-matches: 8
+diagnostics: false
+equipment-profile: finite_durability

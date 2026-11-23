@@ -1,0 +1,218 @@
+{
+  "schema": 1,
+  "scope": "charged-single-hit-capture-only",
+  "results": [
+    {
+      "case": "charged_player",
+      "hits": [
+        {
+          "attacker": "human",
+          "epoch_ms": 1794960523171,
+          "event": "damage",
+          "cancelled": false,
+          "final_damage": 0.6803998947143555,
+          "victim": {
+            "health": 20.0,
+            "charge": 1.0,
+            "position": [
+              0.5,
+              65.0,
+              -7.0
+            ],
+            "velocity": [
+              0.0,
+              -0.0784000015258789,
+              0.0
+            ],
+            "on_ground": true,
+            "sprinting": false,
+            "fall_distance": 0.0,
+            "hurt_ticks": 0,
+            "invulnerable_ticks": 0,
+            "rotation": [
+              -180.0,
+              0.0
+            ],
+            "equipment": {
+              "main_hand": {
+                "damage": 0,
+                "enchantments": {},
+                "material": "minecraft:diamond_sword",
+                "count": 1
+              },
+              "chest": {
+                "damage": 0,
+                "enchantments": {
+                  "minecraft:protection": 4
+                },
+                "material": "minecraft:diamond_chestplate",
+                "count": 1
+              },
+              "legs": {
+                "damage": 0,
+                "enchantments": {
+                  "minecraft:protection": 4
+                },
+                "material": "minecraft:diamond_leggings",
+                "count": 1
+              },
+              "feet": {
+                "damage": 0,
+                "enchantments": {
+                  "minecraft:protection": 4
+                },
+                "material": "minecraft:diamond_boots",
+                "count": 1
+              },
+              "off_hand": {
+                "damage": 0,
+                "enchantments": {},
+                "material": "minecraft:air",
+                "count": 0
+              },
+              "head": {
+                "damage": 0,
+                "enchantments": {
+                  "minecraft:protection": 4
+                },
+                "material": "minecraft:diamond_helmet",
+                "count": 1
+              }
+            },
+            "attributes": {
+              "armor": 20.0,
+              "armor_toughness": 8.0,
+              "knockback_resistance": 0.0,
+              "entity_interaction_range": 3.0,
+              "movement_speed": 0.10000000149011612,
+              "attack_speed": 1.5999999046325684,
+              "attack_damage": 7.0
+            },
+            "food": {
+              "level": 20,
+              "exhaustion": 0.0,
+              "saturation": 0.0
+            },
+            "collidable": false
+          },
+          "tick": 11,
+          "monotonic_ns": 455766769377800,
+          "raw": 7.0,
+          "server_tick": 1312
+        }
+      ],
+      "captured": true
+    },
+    {
+      "case": "charged_bot",
+      "hits": [
+        {
+          "attacker": "human",
+          "epoch_ms": 1794960537813,
+          "event": "damage",
+          "cancelled": false,
+          "final_damage": 0.6803998947143555,
+          "victim": {
+            "health": 20.0,
+            "charge": 1.0,
+            "position": [
+              0.5,
+              65.0,
+              -7.0
+            ],
+            "velocity": [
+              0.0,
+              -0.0784000015258789,
+              0.0
+            ],
+            "on_ground": true,
+            "sprinting": false,
+            "fall_distance": 0.0,
+            "hurt_ticks": 0,
+            "invulnerable_ticks": 0,
+            "rotation": [
+              180.0,
+              -0.0
+            ],
+            "equipment": {
+              "main_hand": {
+                "damage": 0,
+                "enchantments": {},
+                "material": "minecraft:diamond_sword",
+                "count": 1
+              },
+              "chest": {
+                "damage": 0,
+                "enchantments": {
+                  "minecraft:protection": 4
+                },
+                "material": "minecraft:diamond_chestplate",
+                "count": 1
+              },
+              "legs": {
+                "damage": 0,
+                "enchantments": {
+                  "minecraft:protection": 4
+                },
+                "material": "minecraft:diamond_leggings",
+                "count": 1
+              },
+              "feet": {
+                "damage": 0,
+                "enchantments": {
+                  "minecraft:protection": 4
+                },
+                "material": "minecraft:diamond_boots",
+                "count": 1
+              },
+              "off_hand": {
+                "damage": 0,
+                "enchantments": {},
+                "material": "minecraft:air",
+                "count": 0
+              },
+              "head": {
+                "damage": 0,
+                "enchantments": {
+                  "minecraft:protection": 4
+                },
+                "material": "minecraft:diamond_helmet",
+                "count": 1
+              }
+            },
+            "attributes": {
+              "armor": 20.0,
+              "armor_toughness": 8.0,
+              "knockback_resistance": 0.0,
+              "entity_interaction_range": 3.0,
+              "movement_speed": 0.10000000149011612,
+              "attack_speed": 1.5999999046325684,
+              "attack_damage": 7.0
+            },
+            "food": {
+              "level": 20,
+              "exhaustion": 0.0,
+              "saturation": 0.0
+            },
+            "collidable": false
+          },
+          "tick": 10,
+          "monotonic_ns": 455781411365500,
+          "raw": 7.0,
+          "server_tick": 1602
+        }
+      ],
+      "captured": true
+    }
+  ],
+  "experimental_motion_transport": true,
+  "motion_downlink_ms": 0,
+  "client_launch_sha256": "6dbf85b4f53357b2b261ab4707e97c46a382c9f01c9b97f7f83cf3c54685ad84",
+  "jars": {
+    "Citizens-2.0.44-b4269.jar": "e6b0a0e3346bd2cb982bcd3e1b628143629042e1a50479ae3c24858e2cacde22",
+    "packetevents-spigot-2.14.0.jar": "060087c58ec268eae7dd0eb1f17ac3bea1eaadda1693414141ff64e506091bd7",
+    "PvPBotRL.jar": "4804e308bbab7900fb0e1e9697eebb583d71eefdad1cdeaeb359a45583628c59",
+    "ViaVersion-5.12.2.jar": "c0b63badcb0f7d38f4443e06820f2b8142dd4f0d3b0511f9330ff1050430e6b2",
+    "ZonePractice-Pro-8.2.0.jar": "baa26ecf06a62cde65c13434fd32a08b25aded13ba944c4bcebf4f60df8daf07"
+  }
+}

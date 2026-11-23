@@ -1,0 +1,8 @@
+{
+  "name": "recurrent-G2",
+  "source": "build/recurrent-ppo/nextgen-24h/main-71001/candidate-0001677.json",
+  "sha256": "13b796c29a0732d6ef10084a8ae525f147c564d0f99616b97132f1929cf582b8",
+  "evaluation": "build/recurrent-ppo/nextgen-24h/final/summary.json",
+  "accepted": false,
+  "registration": "Added separately at user request; HP gate failed."
+}

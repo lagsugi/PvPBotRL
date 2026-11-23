@@ -1,0 +1,10 @@
+match:
+  max-ticks: 6000
+  max-concurrent: 8
+  start-distance: 20.0
+  bot-ping-ms: 20
+  durability: true
+logging:
+  detailed: false
+stage:
+  blocks-per-tick: 512

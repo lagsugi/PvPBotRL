@@ -1,0 +1,50 @@
+# Rust workspace and local toolchains
+/target/
+/.tools/
+
+# Local research outputs and play recordings
+/build/
+/recordings/
+
+# Python caches and virtual environments
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# Gradle caches and Java build outputs
+.gradle/
+/.gradle-user-home/
+/fabric/build/
+/paper/build/
+/paper/rlbot/build/
+/paper/examples/rlbot-api/build/
+
+# Local Minecraft worlds, server data, and logs
+/fabric/run/
+/fabric/logs/
+/fabric/.lwjgl/
+/paper/run/
+/paper/run-legacy-*/
+/paper/run-rl-*/
+
+# IDE user settings and generated launch configurations
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+/out/
+/fabric/out/
+/paper/out/
+/fabric/bin/
+/paper/bin/
+
+# OS files and local launcher shortcut
+.DS_Store
+Thumbs.db
+desktop.ini
+/pvp-play.lnk

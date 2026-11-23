@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "scope": "experimental-motion-transport-components",
+  "passed": false,
+  "acceptance_status": "incomplete",
+  "rust_codec": {
+    "passed": true,
+    "results": [
+      {
+        "decoded_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "lpvec3_hex": "00",
+        "passed": true,
+        "sequence": 0
+      },
+      {
+        "decoded_velocity": [
+          0.0,
+          0.36080083012879194,
+          0.39998779222364655
+        ],
+        "lpvec3_hex": "f9ffb3315c59",
+        "passed": true,
+        "sequence": 1
+      }
+    ],
+    "schema": 1,
+    "scope": "captured-motion-codec-only"
+  },
+  "decoded_velocity_matches_client": true,
+  "final_position_matches": true,
+  "final_position_absolute_error": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "send": {
+    "event": "motion_send",
+    "epoch_ms": 1794954447635,
+    "raw_velocity": [
+      0.0,
+      0.36080000519752503,
+      0.4000000059604645
+    ],
+    "ready_ns": 71601000000,
+    "server_tick": 1431,
+    "decoded_velocity": [
+      0.0,
+      0.36080083012879194,
+      0.39998779222364655
+    ],
+    "sequence": 1,
+    "lpvec3_hex": "f9ffb3315c59",
+    "sent_ns": 71550000000
+  },
+  "application": {
+    "event": "motion_apply",
+    "epoch_ms": 1794954447727,
+    "before_velocity": [
+      0.0,
+      -0.0784000015258789,
+      0.0
+    ],
+    "ready_ns": 71601000000,
+    "server_tick": 1433,
+    "velocity": [
+      0.0,
+      0.36080083012879194,
+      0.39998779222364655
+    ],
+    "sequence": 1,
+    "phase": "pre_physics",
+    "applied_ns": 71650000000
+  },
+  "client_decoded_velocity": [
+    0.0,
+    0.36080083012879194,
+    0.39998779222364655
+  ],
+  "deadline_wait_ns": 51000000,
+  "physics_poll_lateness_ns": 49000000,
+  "limitations": [
+    "no movement uplink",
+    "physics polls at server tick phase",
+    "full server/predicted velocity separation not implemented",
+    "single stationary charged hit"
+  ]
+}

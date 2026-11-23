@@ -1,0 +1,19 @@
+name: PvPBot
+version: '${version}'
+main: dev.sugi.pvpbot.paper.PvpBotPlugin
+api-version: '26.1.2'
+depend: [Citizens]
+softdepend: [PlaceholderAPI, DeluxeMenus]
+commands:
+  pvpbot:
+    description: Host, play, or spectate PvPBot matches
+    usage: /pvpbot
+permissions:
+  pvpbot.play:
+    default: true
+  pvpbot.spectate:
+    default: true
+  pvpbot.host:
+    default: true
+  pvpbot.admin:
+    default: op

@@ -1,0 +1,32 @@
+menu_title: '&8Matchmaking'
+size: 36
+update_interval: 1
+args:
+  - session
+items:
+  status:
+    material: CLOCK
+    slot: 13
+    display_name: '&eMatchmaking Status'
+    lore:
+      - '&7You: %pvpbot_state%'
+      - '&7Players waiting: %pvpbot_queue_size%'
+    update: true
+  join:
+    material: LIME_DYE
+    slot: 21
+    display_name: '&aJoin Queue'
+    left_click_commands:
+      - '[player] pvpbot:pvpbot ui {session} queue_join'
+  leave:
+    material: RED_DYE
+    slot: 23
+    display_name: '&cLeave Queue'
+    left_click_commands:
+      - '[player] pvpbot:pvpbot ui {session} queue_leave'
+  back:
+    material: OAK_DOOR
+    slot: 27
+    display_name: '&7Main Menu'
+    left_click_commands:
+      - '[player] pvpbot:pvpbot ui {session} nav main'

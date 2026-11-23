@@ -1,0 +1,46 @@
+// SPDX-FileCopyrightText: 2026 lagsugi
+// SPDX-License-Identifier: GPL-3.0-only
+// Additional permissions are in LICENSE-EXCEPTIONS.md at the project root.
+
+plugins {
+    id 'java'
+    id 'io.papermc.paperweight.userdev' version '2.0.0-beta.24'
+}
+group = 'dev.sugi.pvpbot'
+version = '0.1.0'
+java { toolchain { languageVersion = JavaLanguageVersion.of(25) } }
+sourceSets.main.java.srcDir('common/src/main/java')
+repositories { mavenCentral(); maven { url = 'https://maven.citizensnpcs.co/repo' } }
+dependencies {
+    paperweight.paperDevBundle('26.1.2.build.74-stable')
+    def legacyCitizens = file('run/plugins/Citizens-2.0.44-b4269.jar')
+    compileOnly files(legacyCitizens.isFile() ? legacyCitizens
+            : 'run-legacy-20261115/plugins/Citizens-2.0.44-b4269.jar')
+    compileOnly files('.gradle/pvpbot-dependencies/PlaceholderAPI-2.12.3.jar',
+            '.gradle/pvpbot-dependencies/DeluxeMenus-1.14.1-Release.jar')
+    testImplementation platform('org.junit:junit-bom:5.12.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'com.google.code.gson:gson:2.13.2'
+    testImplementation 'io.papermc.paper:paper-api:26.1.2.build.74-stable'
+}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 25 }
+processResources {
+    from('../models/bundled') {
+        include 'duel_rl.json', 'league_rl.json', 'league_g5.json', 'league_g6.json', 'recurrent_ppo.json', 'recurrent_g2.json'
+        into 'models'
+    }
+    filesMatching('plugin.yml') { expand(version: project.version) }
+}
+jar {
+    manifest { attributes('paperweight-mappings-namespace': 'mojang') }
+    into('META-INF') { from('../LICENSE', '../LICENSE-EXCEPTIONS.md') }
+    from('../models/README.md') {
+        into 'META-INF'
+        rename { 'MODEL-LICENSE.md' }
+    }
+}
+processTestResources {
+    from('../tests/fixtures/policy') { into 'dev/sugi/pvpbot/paper/policy' }
+}
+test { useJUnitPlatform() }

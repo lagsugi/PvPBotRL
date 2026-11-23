@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "scope": "charged-single-hit-capture-only",
+  "results": [
+    {
+      "case": "charged_player",
+      "hits": [
+        {
+          "cancelled": false,
+          "tick": 11,
+          "victim": {
+            "sprinting": false,
+            "velocity": [
+              0.0,
+              -0.0784000015258789,
+              0.0
+            ],
+            "charge": 1.0,
+            "health": 20.0,
+            "invulnerable_ticks": 0,
+            "hurt_ticks": 0,
+            "fall_distance": 0.0,
+            "on_ground": true,
+            "position": [
+              0.5,
+              65.0,
+              -7.0
+            ]
+          },
+          "final_damage": 0.6803998947143555,
+          "event": "damage",
+          "server_tick": 1168,
+          "raw": 7.0,
+          "attacker": "human"
+        }
+      ],
+      "captured": true
+    },
+    {
+      "case": "charged_bot",
+      "hits": [
+        {
+          "cancelled": false,
+          "tick": 11,
+          "victim": {
+            "sprinting": false,
+            "velocity": [
+              0.0,
+              -0.0784000015258789,
+              0.0
+            ],
+            "charge": 1.0,
+            "health": 20.0,
+            "invulnerable_ticks": 0,
+            "hurt_ticks": 0,
+            "fall_distance": 0.0,
+            "on_ground": true,
+            "position": [
+              0.5,
+              65.0,
+              -7.0
+            ]
+          },
+          "final_damage": 0.6803998947143555,
+          "event": "damage",
+          "server_tick": 1463,
+          "raw": 7.0,
+          "attacker": "human"
+        }
+      ],
+      "captured": true
+    }
+  ],
+  "jars": {
+    "Citizens-2.0.44-b4269.jar": "e6b0a0e3346bd2cb982bcd3e1b628143629042e1a50479ae3c24858e2cacde22",
+    "packetevents-spigot-2.14.0.jar": "060087c58ec268eae7dd0eb1f17ac3bea1eaadda1693414141ff64e506091bd7",
+    "PvPBotRL.jar": "68468ef52ed12b02e8abf12027a80ec78b4283a6f5488a8a00947dff878d0d58",
+    "ViaVersion-5.12.2.jar": "c0b63badcb0f7d38f4443e06820f2b8142dd4f0d3b0511f9330ff1050430e6b2",
+    "ZonePractice-Pro-8.2.0.jar": "baa26ecf06a62cde65c13434fd32a08b25aded13ba944c4bcebf4f60df8daf07"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "required": true,
+  "package": "dev.sugi.pvpbot.client.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": ["MinecraftMixin", "LocalPlayerMixin", "RemotePlayerMixin", "ClientPacketListenerMixin", "LivingAccess", "PlayerAccess", "LocalAccess", "KeyAccess"],
+  "injectors": { "defaultRequire": 1 }
+}

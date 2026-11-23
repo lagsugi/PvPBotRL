@@ -1,0 +1,2449 @@
+{
+  "schema": 1,
+  "seed": 0,
+  "initial": [
+    {
+      "body": {
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -9.5
+        },
+        "velocity": {
+          "x": 0.0,
+          "y": -0.0784000015258789,
+          "z": 0.0
+        },
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "pose": "standing",
+        "on_ground": true,
+        "sprinting": false,
+        "attack_ticks": 149,
+        "fall_distance": 0.0,
+        "cached_speed": 0.10000000149011612
+      },
+      "health": 20.0,
+      "equipment": {
+        "sword": 1561,
+        "armor": [
+          363,
+          528,
+          495,
+          429
+        ]
+      },
+      "armor_attribute": 20.0,
+      "toughness_attribute": 8.0,
+      "attack_damage": 7.0,
+      "attack_speed": 1.5999999046325684,
+      "last_hurt": 0.0,
+      "invulnerable_ticks": 0,
+      "hurt_ticks": 0,
+      "known_movement": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "hurt_marked": false,
+      "needs_sync": false,
+      "metadata_dirty": false,
+      "received_movement": false,
+      "input": {
+        "forward": false,
+        "backward": false,
+        "left": false,
+        "right": false,
+        "jump": false,
+        "sneak": false,
+        "sprint": false
+      },
+      "loaded": true,
+      "first_good": {
+        "x": 0.5,
+        "y": 65.0,
+        "z": -9.5
+      },
+      "last_good": {
+        "x": 0.5,
+        "y": 65.0,
+        "z": -9.5
+      },
+      "move_packets": 0,
+      "teleport_id": 0,
+      "awaiting_teleport": null,
+      "last_sword_present": true
+    },
+    {
+      "body": {
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -7.0
+        },
+        "velocity": {
+          "x": 0.0,
+          "y": -0.0784000015258789,
+          "z": 0.0
+        },
+        "yaw": -180.0,
+        "pitch": 0.0,
+        "pose": "standing",
+        "on_ground": true,
+        "sprinting": false,
+        "attack_ticks": 149,
+        "fall_distance": 0.0,
+        "cached_speed": 0.10000000149011612
+      },
+      "health": 20.0,
+      "equipment": {
+        "sword": 1561,
+        "armor": [
+          363,
+          528,
+          495,
+          429
+        ]
+      },
+      "armor_attribute": 20.0,
+      "toughness_attribute": 8.0,
+      "attack_damage": 7.0,
+      "attack_speed": 1.5999999046325684,
+      "last_hurt": 0.0,
+      "invulnerable_ticks": 0,
+      "hurt_ticks": 0,
+      "known_movement": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "hurt_marked": false,
+      "needs_sync": false,
+      "metadata_dirty": false,
+      "received_movement": false,
+      "input": {
+        "forward": false,
+        "backward": false,
+        "left": false,
+        "right": false,
+        "jump": false,
+        "sneak": false,
+        "sprint": false
+      },
+      "loaded": true,
+      "first_good": {
+        "x": 0.5,
+        "y": 65.0,
+        "z": -7.0
+      },
+      "last_good": {
+        "x": 0.5,
+        "y": 65.0,
+        "z": -7.0
+      },
+      "move_packets": 0,
+      "teleport_id": 0,
+      "awaiting_teleport": null,
+      "last_sword_present": true
+    }
+  ],
+  "config": {
+    "floor_y": 65.0,
+    "server_rules": "paper_flat_v1",
+    "spawns": [
+      {
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -9.5
+        },
+        "yaw": 0.0,
+        "pitch": 0.0
+      },
+      {
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -7.0
+        },
+        "yaw": -180.0,
+        "pitch": 0.0
+      }
+    ]
+  },
+  "events": [
+    {
+      "time_ns": 18733400,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -7.0
+        },
+        "rotation": null,
+        "on_ground": true
+      }
+    },
+    {
+      "time_ns": 19708400,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 36849700,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 40942000,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 42403800,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 52340900,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 69289000,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 91645100,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 92805600,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 119021100,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 140972200,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 142108200,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 144286100,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 153982500,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 169530200,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 190562400,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 191792800,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 219865900,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 236430800,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 241585400,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 244223100,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 252471100,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 270434100,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -9.5
+        },
+        "rotation": null,
+        "on_ground": true
+      }
+    },
+    {
+      "time_ns": 271735500,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 292427600,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 293965400,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 299732600,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 335714100,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 341298400,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 342569700,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 352545500,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 369229500,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 390950400,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 392145300,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 421864100,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 436459500,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 440788500,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 454573800,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 455298800,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 469828100,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 491232300,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 492488600,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 520910600,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 536996100,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 540529200,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 542229800,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 554464800,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 570250300,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 590674200,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 592169800,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 621469600,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 641334200,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 642496100,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 757782500,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "attack"
+      }
+    },
+    {
+      "time_ns": 776960700,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 776972900,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 776975500,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 776978000,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 776980600,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 776984700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 776989500,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 777026500,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 783484400,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 784893700,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 787030200,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 791897800,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 795302800,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 826968800,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.3608008301288,
+          "z": -6.600012207776354
+        },
+        "rotation": null,
+        "on_ground": false
+      }
+    },
+    {
+      "time_ns": 827342700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 841311300,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 841369900,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 843419900,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 854109000,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.63598564901086,
+          "z": -6.381618847855281
+        },
+        "rotation": null,
+        "on_ground": false
+      }
+    },
+    {
+      "time_ns": 854715600,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 889025800,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 890658800,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 892675700,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 917155400,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 921488600,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.82726677523814,
+          "z": -6.18288088459951
+        },
+        "rotation": null,
+        "on_ground": false
+      }
+    },
+    {
+      "time_ns": 922181700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 941328500,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 943021300,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 954627100,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.9363222810634,
+          "z": -6.002029332824648
+        },
+        "rotation": null,
+        "on_ground": false
+      }
+    },
+    {
+      "time_ns": 955006100,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 983604000,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 991509800,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 993485900,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1017298500,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1022525300,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.96479667732633,
+          "z": -5.837454415966503
+        },
+        "rotation": null,
+        "on_ground": false
+      }
+    },
+    {
+      "time_ns": 1023056000,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1040418700,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1042554000,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1054422700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.91430158468124,
+          "z": -5.687691237309442
+        },
+        "rotation": null,
+        "on_ground": false
+      }
+    },
+    {
+      "time_ns": 1054793700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1086108900,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1090521000,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1092682500,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1117308200,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1121308600,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.78641639140005,
+          "z": -5.551406740803821
+        },
+        "rotation": null,
+        "on_ground": false
+      }
+    },
+    {
+      "time_ns": 1122202300,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1141289300,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1142993100,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1155423400,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.5826888980194,
+          "z": -5.427387845409503
+        },
+        "rotation": null,
+        "on_ground": false
+      }
+    },
+    {
+      "time_ns": 1155910100,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1184032500,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1190607600,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1192413300,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1217251300,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1221961600,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.30463594909467,
+          "z": -5.314530647348148
+        },
+        "rotation": null,
+        "on_ground": false
+      }
+    },
+    {
+      "time_ns": 1222498900,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1240943400,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1244136900,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1258900200,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -5.211830594152517
+        },
+        "rotation": null,
+        "on_ground": true
+      }
+    },
+    {
+      "time_ns": 1259186700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1283794700,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -9.5
+        },
+        "rotation": null,
+        "on_ground": true
+      }
+    },
+    {
+      "time_ns": 1284261900,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1291664200,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1294521200,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1317543800,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1323158300,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -5.118373543051077
+        },
+        "rotation": null,
+        "on_ground": true
+      }
+    },
+    {
+      "time_ns": 1323472800,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1342340900,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1343835000,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1356059000,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -5.067345987222706
+        },
+        "rotation": null,
+        "on_ground": true
+      }
+    },
+    {
+      "time_ns": 1356444000,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1383671000,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1391482800,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1393078200,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1417240900,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1423443500,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -5.039484938504281
+        },
+        "rotation": null,
+        "on_ground": true
+      }
+    },
+    {
+      "time_ns": 1423807800,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1440984300,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1449522900,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1456744100,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -5.024272804137092
+        },
+        "rotation": null,
+        "on_ground": true
+      }
+    },
+    {
+      "time_ns": 1457178400,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1483921800,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1490682600,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1492167600,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1517286600,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1523776700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -5.015966977807863
+        },
+        "rotation": null,
+        "on_ground": true
+      }
+    },
+    {
+      "time_ns": 1524360700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1541536600,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1543338100,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1557158700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -5.011431996105354
+        },
+        "rotation": null,
+        "on_ground": true
+      }
+    },
+    {
+      "time_ns": 1557739100,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1584000300,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1591300700,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1593184300,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1617143800,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1623886800,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1640484000,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1641661800,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1657350300,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1684357400,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1690491900,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1691949500,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1717347200,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1724370200,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1741086100,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1742162200,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1757270200,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1789235300,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1791590300,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1793344800,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1817480700,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1823376100,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1841530800,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1842683900,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1857477900,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1884152700,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1891199500,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1892597900,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1917943700,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1923718100,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1942005400,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1943348300,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 1956935800,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1984815900,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 1992427600,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 1993797900,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2017913700,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2023403700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2042568200,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2044000400,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2057505100,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2087088000,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2092602200,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2093759300,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2119287000,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2124509000,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2141314000,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2143403600,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2158801200,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2186902300,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2191878500,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2193436600,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2219256900,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2224894500,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2241106400,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2244079500,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2260435800,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2288269400,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -9.5
+        },
+        "rotation": null,
+        "on_ground": true
+      }
+    },
+    {
+      "time_ns": 2288750800,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2291426900,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2292912600,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2319874800,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2327768800,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2341637900,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2343151900,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2360552000,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2387225300,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2390713600,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2392075800,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2419243600,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2427313600,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2441349100,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2455988400,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2461630500,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2486215000,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2491535800,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2493216300,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2519559200,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2528178900,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2542098200,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2558831200,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2560169700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -5.011431996105354
+        },
+        "rotation": null,
+        "on_ground": true
+      }
+    },
+    {
+      "time_ns": 2560900500,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2586949100,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2591891800,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2593662600,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2619438600,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2627008400,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2641794400,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2643810600,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2661131700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2687028000,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2691537600,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2693300000,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2720333000,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2728568900,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2741320300,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2742883500,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2763766200,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2787401700,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2790802400,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2793113700,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2819665800,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2830427200,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2841342800,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2842781000,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2863456100,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2886895700,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2892721300,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2894473900,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2921199600,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2929746200,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2941009700,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2942169800,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 2963523500,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2987600000,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 2991151500,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 2992718900,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3021035000,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3031726500,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3041498000,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3043254400,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3064166200,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3087625900,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3091809500,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3093495000,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3122016200,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3130895400,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3140376100,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3141667100,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3164409500,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3188892100,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3191726600,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3193615300,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3222641200,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3233993700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3240485100,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3246490800,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3263349600,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3303887600,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -9.5
+        },
+        "rotation": null,
+        "on_ground": true
+      }
+    },
+    {
+      "time_ns": 3304215300,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3304244500,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3313667500,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3325829900,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3331604300,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3341689700,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3342878600,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3363630700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3389586600,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3390494900,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3391886000,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3421951700,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3430808800,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3441985000,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3452103500,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3475286600,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3490641800,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3490697900,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3492075300,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3523237100,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3534825700,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3541636500,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3543156500,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3563965800,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "move",
+        "position": {
+          "x": 0.5,
+          "y": 65.0,
+          "z": -5.011431996105354
+        },
+        "rotation": null,
+        "on_ground": true
+      }
+    },
+    {
+      "time_ns": 3564578600,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3591496600,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3593094700,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3593552100,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3623864400,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3630896200,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3642271300,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3643571000,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3675217400,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3690978200,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3691027800,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3692496000,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3703402500,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3724267600,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3740403100,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3741552700,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3769543000,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3791308400,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3791351500,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3792764900,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3803710400,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3823376200,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3842253700,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3843762600,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3870908600,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3890739800,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3892148900,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3892568400,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3903497100,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3924587700,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3942667000,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3943590600,
+      "phase": "sample"
+    },
+    {
+      "time_ns": 3971297100,
+      "phase": "packet",
+      "player": 1,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3992390300,
+      "phase": "packet",
+      "player": 0,
+      "packet": {
+        "kind": "tick_end"
+      }
+    },
+    {
+      "time_ns": 3992450000,
+      "phase": "tick"
+    },
+    {
+      "time_ns": 3993590200,
+      "phase": "sample"
+    }
+  ]
+}
