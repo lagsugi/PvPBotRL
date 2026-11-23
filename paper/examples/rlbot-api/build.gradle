@@ -1,4 +1,7 @@
-plugins { id 'java' }
+plugins {
+    id 'java'
+    id 'io.papermc.paperweight.userdev' version '2.0.0-beta.24'
+}
 
 java { toolchain { languageVersion = JavaLanguageVersion.of(25) } }
 sourceSets.main.java.srcDir('../../common/src/main/java')
@@ -12,10 +15,19 @@ if (!sdk.isPresent() || !file(sdk.get()).isFile()) {
     throw new GradleException('Pass -PpvpBotApiJar=<absolute path to the PvPBotRL API JAR>.')
 }
 dependencies {
+    paperweight.paperDevBundle('26.1.2.build.74-stable')
     compileOnly files(sdk.get())
-    compileOnly 'io.papermc.paper:paper-api:26.1.2.build.74-stable'
+    testImplementation platform('org.junit:junit-bom:5.12.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'io.papermc.paper:paper-api:26.1.2.build.74-stable'
+    testImplementation 'com.google.code.gson:gson:2.13.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 25 }
+test { useJUnitPlatform() }
 
-jar { into('META-INF') { from('../../../LICENSE', '../../../LICENSE-EXCEPTIONS.md') } }
+jar {
+    manifest { attributes('paperweight-mappings-namespace': 'mojang') }
+    into('META-INF') { from('../../../LICENSE', '../../../LICENSE-EXCEPTIONS.md') }
+}

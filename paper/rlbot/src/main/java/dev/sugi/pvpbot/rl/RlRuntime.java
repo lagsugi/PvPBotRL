@@ -54,6 +54,16 @@ final class RlRuntime implements PvPBotApi {
         return spawn(owner, spawn, modelId, false);
     }
 
+    @Override public void startPair(BotHandle first, BotHandle second) {
+        requireMainThread();
+        requireAvailable();
+        if (!(first instanceof DirectBot a) || !(second instanceof DirectBot b)
+                || !bodies.containsValue(a) || !bodies.containsValue(b)) {
+            throw new IllegalArgumentException("Expected open handles from this PvPBotRL runtime.");
+        }
+        a.startPair(b);
+    }
+
     DirectBot spawnProbe(Location spawn, String modelId) {
         return spawn(plugin, spawn, modelId == null ? PROBE : modelId, true);
     }
@@ -96,7 +106,10 @@ final class RlRuntime implements PvPBotApi {
             String bodyName = training == null ? modelId : TrainingModels.RANDOM;
             var avatar = newAvatar(id, bodyName, policy != null && policy.isRecurrent(), spawn, trace);
             var body = new RlOpponent(plugin, this, avatar, policy, trace, settings, floorY);
-            var bot = new DirectBot(owner, body, resolved);
+            String hash = policy == null ? null : policy.hash();
+            var bot = new DirectBot(owner, body, new BotHandle.Info(resolved,
+                    hash != null && !hash.startsWith("script-") ? hash : null,
+                    policy == null ? null : policy.version(), settings.rttMs()));
             bodies.put(body, bot);
             if (!owner.isEnabled() || !available()) {
                 closeDirect(bot, !available() ? Reason.RUNTIME_DISABLED : Reason.OWNER_DISABLED);
@@ -142,7 +155,20 @@ final class RlRuntime implements PvPBotApi {
     int activeBodies() { return bodies.size(); }
 
     void tickStart() {
-        for (DirectBot bot : List.copyOf(bodies.values())) bot.tickStart();
+        var processed = new HashSet<DirectBot>();
+        for (DirectBot bot : List.copyOf(bodies.values())) {
+            if (!processed.add(bot)) continue;
+            DirectBot partner = bot.partner();
+            if (partner == null || !bodies.containsValue(partner) || !processed.add(partner)) {
+                bot.tickStart();
+            } else if (bot.firstThisTick()) {
+                bot.tickStart();
+                partner.tickStart();
+            } else {
+                partner.tickStart();
+                bot.tickStart();
+            }
+        }
     }
 
     void ownerDisabled(Plugin owner) {

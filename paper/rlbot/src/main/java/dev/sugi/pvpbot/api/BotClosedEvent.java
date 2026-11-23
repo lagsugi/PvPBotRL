@@ -9,7 +9,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 
-/** Fired on the server thread after a standalone bot and its capacity slot have been released. */
+/** Fired on the server thread after a bot and its capacity slot have been released. */
 public final class BotClosedEvent extends Event {
     public enum Reason {
         EXPLICIT_CLOSE, PARTICIPANT_LOST, OWNER_DISABLED, RUNTIME_DISABLED, INPUT_FAILURE

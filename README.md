@@ -6,7 +6,7 @@ PvP Bot is an unofficial Minecraft project by lagsugi. It is neither approved by
 
 | Task | First step | Guide |
 | --- | --- | --- |
-| Fight an RL bot in Minecraft | Start Paper and install the practice host example | [Paper setup](paper/RLBOT_SETUP.md) · [Duel commands and rules](paper/RLBOT_API.md#try-the-example) |
+| Play or watch duels in Minecraft | Start Paper with `.\tools\paper\start.bat -WithExample` | [Paper setup](paper/RLBOT_SETUP.md) · [Duel commands and rules](paper/README.md) |
 | Use an RL bot in a Paper plugin | Build against the PvPBotRL API JAR | [Java API quickstart and example](paper/RLBOT_API.md) |
 | Use the simulator | Run one duel with `.\tools\rust\cargo.bat run --release --locked -- duel --seed 42` | [CLI, replays and Rust API](docs/simulator/README.md) |
 | Reproduce training or evaluation | Choose a bot or ping experiment in the research guide and run its commands | [Training, evaluation and Minecraft mechanics](docs/research/README.md) |

@@ -6,11 +6,12 @@ exit /b %errorlevel%
 
 # PowerShell
 [CmdletBinding()]
-param([switch]$AcceptEula, [switch]$Offline)
+param([switch]$AcceptEula, [switch]$Offline, [switch]$WithExample)
 
 $ErrorActionPreference = 'Stop'
 $setupArgs = @()
 if ($Offline) { $setupArgs += '-Offline' }
+if ($WithExample) { $setupArgs += '-WithExample' }
 & (Join-Path $scriptDirectory 'setup.bat') @setupArgs
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 $run = (Resolve-Path -LiteralPath (Join-Path $scriptDirectory '..\..\paper\run-rl-standalone')).Path

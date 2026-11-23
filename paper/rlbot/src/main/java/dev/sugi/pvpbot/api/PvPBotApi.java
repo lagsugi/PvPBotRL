@@ -23,4 +23,11 @@ public interface PvPBotApi {
      * @param modelId a selectable model ID or a resolved model ID from a prior round
      */
     BotHandle spawn(Plugin owner, Location spawn, String modelId);
+
+    /**
+     * Starts or resumes a round between two handles spawned by the same owner.
+     * Equip both bots before starting. The first argument is seat A.
+     * Pause either handle to pause both. Use fresh handles for a different round.
+     */
+    void startPair(BotHandle first, BotHandle second);
 }

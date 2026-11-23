@@ -4,95 +4,105 @@
 
 package dev.sugi.pvpbot.example;
 
+import com.destroystokyo.paper.event.server.ServerTickEndEvent;
+import dev.sugi.pvpbot.api.BotClosedEvent;
 import dev.sugi.pvpbot.api.PvPBotApi;
+import dev.sugi.pvpbot.common.PlayerRecovery;
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
+import java.util.Objects;
 import java.util.logging.Level;
-import org.bukkit.command.Command;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class ExamplePlugin extends JavaPlugin {
-    private static final String DEFAULT_MODEL = "recurrent-ppo";
-    private static final String FINITE_EQUIPMENT = "finite_durability";
-    private static final String FIXED_EQUIPMENT = "sword_pvp_fixed_equipment_v1";
-    private PvPBotApi api;
-    private PracticeMatch match;
-    private boolean fixedEquipment;
+public final class ExamplePlugin extends JavaPlugin implements Listener {
+    private StageStore stages;
+    private MatchManager matches;
+    private Settings settings;
+
+    record Settings(int maxConcurrent, double distance, boolean fixedEquipment, int blockBatch) {}
+
+    Settings settings() { return settings; }
 
     @Override public void onEnable() {
-        api = getServer().getServicesManager().load(PvPBotApi.class);
-        if (api == null) {
-            getLogger().severe("PvPBotRL did not register its API service. Check the server startup log.");
+        try {
+            var api = Objects.requireNonNull(getServer().getServicesManager().load(PvPBotApi.class),
+                    "PvPBotRL did not register its API service.");
+            saveDefaultConfig();
+            readSettings();
+            stages = new StageStore(this);
+            stages.addPractice(new PracticeArena(this).prepare());
+            var data = getDataFolder().toPath();
+            var logs = data.resolve("matches");
+            MatchLog.recover(logs);
+            matches = new MatchManager(this, stages, new PlayerRecovery(data.resolve("recovery")), api, logs);
+            var command = Objects.requireNonNull(getCommand("rlbotexample"));
+            var commands = new PvpCommands(this, matches, stages);
+            command.setExecutor(commands);
+            command.setTabCompleter(commands);
+            var plugins = getServer().getPluginManager();
+            plugins.registerEvents(this, this);
+            plugins.registerEvents(new ArenaEvents(this, stages, matches), this);
+            for (Player player : getServer().getOnlinePlayers()) matches.restore(player);
+        } catch (IOException | RuntimeException | LinkageError error) {
+            getLogger().log(Level.SEVERE, "PvPBotRLExample could not start", error);
             getServer().getPluginManager().disablePlugin(this);
-            return;
         }
-        saveDefaultConfig();
-        String profile = getConfig().getString("equipment-profile", FINITE_EQUIPMENT);
-        if (!FINITE_EQUIPMENT.equals(profile) && !FIXED_EQUIPMENT.equals(profile)) {
-            getLogger().severe("Unknown practice equipment-profile. Check config.yml.");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-        fixedEquipment = FIXED_EQUIPMENT.equals(profile);
-        match = new PracticeMatch(this, api);
-        getServer().getPluginManager().registerEvents(match, this);
-        getServer().getOnlinePlayers().forEach(match::scheduleRecovery);
     }
 
     @Override public void onDisable() {
-        if (match != null) match.close();
+        if (matches != null) matches.shutdown();
     }
 
-    boolean fixedEquipment() { return fixedEquipment; }
+    @EventHandler public void tick(ServerTickEndEvent event) {
+        matches.tick(event.getTickNumber());
+        stages.tick(settings.blockBatch());
+    }
 
-    @Override public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        String action = args.length == 0 ? "start" : args[0].toLowerCase(Locale.ROOT);
-        if (args.length > (action.equals("start") ? 2 : 1)) return false;
-        if (action.equals("list")) {
-            sender.sendMessage("Available models • " + String.join(", ", api.models()));
-            return true;
-        }
-        if (action.equals("status")) {
-            sender.sendMessage(match.status());
-            return true;
-        }
-        if (!(sender instanceof Player human)) {
-            sender.sendMessage("Run this command in Minecraft.");
-            return true;
-        }
+    @EventHandler public void botClosed(BotClosedEvent event) { matches.botClosed(event); }
+
+    void readSettings() throws IOException {
+        var disk = new YamlConfiguration();
         try {
-            switch (action) {
-                case "start" -> match.start(human, args.length == 2 ? args[1].toLowerCase(Locale.ROOT) : DEFAULT_MODEL);
-                case "rematch" -> match.rematch(human);
-                case "end", "leave" -> match.leave(human);
-                case "recover" -> match.requestRecovery(human);
-                case "pause", "resume" -> {
-                    if (sender.hasPermission("pvpbotrlexample.admin")) match.pause(human, action.equals("pause"));
-                    else sender.sendMessage("Only a practice administrator can pause a duel.");
-                }
-                default -> { return false; }
-            }
-        } catch (IllegalArgumentException | IllegalStateException error) {
-            human.sendMessage(error.getMessage());
-        } catch (IOException | RuntimeException | LinkageError error) {
-            getLogger().log(Level.WARNING, "Could not handle a practice command", error);
-            human.sendMessage("The practice command failed. Check server diagnostics.");
+            disk.load(getDataFolder().toPath().resolve("config.yml").toFile());
+        } catch (org.bukkit.configuration.InvalidConfigurationException error) {
+            throw new IllegalArgumentException("Invalid config.yml. Check the YAML syntax.", error);
         }
-        return true;
+        Object distance = disk.get("match.start-distance", 20.0);
+        if (!(distance instanceof Number number) || !Double.isFinite(number.doubleValue())
+                || number.doubleValue() < 4 || number.doubleValue() > 60) {
+            throw new IllegalArgumentException("match.start-distance must be between 4 and 60.");
+        }
+        boolean fixed = switch (disk.getString("equipment-profile", "finite_durability")) {
+            case "finite_durability" -> false;
+            case "sword_pvp_fixed_equipment_v1" -> true;
+            default -> throw new IllegalArgumentException("Unknown equipment-profile. Check config.yml.");
+        };
+        settings = new Settings(integer(disk, "match.max-concurrent", 8, 1, 64), number.doubleValue(), fixed,
+                integer(disk, "stage.blocks-per-tick", 512, 1, 4096));
     }
 
-    @Override public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        List<String> choices = switch (args.length) {
-            case 1 -> sender.hasPermission("pvpbotrlexample.admin")
-                    ? List.of("start", "rematch", "leave", "list", "status", "recover", "pause", "resume")
-                    : List.of("start", "rematch", "leave", "list", "status", "recover");
-            case 2 -> args[0].equalsIgnoreCase("start") ? api.models() : List.of();
-            default -> List.of();
-        };
-        String prefix = args.length == 0 ? "" : args[args.length - 1].toLowerCase(Locale.ROOT);
-        return choices.stream().filter(choice -> choice.startsWith(prefix)).toList();
+    private static int integer(YamlConfiguration disk, String key, int fallback, int min, int max) {
+        if (disk.get(key, fallback) instanceof Integer value && value >= min && value <= max) return value;
+        throw new IllegalArgumentException(key + " must be an integer from " + min + " to " + max + ".");
+    }
+
+    static void require(CommandSender sender, String permission) {
+        if (!sender.hasPermission(permission)) throw new IllegalStateException("You need the " + permission + " permission.");
+    }
+
+    static Player player(CommandSender sender) {
+        if (sender instanceof Player player && !player.hasMetadata("NPC")) return player;
+        throw new IllegalArgumentException("Run this command as a player.");
+    }
+
+    static List<String> realPlayers() {
+        return Bukkit.getOnlinePlayers().stream().filter(player -> !player.hasMetadata("NPC"))
+                .map(Player::getName).sorted(String.CASE_INSENSITIVE_ORDER).toList();
     }
 }

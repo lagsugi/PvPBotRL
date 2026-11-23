@@ -18,22 +18,26 @@ final class DirectBot implements BotHandle {
     private final Plugin owner;
     private final RlOpponent body;
     private final UUID id;
-    private final String modelId;
+    private final Info info;
     private Player opponent;
+    private DirectBot partner;
+    private boolean firstSeat;
     private int roundTick;
     private boolean running;
     private Reason closingReason;
     private boolean notified;
 
-    DirectBot(Plugin owner, RlOpponent body, String modelId) {
+    DirectBot(Plugin owner, RlOpponent body, Info info) {
         this.owner = owner;
         this.body = body;
         this.id = body.getPlayer().getUniqueId();
-        this.modelId = modelId;
+        this.info = info;
     }
 
     Plugin owner() { return owner; }
     UUID id() { return id; }
+    DirectBot partner() { return partner; }
+    boolean firstThisTick() { return firstSeat == (roundTick % 2 == 0); }
 
     @Override public Player player() {
         requireOpen();
@@ -42,11 +46,17 @@ final class DirectBot implements BotHandle {
 
     @Override public String modelId() {
         requireOpen();
-        return modelId;
+        return info.modelId();
+    }
+
+    @Override public Info info() {
+        RlRuntime.requireMainThread();
+        return info;
     }
 
     @Override public void start(Player opponent) {
         requireOpen();
+        if (partner != null) throw new IllegalStateException("Resume paired bots through startPair.");
         if (opponent == null || opponent.getUniqueId().equals(id) || !opponent.isOnline() || opponent.isDead()
                 || Bukkit.getPlayer(opponent.getUniqueId()) == null || opponent.getWorld() != body.getPlayer().getWorld()
                 || isNpc(opponent)) {
@@ -63,6 +73,43 @@ final class DirectBot implements BotHandle {
         if (firstStart) body.show(opponent);
     }
 
+    void startPair(DirectBot other) {
+        requireOpen();
+        other.requireOpen();
+        if (this == other || owner != other.owner || !owner.isEnabled()
+                || info.policyVersion() == null || other.info.policyVersion() == null
+                || !alive() || !other.alive() || body.getPlayer().getWorld() != other.body.getPlayer().getWorld()) {
+            throw new IllegalArgumentException("Expected two live bots owned by the same plugin in one world.");
+        }
+        if (partner == other && other.partner == this) {
+            running = other.running = true;
+            return;
+        }
+        if (opponent != null || other.opponent != null) {
+            throw new IllegalStateException("A different opponent requires fresh bot handles.");
+        }
+        Player a = body.getPlayer();
+        Player b = other.body.getPlayer();
+        body.validateEquipment(b);
+        other.body.validateEquipment(a);
+        try {
+            a.showEntity(owner, b);
+            b.showEntity(owner, a);
+        } catch (RuntimeException | LinkageError error) {
+            try { a.hideEntity(owner, b); }
+            catch (RuntimeException | LinkageError cleanup) { error.addSuppressed(cleanup); }
+            try { b.hideEntity(owner, a); }
+            catch (RuntimeException | LinkageError cleanup) { error.addSuppressed(cleanup); }
+            throw error;
+        }
+        opponent = b;
+        other.opponent = a;
+        partner = other;
+        other.partner = this;
+        firstSeat = true;
+        running = other.running = true;
+    }
+
     private static boolean isNpc(Player player) {
         if (CitizensAPI.getNPCRegistry().isNPC(player)) return true;
         for (var registry : CitizensAPI.getNPCRegistries()) {
@@ -73,9 +120,18 @@ final class DirectBot implements BotHandle {
 
     @Override public void pause() {
         requireOpen();
+        try { pauseSelf(); }
+        finally { if (partner != null) partner.pauseSelf(); }
+    }
+
+    private void pauseSelf() {
         if (!running) return;
         running = false;
         body.pause();
+    }
+
+    private boolean alive() {
+        return closingReason == null && body.spawned() && !body.getPlayer().isDead();
     }
 
     void tickStart() {
@@ -87,8 +143,8 @@ final class DirectBot implements BotHandle {
             closeSafely(Reason.OWNER_DISABLED);
             return;
         }
-        if (!body.spawned() || body.getPlayer().isDead() || (opponent != null
-                && (!opponent.isOnline() || opponent.isDead() || opponent.getWorld() != body.getPlayer().getWorld()))) {
+        if (!alive() || (opponent != null && (opponent.getWorld() != body.getPlayer().getWorld()
+                || (partner == null ? !opponent.isOnline() || opponent.isDead() : !partner.alive())))) {
             closeSafely(Reason.PARTICIPANT_LOST);
             return;
         }
@@ -96,7 +152,7 @@ final class DirectBot implements BotHandle {
         int tick = roundTick;
         if (roundTick < Integer.MAX_VALUE) roundTick++;
         float remaining = Math.max(0f, 1f - tick / (RlSettings.MATCH_SECONDS * 20f));
-        body.arm(opponent, tick, remaining);
+        body.arm(opponent, tick, remaining, partner != null);
         body.tickStart();
         if (body.inputFailure() != null && closingReason == null) {
             owner.getLogger().log(Level.WARNING, "RL bot input failed for " + id, body.inputFailure());
@@ -123,10 +179,14 @@ final class DirectBot implements BotHandle {
         if (notified) return;
         if (closingReason == null) closingReason = reason;
         running = false;
-        body.remove();
-        if (body.removed() && !notified) {
-            notified = true;
-            Bukkit.getPluginManager().callEvent(new BotClosedEvent(owner, id, closingReason));
+        try {
+            if (partner != null) partner.pauseSelf();
+        } finally {
+            body.remove();
+            if (body.removed() && !notified) {
+                notified = true;
+                Bukkit.getPluginManager().callEvent(new BotClosedEvent(owner, id, closingReason));
+            }
         }
     }
 }

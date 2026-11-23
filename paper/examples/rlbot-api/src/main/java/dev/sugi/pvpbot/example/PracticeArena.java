@@ -8,7 +8,6 @@ import io.papermc.paper.math.Position;
 import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRules;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -23,6 +22,7 @@ final class PracticeArena {
     private static final int SPAWN_OFFSET = 10;
     private static final int FLOOR_Y = 64;
     private static final int FEET_Y = FLOOR_Y + 1;
+    private static final int WALL_HEIGHT = 5;
     private final NamespacedKey worldKey;
     private final Plugin plugin;
 
@@ -36,7 +36,7 @@ final class PracticeArena {
         return world != null && worldKey.equals(world.getKey());
     }
 
-    World prepare() {
+    Stage prepare() {
         World world = Bukkit.getWorld(worldKey);
         if (world == null) {
             world = new WorldCreator(worldKey)
@@ -54,39 +54,14 @@ final class PracticeArena {
         world.setTime(6000);
         world.setStorm(false);
         world.setThundering(false);
-        for (Location at : java.util.List.of(spawn(world, false), spawn(world, true))) {
-            if (world.getBlockAt(at.getBlockX(), FLOOR_Y, at.getBlockZ()).getType() != Material.SMOOTH_STONE
-                    || !at.getBlock().getType().isAir() || !at.clone().add(0, 1, 0).getBlock().getType().isAir()) {
-                throw new IllegalStateException("The practice arena's duel spawns are obstructed.");
-            }
-        }
-        return world;
+        return new Stage(world.getUID(), world.getName(), -HALF_WIDTH, FLOOR_Y, -HALF_WIDTH,
+                WIDTH, WIDTH, WALL_HEIGHT, spawn(false), spawn(true),
+                new Stage.StartPoint(0.5, FEET_Y + WALL_HEIGHT + 1, 0.5, 0, 45));
     }
 
-    Location spawn(World world, boolean bot) {
+    private static Stage.StartPoint spawn(boolean bot) {
         double z = 0.5 + (bot ? SPAWN_OFFSET : -SPAWN_OFFSET);
-        return new Location(world, 0.5, FEET_Y, z, bot ? 180 : 0, 0);
-    }
-
-    void holdChunks(World world) {
-        int firstChunk = Math.floorDiv(-HALF_WIDTH, 16);
-        int lastChunk = Math.floorDiv(HALF_WIDTH - 1, 16);
-        for (int x = firstChunk; x <= lastChunk; x++) {
-            for (int z = firstChunk; z <= lastChunk; z++) {
-                world.addPluginChunkTicket(x, z, plugin);
-            }
-        }
-    }
-
-    void releaseChunks(World world) {
-        world.removePluginChunkTickets(plugin);
-    }
-
-    boolean contains(Location location) {
-        double inner = HALF_WIDTH - 1;
-        return owns(location.getWorld()) && location.getY() >= FLOOR_Y
-                && location.getX() >= -inner && location.getX() < inner
-                && location.getZ() >= -inner && location.getZ() < inner;
+        return new Stage.StartPoint(0.5, FEET_Y, z, bot ? 180 : 0, 0);
     }
 
     private static final class ArenaGenerator extends ChunkGenerator {
@@ -101,7 +76,7 @@ final class PracticeArena {
                     chunk.setBlock(x, FLOOR_Y, z, Material.SMOOTH_STONE);
                     if (blockX == -HALF_WIDTH || blockX == HALF_WIDTH - 1
                             || blockZ == -HALF_WIDTH || blockZ == HALF_WIDTH - 1) {
-                        chunk.setRegion(x, FEET_Y, z, x + 1, FEET_Y + 5, z + 1, Material.GLASS);
+                        chunk.setRegion(x, FEET_Y, z, x + 1, FEET_Y + WALL_HEIGHT, z + 1, Material.GLASS);
                     }
                 }
             }

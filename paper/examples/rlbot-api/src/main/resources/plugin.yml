@@ -5,11 +5,15 @@ api-version: '26.1.2'
 depend: [PvPBotRL]
 commands:
   rlbotexample:
-    description: Play a sword duel against a PvPBotRL opponent.
-    usage: /rlbotexample [start [model]|rematch|leave|list|status|recover|pause|resume]
+    description: Play, host, or spectate sword duels.
+    usage: /rlbotexample help
     permission: pvpbotrlexample.demo
 permissions:
   pvpbotrlexample.demo:
+    default: true
+  pvpbotrlexample.host:
+    default: true
+  pvpbotrlexample.spectate:
     default: true
   pvpbotrlexample.admin:
     default: op

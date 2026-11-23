@@ -33,7 +33,9 @@ final class RlOpponent {
     private LiveFrame nextFrame;
     private Throwable inputFailure;
 
-    private record LiveFrame(Player enemy, int roundTick, float remaining) {}
+    private record LiveFrame(Player enemy, int roundTick, float remaining, boolean paired) {
+        boolean enemyAvailable() { return (paired ? enemy.isValid() : enemy.isOnline()) && !enemy.isDead(); }
+    }
     private record PendingAction(int opponentId, BotAvatar.Sample sample, Action action, boolean aim, Integer targetId) {}
 
     RlOpponent(RlPlugin plugin, RlRuntime runtime, BotAvatar avatar, BotPolicy policy,
@@ -54,8 +56,8 @@ final class RlOpponent {
     boolean removed() { return removed; }
     Throwable inputFailure() { return inputFailure; }
 
-    void arm(Player enemy, int roundTick, float remaining) {
-        nextFrame = new LiveFrame(enemy, roundTick, remaining);
+    void arm(Player enemy, int roundTick, float remaining, boolean paired) {
+        nextFrame = new LiveFrame(enemy, roundTick, remaining, paired);
     }
 
     static boolean standsOnFloor(Location spawn, int floorY) {
@@ -64,11 +66,11 @@ final class RlOpponent {
                 && spawn.getWorld().getBlockAt(spawn.getBlockX(), floorY - 1, spawn.getBlockZ()).getType().isOccluding();
     }
 
-    void validateEquipment(Player human) {
+    void validateEquipment(Player opponent) {
         boolean fixed = settings.fixedEquipment();
         requireSwordKit(getPlayer(), fixed);
-        requireSwordKit(human, fixed);
-        if (fixed && !Boolean.FALSE.equals(human.getWorld().getGameRuleValue(GameRules.NATURAL_HEALTH_REGENERATION))) {
+        requireSwordKit(opponent, fixed);
+        if (fixed && !Boolean.FALSE.equals(opponent.getWorld().getGameRuleValue(GameRules.NATURAL_HEALTH_REGENERATION))) {
             throw new IllegalArgumentException("The fixed-equipment arena requires natural health regeneration off.");
         }
     }
@@ -78,7 +80,7 @@ final class RlOpponent {
         nextFrame = null;
         if (removing || inputFailure != null) return;
         try {
-            if (frame == null || !avatar.spawned() || !frame.enemy().isOnline() || frame.enemy().isDead()
+            if (frame == null || !avatar.spawned() || !frame.enemyAvailable()
                     || frame.enemy().getWorld() != getPlayer().getWorld()) {
                 pause();
                 return;
@@ -125,7 +127,7 @@ final class RlOpponent {
         long now = (long) Bukkit.getCurrentTick() * BotPing.TICK_NS;
         long pauses = pauseCount;
         applyPending(frame, now);
-        if (pauseCount != pauses || removing || !avatar.spawned() || frame.enemy().isDead() || !frame.enemy().isOnline()) return;
+        if (pauseCount != pauses || removing || !avatar.spawned() || !frame.enemyAvailable()) return;
 
         var received = avatar.receiveOpponent(frame.enemy(), uplink.oneWayNs(), plugin.parityOpponentTrace(getPlayer()));
         if (received == null) {

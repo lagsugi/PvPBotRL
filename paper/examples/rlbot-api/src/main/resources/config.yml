@@ -1,2 +1,7 @@
 # Match the PvPBotRL runtime's equipment-profile.
 equipment-profile: finite_durability
+match:
+  max-concurrent: 8
+  start-distance: 20.0
+stage:
+  blocks-per-tick: 512
