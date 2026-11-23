@@ -259,7 +259,7 @@ async fn run() -> Result<(), String> {
     let mut settings = render::Settings::default();
     let mut hud = hud::Hud::new()?;
     let mut models = model::Models::new();
-    let mut audio = audio::CombatAudio::load().await;
+    let audio = audio::CombatAudio::load().await;
     let mut finished_at: Option<Instant> = None;
     let mut clock = FixedClock::default();
     let mut last = Instant::now();

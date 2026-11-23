@@ -44,8 +44,6 @@ function Get-VerifiedJar {
 
 $paperJar = 'paper-26.1.2-74.jar'
 $citizensJar = 'Citizens-2.0.44-b4270.jar'
-$viaJar = 'ViaVersion-5.12.2.jar'
-$viaBackwardsJar = 'ViaBackwards-5.12.2.jar'
 New-Item -ItemType Directory -Path $dependencies -Force | Out-Null
 Get-VerifiedJar $paperJar 'https://fill-data.papermc.io/v1/objects/1d70b1dab9cf4a6de615209a536f3a45a2186240253c428213ce2188ab95e5f7/paper-26.1.2-74.jar' '1d70b1dab9cf4a6de615209a536f3a45a2186240253c428213ce2188ab95e5f7' SHA256
 Get-VerifiedJar $citizensJar 'https://ci.citizensnpcs.co/job/citizens2/4270/artifact/dist/target/Citizens-2.0.44-b4270.jar' '0cdcda6760eee72eebd48e889e8f38779b09619194c8ec589a30d60c8d2409e4' SHA256
@@ -72,9 +70,6 @@ try {
     $env:GRADLE_USER_HOME = $previousGradleHome
 }
 if ($BuildOnly) { return }
-
-Get-VerifiedJar $viaJar 'https://cdn.modrinth.com/data/P1OZGk5p/versions/Fkfcr89K/ViaVersion-5.12.2.jar' 'c6af11f50e14bc1ba239f5a90be653cce85feee30c473a4b53336b4d5527d790369cf43843f7cb06d3ac3a34fc207e7203436737ca719070644101472453401b' SHA512
-Get-VerifiedJar $viaBackwardsJar 'https://cdn.modrinth.com/data/NpvuJQoq/versions/WFO37e8T/ViaBackwards-5.12.2.jar' '78bc7e5fd33ecf13aee31c62e1de46a854e066a1936f294347c6798371357497fe2cc6f23f1d42003ad3050f94ac5382db95e60ffa90d765fada0322b59b0ef9' SHA512
 
 $activePorts = [Net.NetworkInformation.IPGlobalProperties]::GetIPGlobalProperties().GetActiveTcpListeners()
 if ($activePorts | Where-Object { $_.Port -in 25565,25575 }) {
@@ -118,8 +113,6 @@ function Install-PinnedJar([string]$Name, [string]$Prefix, [string]$Destination,
 New-Item -ItemType Directory -Path $plugins -Force | Out-Null
 Install-PinnedJar $paperJar 'paper-' $run
 Install-PinnedJar $citizensJar 'Citizens-' $plugins 'e6b0a0e3346bd2cb982bcd3e1b628143629042e1a50479ae3c24858e2cacde22'
-Install-PinnedJar $viaJar 'ViaVersion-' $plugins
-Install-PinnedJar $viaBackwardsJar 'ViaBackwards-' $plugins
 Copy-Item -LiteralPath (Join-Path $project 'rlbot\build\libs\pvpbot-rl-0.1.0.jar') -Destination (Join-Path $plugins 'PvPBotRL.jar') -Force
 if ($WithExample) {
     $exampleJar = Join-Path $project 'examples\rlbot-api\build\libs\pvpbot-rl-example.jar'

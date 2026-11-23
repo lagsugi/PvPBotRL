@@ -382,7 +382,6 @@ dependencies = [
 name = "pvp-play"
 version = "0.1.0"
 dependencies = [
- "audrey",
  "hound",
  "macroquad",
  "pvp-policy",

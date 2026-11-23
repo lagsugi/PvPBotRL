@@ -150,11 +150,11 @@ Combat audio follows the server's attack decision for both players. Listen for t
 | Full hit on the victim | Hurt or death, alongside the attacker's cue |
 | Miss or server range rejection | Silence |
 
-With the standard launcher, the app reads the local 26.1.2 sound definitions and clips from asset index 30. For a custom installation, set `PVP_MINECRAFT_ASSETS` to the directory containing `indexes/` and `objects/`. The app cycles through the event's variants at their defined gains. In the vanilla pack, weak and no-damage attacks share clips. Each event with missing or unreadable assets has its own built-in synthesized fallback.
+The app synthesizes an original sound for each of the eight combat cues at startup.
 
 Both players' sounds reach the human after the configured downstream delay, rounded to the next simulated client frame. Playback starts on a render frame once the corresponding server decision has been simulated. A lethal strike's pending sounds can finish on the result screen. Distance reduces the opponent's volume.
 
-Audio has no source-dependent pitch, stereo panning or positional HRTF. Both seats use the same clip bank, and each event cycles through variants rather than identifying the player. Gain is `clip_gain * 0.75 * clamp(1 - distance / 16, 0, 1)`; local-source distance is zero, remote-source distance uses current received separation. A hit mixes an attacker-side attack cue with a victim-side hurt/death cue, so near-simultaneous close-range exchanges can be hard to attribute by sound alone. Critical particles do not change this audio behavior.
+Both seats use the same sounds. Gain is `0.7 * 0.75 * clamp(1 - distance / 16, 0, 1)`. Local sounds use zero distance, and remote sounds use the current received separation. A hit mixes the attacker's cue with the victim's hurt or death cue.
 
 ## Timing
 

@@ -39,9 +39,17 @@ The [implementation and validation guide](docs/simulator/implementation.md) desc
 
 ## License and release contents
 
-Copyright © 2026 lagsugi. The project-authored source, documentation and original art are available under the [GNU General Public License, version 3 only](LICENSE), with [additional permissions for platform integration and model bundling](LICENSE-EXCEPTIONS.md). Commercial use and redistribution are permitted under the applicable terms. When distributing an executable, provide access to its corresponding GPL-covered source, including the build scripts, as required by the GPL.
+Copyright © 2026 lagsugi. The project-authored source, documentation and original art are available under the [GNU General Public License, version 3 only](LICENSE), with [additional permissions for platform integration and model bundling](LICENSE-EXCEPTIONS.md).
 
 The [model files](models/README.md) are available under CC BY 4.0 with credit to lagsugi. The [project's test fixtures](tests/fixtures/README.md) are available under CC0 1.0 within the scope described there. [Third-party notices](THIRD_PARTY_NOTICES.md) identify files that retain their upstream terms and dependencies installed from separate sources.
+
+Distribution of Minecraft integrations and use of Minecraft servers, including server monetization, are also subject to Mojang's terms. [Minecraft EULA](https://www.minecraft.net/en-us/eula) · [Minecraft Usage Guidelines](https://www.minecraft.net/en-us/usage-guidelines)
+
+### Binary releases
+
+For a Paper release, build the PvPBotRL runtime, API and Example JARs from the release tag with `.\tools\paper\setup.bat -BuildOnly -WithExample`. Publish those JARs as free downloads on the release page. Obtain Paper and Citizens separately from their upstream distributions through the standalone setup. [Paper setup](paper/RLBOT_SETUP.md)
+
+Next to the binary downloads, provide free access to the complete Corresponding Source for that exact release. Link to the release tag's source archive when it contains the source, build and installation scripts, and any bundled models needed for that build. Keep the GPL text, additional permissions and applicable model attribution with the release. A Rust executable release must also carry the required notices for the dependencies it includes. [GPLv3 sections 1 and 6](LICENSE) · [Model attribution](models/README.md)
 
 ## Asset policy
 
