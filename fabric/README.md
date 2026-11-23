@@ -160,7 +160,7 @@ Development settings, worlds, and logs live in `run/`. Gradle launches the devel
 | `src/main/resources/fabric.mod.json` | Mod ID, entry points, and dependencies |
 | `gradle.properties` | Development environment and mod versions |
 
-The mod ID is `pvp_bot`. Put code using client-only APIs such as screens, input, and rendering in `src/client/java/`.
+The mod ID is `lagsugi_pvpbotrl_parity`. Put code using client-only APIs such as screens, input, and rendering in `src/client/java/`.
 
 The minimum Loader version in `fabric.mod.json` expands from `loader_version` at build time. Its current value is `>=0.20.1`.
 

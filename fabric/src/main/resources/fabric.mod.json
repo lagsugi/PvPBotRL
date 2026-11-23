@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "pvp_bot",
+  "id": "lagsugi_pvpbotrl_parity",
   "version": "${version}",
   "name": "PvP Bot",
   "description": "Fabric mod development project for Minecraft 26.1.2.",

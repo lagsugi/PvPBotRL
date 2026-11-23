@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class PvpBot implements ModInitializer {
-    public static final String MOD_ID = "pvp_bot";
+    public static final String MOD_ID = "lagsugi_pvpbotrl_parity";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     @Override
