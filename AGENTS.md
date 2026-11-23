@@ -6,6 +6,8 @@ This project models Minecraft Java Edition 26.1.2 sword duels, trains bot polici
 
 Prioritize areas 1, 2, 3, 5, and 6. The local Rust duel window in area 4 is deprecated and retained for existing workflows. Direct new player-facing match features to the current Paper integration.
 
+Use Rust for simulation, batched environments, and offline inference and evaluation. Use Python and PyTorch for new policy training, including recurrent PPO updates and export. Use Paper and Java for live inference and bot control. Treat the Rust ARS trainers for Duel-RL and the League generations as legacy code retained for experiment reproduction. [Architecture guide](docs/architecture.md)
+
 | Work area | Main locations | How to verify |
 | --- | --- | --- |
 | 1. Minecraft mechanics research | `docs/research/minecraft/`, `tools/research/minecraft/` | Record the target version, official JAR hashes, inspected classes, and corresponding probe results. [Research notes](docs/research/minecraft/README.md) |

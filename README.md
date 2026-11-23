@@ -4,6 +4,18 @@ This project studies and simulates sword PvP in Minecraft Java Edition 26.1.2, t
 
 PvP Bot is an unofficial Minecraft project by lagsugi. It is neither approved by nor associated with Mojang or Microsoft.
 
+## Simulation, training, and deployment
+
+| Stage | Stack | Responsibility |
+| --- | --- | --- |
+| Simulation | Rust | Runs duels, replays, and batched training environments. [Simulator guide](docs/simulator/README.md) |
+| RL training | Python and PyTorch | Trains recurrent policies with PPO against the Rust environments and exports model weights as JSON. [Training guide](docs/research/README.md) |
+| Live deployment | Paper and Java | Loads model weights, runs inference, and controls Citizens bots. The Example plugin hosts live duels. [Paper setup](paper/RLBOT_SETUP.md) |
+
+The Rust Augmented Random Search (ARS) trainers are legacy code retained to reproduce the Duel-RL and League experiments. [Architecture guide](docs/architecture.md)
+
+## Quickstart
+
 | Task | First step | Guide |
 | --- | --- | --- |
 | Play or watch duels in Minecraft | Start Paper with `.\tools\paper\start.bat -WithExample` | [Paper setup](paper/RLBOT_SETUP.md) · [Duel commands and rules](paper/README.md) |
