@@ -1,6 +1,6 @@
 {
-  "name": "G3",
-  "paperModelId": "g3",
+  "name": "G3 Prototype",
+  "paperModelId": "g3-prototype",
   "source": "build/g3/full-780m/training/candidate-0018983.json",
   "sha256": "2c787f2e96d0f7df80ede467aaa3acd4c04333ae2a28950c8648eda9ec5eddd4",
   "checkpointSha256": "e702db660d100b693a23354b6bcfa919d9d45785c61014626f177422542f01f1",

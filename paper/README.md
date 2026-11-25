@@ -23,7 +23,7 @@ These commands use the `/rlbotexample` prefix and support tab completion.
 
 When the arena is omitted, the server selects a ready, free arena in ID order. Each arena holds one match. Spectators can switch matches and return to their original location and state when they leave.
 
-Run `/rlbotexample start g3` to fight G3, or `/rlbotexample bots g3 recurrent-g2-plus` to watch a match between G3 and G2+.
+Run `/rlbotexample start g3-prototype` to fight G3 Prototype, or `/rlbotexample bots g3-prototype recurrent-g2-plus` to watch it fight G2+.
 
 All three modes use an unenchanted diamond sword and full Protection IV diamond armor. A three-second countdown precedes 6,000 active server ticks. One death or forfeit during the match gives the opponent the win. Two deaths in the same tick or time expiry end in a draw. A boss bar shows the countdown or time remaining. Both fighters' HP appears below their names for nearby fighters and spectators. The result is announced in chat and as a title with sound, or after respawn for a fighter who died.
 

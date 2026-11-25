@@ -38,7 +38,7 @@ Run `python tools/parity/verify_saved.py` to build the movement example, copy si
 .\paper\gradlew.bat -p paper/rlbot --offline --no-daemon --max-workers=1 -PparityFixture=C:/absolute/path/to/policy.ndjson test
 ```
 
-The corpus covers the bundled recurrent-PPO, recurrent-G2, recurrent-G2+, and G3 weights across 100 seeds and both policy seats, cycling through 12 RTT values. It compares raw features (1e-6), recurrent hidden states and logits (1e-4), and exact selected actions. It resets memory at each episode. Supply a corpus to run the optional Java/Rust inference test.
+The corpus covers the bundled recurrent-PPO, recurrent-G2, recurrent-G2+, and G3 Prototype weights across 100 seeds and both policy seats, cycling through 12 RTT values. It compares raw features (1e-6), recurrent hidden states and logits (1e-4), and exact selected actions. It resets memory at each episode. Supply a corpus to run the optional Java/Rust inference test.
 
 To verify an external training model, pass its JSON path after the corpus path when generating the corpus. Pass the same JSON to Gradle with `-PparityTrainingModel=C:/absolute/path/to/model.json`. The resulting corpus uses that model for all 200 episodes and tests the same controller factory used by random Paper matches.
 

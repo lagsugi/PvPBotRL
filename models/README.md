@@ -12,6 +12,6 @@ The JSON model weights, training history and model provenance files in `models/b
 | `recurrent_ppo.json` | [Recurrent PPO](../docs/research/bots/recurrent-ppo-plan.md) |
 | `recurrent_g2.json` | [Run notes](../docs/research/bots/next-gen-gru-run.md) and [checkpoint provenance](bundled/recurrent_g2.source.json) |
 | `recurrent_g2_plus.json` | [Run plan](../docs/research/bots/recurrent-g2-plus-plan.md) and [checkpoint provenance](bundled/recurrent_g2_plus.source.json) |
-| `g3.json` | [G3 experiment](../docs/research/bots/g3.md) and [checkpoint provenance](bundled/g3.source.json) |
+| `g3_prototype.json` | [G3 experiment](../docs/research/bots/g3.md) and [checkpoint provenance](bundled/g3_prototype.source.json) |
 
 The archived files contain historical league weights and training history. [SHA-256 checksums](SHA256SUMS) identify the bytes of the JSON files in this directory. See the [GPLv3 additional permission for model bundling](../LICENSE-EXCEPTIONS.md#model-bundling) for the code that embeds or packages these files.

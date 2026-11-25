@@ -16,9 +16,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let output = args.next().ok_or("Expected output NDJSON")?;
     let models = match args.next() {
         Some(path) => vec![("training", PathBuf::from(path))],
-        None => ["recurrent_ppo", "recurrent_g2", "recurrent_g2_plus", "g3"]
-            .map(|name| (name, PathBuf::from(format!("models/bundled/{name}.json"))))
-            .to_vec(),
+        None => [
+            "recurrent_ppo",
+            "recurrent_g2",
+            "recurrent_g2_plus",
+            "g3_prototype",
+        ]
+        .map(|name| (name, PathBuf::from(format!("models/bundled/{name}.json"))))
+        .to_vec(),
     };
     let mut writer = BufWriter::new(File::create(output)?);
     let mut frames = 0;
