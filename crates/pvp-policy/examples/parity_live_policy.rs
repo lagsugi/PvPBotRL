@@ -1,4 +1,4 @@
-use pvp_policy::recurrent::{Context, Input, Model, OUTPUTS, WIDTH, encode_sample, greedy_choices};
+use pvp_policy::recurrent::{Context, Model, OUTPUTS, WIDTH, encode_sample, greedy_choices};
 use pvp_sim::{Action, Observation};
 use serde::Deserialize;
 use serde_json::json;
@@ -79,7 +79,7 @@ impl Sensitivity {
             modified,
             frame.recurrent.context,
             baseline.previous,
-            Input::Full,
+            model.input,
         )?;
         let logits = model.logits(&isolated, &mut isolated_hidden);
         let action = isolated.action(greedy_choices(&logits));
@@ -94,7 +94,7 @@ impl Sensitivity {
             modified,
             frame.recurrent.context,
             self.previous,
-            Input::Full,
+            model.input,
         )?;
         let logits = model.logits(&sequential, &mut self.hidden);
         self.previous = sequential.action(greedy_choices(&logits));
@@ -123,7 +123,7 @@ fn analyze_impact(mut capture: Capture, model: &Model) -> Result<(), Box<dyn std
             &frame.observation,
             frame.recurrent.context,
             previous,
-            Input::Full,
+            model.input,
         )?;
         let logits = model.logits(&features, &mut hidden);
         let action = features.action(greedy_choices(&logits));
@@ -190,14 +190,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             &frame.observation,
             frame.recurrent.context,
             previous,
-            Input::Full,
+            model.input,
         )?;
         let logits = model.logits(&features, &mut hidden);
         previous = features.action(greedy_choices(&logits));
         let fields = [
             (
                 "features",
-                &features.values[..Input::Full.size()],
+                &features.values[..model.input.size()],
                 &frame.inference.features,
                 1e-6,
             ),

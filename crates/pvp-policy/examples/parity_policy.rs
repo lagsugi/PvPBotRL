@@ -1,7 +1,7 @@
 //! Long, stateful cross-language inference evidence; not a live-observation test.
 use pvp_policy::{
     policy::{Bot, Style},
-    recurrent::{self, Controller, Input, Model, WIDTH},
+    recurrent::{self, Controller, Model, WIDTH},
 };
 use pvp_sim::{Action, Config, Duel, math::Vec3};
 use serde_json::json;
@@ -16,7 +16,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let output = args.next().ok_or("Expected output NDJSON")?;
     let models = match args.next() {
         Some(path) => vec![("training", PathBuf::from(path))],
-        None => ["recurrent_ppo", "recurrent_g2", "recurrent_g2_plus"]
+        None => ["recurrent_ppo", "recurrent_g2", "recurrent_g2_plus", "g3"]
             .map(|name| (name, PathBuf::from(format!("models/bundled/{name}.json"))))
             .to_vec(),
     };
@@ -54,7 +54,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     let observation = duel.observe(seat)?;
                     let local = duel.local_player(seat)?;
                     let features =
-                        recurrent::observe(&duel, seat, &observation, previous, Input::Full)?;
+                        recurrent::observe(&duel, seat, &observation, previous, model.input)?;
                     let logits = model.logits(&features, &mut hidden);
                     let action = controller.act(&model, &duel, seat, &observation)?;
                     let row = json!({"schema":1,"event":"frame","model":name,"episode":episodes,"step":step,
@@ -65,7 +65,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                             "miss_time":local.miss_time,"fall_distance":local.body.fall_distance,
                             "height_above_floor":local.body.position.y-duel.config().floor_y,
                             "remaining_fraction":duel.config().max_steps.saturating_sub(duel.decision_step()) as f32 / duel.config().max_steps as f32
-                        },"features":&features.values[..44],"logits":logits,"hidden":hidden.as_slice(),"action":action});
+                        },"features":&features.values[..model.input.size()],"logits":logits,"hidden":hidden.as_slice(),"action":action});
                     writeln!(writer, "{row}")?;
                     frames += 1;
                     previous = action;

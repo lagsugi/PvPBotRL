@@ -63,7 +63,7 @@ class PolicyParityCorpusTest {
             }
         }
         assertTrue(ended, "Truncated corpus");
-        assertEquals(trainingWeights == null ? 600 : 200, episodes);
+        assertEquals(trainingWeights == null ? 800 : 200, episodes);
         assertTrue(frames >= episodes, "Empty episodes");
     }
 }

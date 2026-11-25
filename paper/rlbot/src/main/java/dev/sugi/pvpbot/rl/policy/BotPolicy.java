@@ -19,12 +19,14 @@ public final class BotPolicy {
     public static final String RECURRENT_PPO = "recurrent-ppo";
     public static final String RECURRENT_G2 = "recurrent-g2";
     public static final String RECURRENT_G2_PLUS = "recurrent-g2-plus";
+    public static final String G3 = "g3";
     public static boolean isRecurrent(String style) {
-        return RECURRENT_PPO.equals(style) || RECURRENT_G2.equals(style) || RECURRENT_G2_PLUS.equals(style);
+        return RECURRENT_PPO.equals(style) || RECURRENT_G2.equals(style)
+                || RECURRENT_G2_PLUS.equals(style) || G3.equals(style);
     }
     public static final List<String> STYLES = List.of("baseline", "pressure", "orbit", "counter",
             "critical", "critical-plus", "duel-rl", "league-rl", "league-g5", "league-g6",
-            RECURRENT_PPO, RECURRENT_G2, RECURRENT_G2_PLUS);
+            RECURRENT_PPO, RECURRENT_G2, RECURRENT_G2_PLUS, G3);
     private final String style;
     private final double[][] weights;
     private final RecurrentPpo recurrent;

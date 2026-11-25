@@ -4,6 +4,7 @@ Run the reproduction commands from the repository root.
 
 | Topic | Experiments and supporting material |
 | --- | --- |
+| G3 | [Cold-start exchange-aware training, 780M campaign and held-out evaluation](bots/g3.md) |
 | Recurrent PPO in Python | [Next-generation GRU training and evaluation](bots/next-gen-gru-run.md) and the [recurrent-G2+ campaign](bots/recurrent-g2-plus-plan.md) |
 | Legacy ARS training in Rust | Reproduce [League-G6](bots/league-g6.md), [League-G5 and G4](bots/league-rl.md), and [Duel-RL](bots/duel-rl.md) |
 | Tactics | [Combos and first-hit distance](bots/combo-research.md), [practice opponent comparisons](bots/practice-opponents.md), and the [Critical+](bots/critical-plus.md) parameter search |

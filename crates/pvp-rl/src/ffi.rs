@@ -58,6 +58,7 @@ fn create(lanes: usize, threads: usize, input: u8, fixed_equipment: bool) -> *mu
             1 => Input::Legacy,
             2 => Input::NoOpponentHp,
             3 => Input::NoAction,
+            4 => Input::G3,
             _ => return Err("invalid input variant".into()),
         };
         Ok(Box::into_raw(Box::new(Batch {
@@ -196,6 +197,13 @@ pub unsafe extern "C" fn rl_step(
                     let action =
                         recurrent::decode_action(choice, o.on_ground, o.eye_to_target < 3.);
                     let before = e.duel.server_health();
+                    let approach =
+                        |distance: f64| -0.18 * ((distance - 3.).clamp(0., 16.) as f32 / 16.);
+                    let before_approach = if input == Input::G3 {
+                        approach(o.eye_to_target)
+                    } else {
+                        0.
+                    };
                     e.advance(action)?;
                     let after = e.duel.server_health();
                     let obs = e.features(input)?;
@@ -209,6 +217,17 @@ pub unsafe extern "C" fn rl_step(
                         e.duel.outcome(),
                         beta,
                     );
+                    if input == Input::G3 {
+                        let overlap = e.record_exchange(before, after, action);
+                        let next = if e.duel.is_finished() {
+                            0.
+                        } else {
+                            approach(e.obs[e.seat].eye_to_target)
+                        };
+                        *reward += next
+                            - before_approach
+                            - 0.45 * overlap / e.duel.config().initial_health[e.seat];
+                    }
                     let result = e.result();
                     *outcome = result.outcome;
                     *hp = result.hp;

@@ -71,7 +71,7 @@ class NextTrainer(Trainer):
     def checkpoint(self, name="latest.pt"):
         path = self.args.output / name
         tmp = path.with_suffix(".tmp")
-        torch.save(dict(version=2, input="full", feedforward=False, seed=self.args.seed,
+        torch.save(dict(version=2, input=self.args.input, feedforward=False, seed=self.args.seed,
                         policy=self.policy.state_dict(), optimizer=self.optimizer.state_dict(),
                         rng=self.rng.bit_generator.state, torch_rng=torch.get_rng_state(),
                         update=self.update, elapsed=self.elapsed, total_steps=self.total_steps,
@@ -195,7 +195,7 @@ class NextTrainer(Trainer):
                         _, _, state = self.learner(inputs, memory.index_select(0, indices))
                         memory.index_copy_(0, indices, state)
                         burn_tokens += length * len(active)
-                logits, value, _ = self.learner(obs[positions], memory)
+                logits, value, auxiliary_loss = self.training_outputs(obs[positions], memory, samples, valid)
                 probs = distribution(logits.flatten(0, 1)[valid], masks[samples])
                 new = log_probability(probs, choices[samples])
                 log_ratio = new - logp[samples]
@@ -204,7 +204,7 @@ class NextTrainer(Trainer):
                 policy_loss = -torch.minimum(ratio * adv, ratio.clamp(.8, 1.2) * adv).mean()
                 value_loss = (value.flatten()[valid] - returns[samples]).square().mean()
                 entropy = -(probs.exp() * probs).sum((-2, -1)).mean()
-                loss = policy_loss + .5 * value_loss - .01 * entropy
+                loss = policy_loss + .5 * value_loss - .01 * entropy + auxiliary_loss
                 if not torch.isfinite(loss):
                     raise RuntimeError("non-finite PPO loss")
                 self.optimizer.zero_grad(set_to_none=True)
@@ -227,6 +227,10 @@ class NextTrainer(Trainer):
                 break
         keys = ("loss", "value_loss", "entropy", "approx_kl", "clip_fraction", "gradient_norm", "policy_loss")
         return dict(zip(keys, totals / tokens), valid_tokens=tokens, burn_tokens=burn_tokens, epochs=epochs)
+
+    def training_outputs(self, observation, memory, samples, valid):
+        logits, value, _ = self.learner(observation, memory)
+        return logits, value, 0.
 
     def check_coverage(self):
         if self.args.exploit or self.elapsed < 1800:

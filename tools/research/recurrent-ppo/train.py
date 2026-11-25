@@ -22,10 +22,12 @@ DEFAULT_LANES = 512
 
 
 class Trainer:
+    policy_class = Policy
+
     def __init__(self, args):
         self.args = args
         self.rng = np.random.default_rng(args.seed)
-        self.policy = Policy(args.input, args.feedforward)
+        self.policy = self.policy_class(args.input, args.feedforward)
         self.optimizer = torch.optim.Adam(self.policy.parameters(), lr=3e-4, eps=1e-5)
         self.update = 0
         self.elapsed = 0.

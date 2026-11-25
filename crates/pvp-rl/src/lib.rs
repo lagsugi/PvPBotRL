@@ -4,6 +4,7 @@
 
 #![deny(unsafe_op_in_unsafe_fn)]
 
+mod exchange;
 mod ffi;
 pub mod league;
 mod reward;
@@ -125,7 +126,7 @@ impl Rival {
             Self::Script(bot) => bot.act(obs),
             Self::Archived(policy) => policy.act(obs),
             Self::Switch { orbit, pressure } => {
-                if (obs.time_ns / (40 * TICK_NS)) % 2 == 1 || obs.health < 6. {
+                if pressure_phase(obs) {
                     pressure.act(obs)
                 } else {
                     orbit.act(obs)
@@ -136,12 +137,24 @@ impl Rival {
     }
 }
 
+fn pressure_phase(obs: &Observation) -> bool {
+    (obs.time_ns / (40 * TICK_NS)) % 2 == 1 || obs.health < 6.
+}
+
+#[derive(Default, Serialize)]
+pub struct SwitchResponse {
+    pub switches: u32,
+    pub decisions: u32,
+    pub net_damage: f32,
+}
+
 pub struct Episode {
     pub duel: Duel,
     pub seat: usize,
     obs: [Observation; 2],
     rival: Rival,
     previous: Action,
+    exchanges: exchange::Exchanges,
 }
 
 impl Episode {
@@ -218,6 +231,7 @@ impl Episode {
             obs,
             rival: Rival::new(opponent, snapshots)?,
             previous: Action::default(),
+            exchanges: Default::default(),
         })
     }
 
@@ -240,6 +254,16 @@ impl Episode {
         Ok(actions)
     }
 
+    fn record_exchange(&mut self, before: [f32; 2], after: [f32; 2], action: Action) -> f32 {
+        let loss = |s: usize| (before[s] - after[s]).max(0.);
+        self.exchanges.record(
+            loss(1 - self.seat),
+            loss(self.seat),
+            action,
+            self.duel.is_finished(),
+        )
+    }
+
     pub fn run(
         &mut self,
         model: Option<&Model>,
@@ -247,16 +271,39 @@ impl Episode {
     ) -> Result<MatchResult, SimError> {
         let mut controller = Controller::default();
         let mut g6 = Bot::new(Style::LeagueG6);
+        let switching = matches!(self.rival, Rival::Switch { .. });
+        let mut last_phase = pressure_phase(&self.obs[1 - self.seat]);
+        let mut response = SwitchResponse::default();
+        let mut remaining = 0;
         while !self.duel.is_finished() {
+            if switching {
+                let phase = pressure_phase(&self.obs[1 - self.seat]);
+                if phase != last_phase {
+                    response.switches += 1;
+                    remaining = 12;
+                    last_phase = phase;
+                }
+            }
             let o = &self.obs[self.seat];
             let action = if let Some(model) = model {
                 controller.act(model, &self.duel, self.seat, o)?
             } else {
                 g6.act(o)
             };
+            let before = self.duel.server_health();
             record(self.advance(action)?);
+            let after = self.duel.server_health();
+            self.record_exchange(before, after, action);
+            if remaining > 0 {
+                remaining -= 1;
+                response.decisions += 1;
+                let net = |hp: [f32; 2]| hp[self.seat] - hp[1 - self.seat];
+                response.net_damage += net(after) - net(before);
+            }
         }
-        Ok(self.result())
+        let mut result = self.result();
+        result.switch_response = switching.then_some(response);
+        Ok(result)
     }
 
     fn result(&self) -> MatchResult {
@@ -271,6 +318,8 @@ impl Episode {
             hp: health[self.seat],
             rival_hp: health[1 - self.seat],
             steps: self.duel.decision_step(),
+            exchanges: self.exchanges.totals,
+            switch_response: None,
         }
     }
 }
@@ -281,6 +330,9 @@ pub struct MatchResult {
     pub hp: f32,
     pub rival_hp: f32,
     pub steps: u64,
+    pub exchanges: exchange::ExchangeTotals,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub switch_response: Option<SwitchResponse>,
 }
 
 #[cfg(test)]

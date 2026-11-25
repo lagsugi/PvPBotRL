@@ -32,7 +32,7 @@ class Policy(nn.Module):
         nn.init.orthogonal_(self.critic.weight)
         nn.init.zeros_(self.critic.bias)
 
-    def forward(self, observation, state):
+    def encode_sequence(self, observation, state):
         normalized = ((observation - self.mean) * self.scale).clamp(-8, 8)
         encoded = self.encoder(normalized).tanh()
         if self.feedforward:
@@ -41,6 +41,10 @@ class Policy(nn.Module):
         else:
             output, state = self.core(encoded, state.unsqueeze(0))
             state = state.squeeze(0)
+        return output, state
+
+    def forward(self, observation, state):
+        output, state = self.encode_sequence(observation, state)
         return self.actor(output), self.critic(output).squeeze(-1), state
 
     def export(self, path):

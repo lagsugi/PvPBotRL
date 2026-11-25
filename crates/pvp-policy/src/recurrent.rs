@@ -23,13 +23,14 @@ pub enum Input {
     Legacy,
     NoOpponentHp,
     NoAction,
+    G3,
 }
 
 impl Input {
     pub fn size(self) -> usize {
         match self {
             Self::Full => 44,
-            Self::Legacy => 48,
+            Self::Legacy | Self::G3 => 48,
             Self::NoOpponentHp => 42,
             Self::NoAction => 40,
         }
@@ -218,6 +219,20 @@ pub fn encode_sample(
         push(f32::from(previous.keys.left) - f32::from(previous.keys.right));
         push(f32::from(previous.keys.jump));
         push(f32::from(previous.click));
+    }
+    if input == Input::G3 {
+        // Signed rates along/across the observed line of separation (blocks/tick).
+        let distance = o.horizontal_distance.max(1e-6);
+        let dx = o.relative_position.x / distance;
+        let dz = o.relative_position.z / distance;
+        let vx = o.velocity.x - o.opponent_velocity.x;
+        let vz = o.velocity.z - o.opponent_velocity.z;
+        let closing = vx * dx + vz * dz;
+        let margin = 3.0 - o.eye_to_target;
+        push(margin as f32);
+        push(closing as f32);
+        push((vx * dz - vz * dx) as f32);
+        push((margin + 3.0 * closing) as f32);
     }
     debug_assert_eq!(i, input.size());
     for value in &mut values[..i] {

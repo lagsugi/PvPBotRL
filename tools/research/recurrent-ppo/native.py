@@ -6,7 +6,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[3]
 BUILD = ROOT / "target" / "release"
-INPUTS = {"full": 44, "legacy": 48, "no_opponent_hp": 42, "no_action": 40}
+INPUTS = {"full": 44, "legacy": 48, "no_opponent_hp": 42, "no_action": 40, "g3": 48}
 STRIDE = 48
 HEADS = (3, 3, 2, 2)
 FIXED_EQUIPMENT_PROFILE = "sword_pvp_fixed_equipment_v1"

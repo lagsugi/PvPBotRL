@@ -22,7 +22,7 @@ final class RecurrentPpo {
     RecurrentPpo(Model model) { this.model = model; }
 
     Action act(Observation o, RecurrentInput extra, Consumer<BotPolicy.Inference> trace) {
-        float[] features = features(o, extra, previous);
+        float[] features = features(o, extra, previous, model.input());
         float[] logits = model.logits(features, hidden);
         previous = action(o, logits);
         if (trace != null) trace.accept(new BotPolicy.Inference(features, hidden.clone(), logits, previous));
@@ -30,6 +30,10 @@ final class RecurrentPpo {
     }
 
     static float[] features(Observation o, RecurrentInput extra, Action previous) {
+        return features(o, extra, previous, "full");
+    }
+
+    private static float[] features(Observation o, RecurrentInput extra, Action previous, String input) {
         // Rust's look_vector uses the Minecraft sine-table indices. Compute the
         // same two table entries for this yaw without keeping a second table.
         float yaw = o.yaw() * (float) (Math.PI / 180.0);
@@ -62,6 +66,20 @@ final class RecurrentPpo {
             bit(keys.forward()) - bit(keys.backward()), bit(keys.left()) - bit(keys.right()),
             bit(keys.jump()), bit(previous.click())
         };
+        if ("g3".equals(input)) {
+            values = java.util.Arrays.copyOf(values, 48);
+            double distance = Math.max(o.horizontal_distance(), 1e-6);
+            double dx = relative.x() / distance;
+            double dz = relative.z() / distance;
+            double vx = velocity.x() - remoteVelocity.x();
+            double vz = velocity.z() - remoteVelocity.z();
+            double closing = vx * dx + vz * dz;
+            double margin = 3.0 - o.eye_to_target();
+            values[44] = (float) margin;
+            values[45] = (float) closing;
+            values[46] = (float) (vx * dz - vz * dx);
+            values[47] = (float) (margin + 3.0 * closing);
+        }
         for (int i = 0; i < values.length; i++) {
             if (!Float.isFinite(values[i])) throw new IllegalArgumentException("Nonfinite recurrent input");
             values[i] = Math.clamp(values[i], -8f, 8f);
@@ -98,12 +116,13 @@ final class RecurrentPpo {
                  Linear actor, float[] mean, float[] scale) {
         static Model load(String json) throws IOException {
             Model model = new Gson().fromJson(json, Model.class);
-            if (model == null || model.version != 1 || !"full".equals(model.input)
-                    || model.encoder == null || !model.encoder.valid(WIDTH, INPUTS)
+            int size = model != null && "g3".equals(model.input) ? 48 : INPUTS;
+            if (model == null || model.version != 1 || !("full".equals(model.input) || "g3".equals(model.input))
+                    || model.encoder == null || !model.encoder.valid(WIDTH, size)
                     || model.input_gate == null || !model.input_gate.valid(3 * WIDTH, WIDTH)
                     || model.hidden_gate == null || !model.hidden_gate.valid(3 * WIDTH, WIDTH)
                     || model.actor == null || !model.actor.valid(OUTPUTS, WIDTH)
-                    || !finite(model.mean, INPUTS) || !finite(model.scale, INPUTS)) {
+                    || !finite(model.mean, size) || !finite(model.scale, size)) {
                 throw new IOException("Invalid Recurrent-PPO model version, input or weights");
             }
             for (float value : model.scale) {
@@ -113,8 +132,8 @@ final class RecurrentPpo {
         }
 
         float[] logits(float[] features, float[] hidden) {
-            float[] normalized = new float[INPUTS];
-            for (int i = 0; i < INPUTS; i++) {
+            float[] normalized = new float[mean.length];
+            for (int i = 0; i < mean.length; i++) {
                 normalized[i] = Math.clamp((features[i] - mean[i]) * scale[i], -8f, 8f);
             }
             float[] encoded = encoder.apply(normalized);

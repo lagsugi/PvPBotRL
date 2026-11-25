@@ -43,7 +43,7 @@ tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.
 processResources {
     from('../../models/bundled') {
         include 'duel_rl.json', 'league_rl.json', 'league_g5.json', 'league_g6.json', 'recurrent_ppo.json', 'recurrent_g2.json'
-        include 'recurrent_g2_plus.json'
+        include 'recurrent_g2_plus.json', 'g3.json'
         into 'models'
     }
     filesMatching('plugin.yml') { expand(version: project.version) }
