@@ -109,7 +109,7 @@ Upstream delay postpones server receipt of attacks and movement. Downstream dela
 
 ```powershell
 .\tools\rust\cargo.bat run --release --locked --offline -p pvp-rl --example ping_sweep
-node tools/research/ping/analyze-ping.mjs
+python tools/research/ping/analyze_ping.py
 .\tools\research\ping\plot-ping.bat
 ```
 
