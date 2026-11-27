@@ -56,6 +56,21 @@ pub enum ServerRules {
     PaperFlatV2,
 }
 
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum DuelDriver {
+    #[default]
+    ClientServer,
+    /// Paired Paper NPCs, with one decision opportunity per server tick.
+    PaperCitizens,
+}
+
+impl DuelDriver {
+    fn is_client_server(&self) -> bool {
+        *self == Self::ClientServer
+    }
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum MatchProfile {
@@ -78,11 +93,16 @@ pub struct Config {
     /// Existing serialized configurations without this field retain their dynamics.
     #[serde(default)]
     pub server_rules: ServerRules,
+    /// Paper Citizens owns both movement and attack on the server tick clock.
+    /// Client FPS and phases and the packet replay's server rules apply to ClientServer.
+    #[serde(skip_serializing_if = "DuelDriver::is_client_server")]
+    pub duel_driver: DuelDriver,
     pub sprint_window_ticks: u8,
     pub unbreakable: bool,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub match_profile: Option<MatchProfile>,
-    /// None derives same-time client ordering from seed; Some(0/1) fixes it.
+    /// First seat at time zero. None uses the seed for ClientServer and seat A
+    /// for PaperCitizens. PaperCitizens alternates the lead seat each tick.
     pub first_client: Option<usize>,
     pub reward: RewardConfig,
     /// Diagnostic logs are opt-in, and bounded to prevent training memory growth.
@@ -115,6 +135,7 @@ impl Default for Config {
             max_steps: 6000,
             server_phase_ns: 0,
             server_rules: ServerRules::Legacy,
+            duel_driver: DuelDriver::ClientServer,
             sprint_window_ticks: 7,
             unbreakable: false,
             match_profile: None,

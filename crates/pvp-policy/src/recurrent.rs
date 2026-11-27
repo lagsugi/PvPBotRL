@@ -327,6 +327,17 @@ impl Model {
         })
     }
 
+    pub(crate) fn bundled_g3_prototype() -> &'static Self {
+        static MODEL: std::sync::OnceLock<Model> = std::sync::OnceLock::new();
+        MODEL.get_or_init(|| {
+            let model: Self =
+                serde_json::from_str(include_str!("../../../models/bundled/g3_prototype.json"))
+                    .expect("valid g3-prototype JSON");
+            model.validate().expect("valid g3-prototype weights");
+            model
+        })
+    }
+
     pub fn load(path: &Path) -> Result<Self, Box<dyn std::error::Error>> {
         let model: Self =
             serde_json::from_reader(std::io::BufReader::new(std::fs::File::open(path)?))?;

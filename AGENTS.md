@@ -21,11 +21,13 @@ The **PvPBotRL** plugin owns observations, inference, and Citizens control. Its 
 
 ## Preserve the contracts
 
+- Use `sword_pvp_fixed_equipment_v1` for new Sword PvP matches, training, and evaluations. Both swords and all armor pieces must be unbreakable. Retain wear and breakage behavior for historical recordings and experiment reproduction.
 - Keep simulator physics independent of policies, training, and rendering. The [architecture guide](docs/architecture.md) lists allowed Rust dependencies.
 - Build actor inputs from the local player's state and information that its client has received. Keep packet delay, observation age, and remote interpolation in this path. Authoritative state is available for outcomes, rewards, and diagnostics.
 - Preserve feature order and normalization, action masks and ordering, and per-seat recurrent state across the Python exporter, Rust inference, and Java inference. Reset memory and previous action at the episode boundary. For schema changes, exercise existing bundled models and older recordings through their normal loaders.
 - Keep promoted weights and their provenance in `models/bundled/`. Use `models/archive/` for historical models used by experiments. Put new candidates, checkpoints, bulk traces, and generated Minecraft sources under `build/`. An experiment's promotion result and deployment of its weights are separate decisions.
 - For parity work, compare the same processing stage and record the first divergence, including seed, seat, profile, and packet order where relevant. Use the isolated fixtures and fresh output directories in the [parity guide](tools/parity/README.md). A component-level pass only establishes agreement for that component under the tested conditions.
+- For changes to the Paper Bot vs Bot decision, movement, attack, or tracker path, run the closed-loop Practice parity fixture with both seats and compare the first differing decision or accepted hit. Refresh live Paper captures when the production behavior intentionally changes.
 
 ## Verify the affected area
 

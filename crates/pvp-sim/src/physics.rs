@@ -130,6 +130,10 @@ pub fn tick_local_with_feedback(
             || movement_speed(player.body.sprinting),
             |received| received.movement_speed,
         );
+    travel(player, keys, floor, friction, speed);
+}
+
+pub(crate) fn travel(player: &mut LocalPlayer, keys: Keys, floor: f64, friction: f32, speed: f32) {
     player.jump_delay = player.jump_delay.saturating_sub(1);
     trim_velocity(&mut player.body.velocity);
     if keys.jump {

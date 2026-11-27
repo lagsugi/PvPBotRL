@@ -51,7 +51,8 @@ impl Recording {
             | pvp_policy::policy::Style::LeagueG6
             | pvp_policy::policy::Style::RecurrentPpo
             | pvp_policy::policy::Style::RecurrentG2
-            | pvp_policy::policy::Style::RecurrentG2Plus => opponent.name().to_ascii_lowercase(),
+            | pvp_policy::policy::Style::RecurrentG2Plus
+            | pvp_policy::policy::Style::G3Prototype => opponent.name().to_ascii_lowercase(),
             _ => format!("scripted_{}", opponent.name().to_ascii_lowercase()),
         };
         serde_json::to_writer_pretty(

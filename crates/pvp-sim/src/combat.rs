@@ -132,6 +132,16 @@ pub fn attack(
     rng: &mut JavaRandom,
     unbreakable: bool,
 ) -> AttackResult {
+    attack_with_velocity(attacker, victim, rng, unbreakable, false)
+}
+
+pub(crate) fn attack_with_velocity(
+    attacker: &mut ServerPlayer,
+    victim: &mut ServerPlayer,
+    rng: &mut JavaRandom,
+    unbreakable: bool,
+    keep_victim_velocity: bool,
+) -> AttackResult {
     let q = charge(attacker.body.attack_ticks, attacker.attack_speed);
     let strong = q > 0.9;
     let critical = strong && attacker.body.critical();
@@ -181,7 +191,9 @@ pub fn attack(
         if victim.hurt_marked {
             motion = Some(victim.body.velocity);
             victim.hurt_marked = false;
-            victim.body.velocity = old;
+            if !keep_victim_velocity {
+                victim.body.velocity = old;
+            }
         }
         if !unbreakable {
             attacker.equipment.sword = attacker.equipment.sword.saturating_sub(1);

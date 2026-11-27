@@ -68,6 +68,7 @@ pub enum Style {
     RecurrentPpo,
     RecurrentG2,
     RecurrentG2Plus,
+    G3Prototype,
 }
 
 impl Style {
@@ -86,7 +87,7 @@ impl Style {
     pub fn is_recurrent(self) -> bool {
         matches!(
             self,
-            Self::RecurrentPpo | Self::RecurrentG2 | Self::RecurrentG2Plus
+            Self::RecurrentPpo | Self::RecurrentG2 | Self::RecurrentG2Plus | Self::G3Prototype
         )
     }
     pub fn name(self) -> &'static str {
@@ -105,6 +106,7 @@ impl Style {
             Self::RecurrentPpo => "Recurrent-PPO",
             Self::RecurrentG2 => "recurrent-G2",
             Self::RecurrentG2Plus => "recurrent-g2-plus",
+            Self::G3Prototype => "g3-prototype",
         }
     }
 }
@@ -123,8 +125,11 @@ impl std::str::FromStr for Style {
         if name.eq_ignore_ascii_case(Self::RecurrentG2Plus.name()) {
             return Ok(Self::RecurrentG2Plus);
         }
+        if name.eq_ignore_ascii_case(Self::G3Prototype.name()) {
+            return Ok(Self::G3Prototype);
+        }
         Self::ALL.into_iter().find(|style| style.name().eq_ignore_ascii_case(name))
-            .ok_or_else(|| format!("Unknown opponent '{name}'. Choose baseline, pressure, orbit, counter, critical, critical-plus, duel-rl, league-rl, league-g5, league-g6, recurrent-ppo, recurrent-g2 or recurrent-g2-plus."))
+            .ok_or_else(|| format!("Unknown opponent '{name}'. Choose baseline, pressure, orbit, counter, critical, critical-plus, duel-rl, league-rl, league-g5, league-g6, recurrent-ppo, recurrent-g2, recurrent-g2-plus or g3-prototype."))
     }
 }
 
@@ -167,6 +172,7 @@ impl Bot {
             Style::RecurrentPpo => ppo_model.unwrap_or_else(|| crate::recurrent::Model::bundled()),
             Style::RecurrentG2 => crate::recurrent::Model::bundled_g2(),
             Style::RecurrentG2Plus => crate::recurrent::Model::bundled_g2_plus(),
+            Style::G3Prototype => crate::recurrent::Model::bundled_g3_prototype(),
             _ => return Ok(self.act(observation)),
         };
         self.recurrent_memory.act(model, duel, seat, observation)
@@ -191,7 +197,10 @@ impl Bot {
         let mut click = in_reach && o.attack_charge >= 0.99;
         match self.style {
             Style::Baseline => unreachable!(),
-            Style::RecurrentPpo | Style::RecurrentG2 | Style::RecurrentG2Plus => {
+            Style::RecurrentPpo
+            | Style::RecurrentG2
+            | Style::RecurrentG2Plus
+            | Style::G3Prototype => {
                 unreachable!("recurrent policy requires act_in_duel")
             }
             Style::DuelRl => return crate::learned::trained().act(o),

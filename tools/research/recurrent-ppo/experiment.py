@@ -91,7 +91,7 @@ def main():
         subprocess.run([
             str(BUILD / "pvp-rl-eval.exe"), "duel", str(model), str(net), "17",
             str(0x5245504C4159), str(args.output / "final" / f"replay-{net}.json"),
-            str(80 if args.quick else 6000),
+            str(80 if args.quick else 6000), "--legacy-durability",
         ], check=True)
     print(f"Accepted: {report['accepted']}   Results: {args.output / 'final' / 'summary.json'}")
 

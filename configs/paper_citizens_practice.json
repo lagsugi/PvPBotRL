@@ -1,0 +1,14 @@
+{
+  "duel_driver": "paper_citizens",
+  "spawns": [
+    {"position": {"x": 0.5, "y": 65.0, "z": -9.5}, "yaw": 0.0, "pitch": 0.0},
+    {"position": {"x": 0.5, "y": 65.0, "z": 10.5}, "yaw": 180.0, "pitch": 0.0}
+  ],
+  "floor_y": 65.0,
+  "clients": [
+    {"upstream_ns": 0, "downstream_ns": 0},
+    {"upstream_ns": 0, "downstream_ns": 0}
+  ],
+  "match_profile": "sword_pvp_fixed_equipment_v1",
+  "unbreakable": true
+}

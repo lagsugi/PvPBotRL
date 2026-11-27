@@ -24,18 +24,22 @@ CHAMPION = ROOT / "build/recurrent-ppo/full/seed-61002/candidate-0007.pt"
 class Campaign:
     def __init__(self, args):
         self.args = args
-        self.fixed_equipment = getattr(args, "fixed_equipment", False)
         self.root = args.output.resolve()
         self.root.mkdir(parents=True, exist_ok=True)
         self.state_path = self.root / "campaign.json"
+        saved = None
+        if self.state_path.exists():
+            if not args.resume:
+                raise ValueError("output exists; use --resume to continue the same frozen campaign")
+            saved = json.loads(self.state_path.read_text(encoding="utf-8"))
+        self.fixed_equipment = (saved is None or getattr(args, "fixed_equipment", False)
+                                or saved["settings"].get("match_profile") == FIXED_EQUIPMENT_PROFILE)
         settings = {k: str(v.resolve()) if isinstance(v, Path) else v for k, v in vars(args).items()
                     if k not in ("resume", "fixed_equipment")}
         if self.fixed_equipment:
             settings.update(match_profile=FIXED_EQUIPMENT_PROFILE, unbreakable=True)
-        if self.state_path.exists():
-            if not args.resume:
-                raise ValueError("output exists; use --resume to continue the same frozen campaign")
-            self.state = json.loads(self.state_path.read_text(encoding="utf-8"))
+        if saved is not None:
+            self.state = saved
             if self.state["settings"] != settings:
                 raise ValueError("campaign settings changed on resume")
         else:
@@ -428,7 +432,7 @@ class Campaign:
         with Batch(1, 1, "full") as batch:
             verify_export(policy, model, batch, np.random.default_rng(134))
         self.state["quality"]["parity"] = True
-        equipment_args = ["--fixed-equipment"] if self.fixed_equipment else []
+        equipment_args = [] if self.fixed_equipment else ["--legacy-durability"]
         for net in (0, 5, 6, 11):
             replay = self.root / f"replay-{net}.json"
             subprocess.run([str(BUILD / "pvp-rl-eval.exe"), "duel", str(model), str(net), "17", "99113",
@@ -464,7 +468,8 @@ def main():
                    help="token budget per optimizer step (default 2048)")
     p.add_argument("--quick", action="store_true")
     p.add_argument("--resume", action="store_true")
-    p.add_argument("--fixed-equipment", action="store_true", help=FIXED_EQUIPMENT_PROFILE)
+    p.add_argument("--fixed-equipment", action="store_true",
+                   help=f"Require {FIXED_EQUIPMENT_PROFILE} when resuming (default for new runs)")
     args = p.parse_args()
     if getattr(args, "minibatch_tokens", 2048) < 1:
         p.error("minibatch token budget must be positive")

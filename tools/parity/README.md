@@ -1,6 +1,14 @@
 # Paper / Rust differential validation
 
-This implementation currently validates **isolated local movement**, **inference on shared observations**, and **idle physics after a measured received impulse**. Live single-hit trials expose a remaining knockback mismatch. Combat, network, and live-observation equivalence are not established. A passing component summary must not be interpreted as passing the complete parity plan.
+The suite covers isolated local movement, inference on shared observations, idle physics after a measured impulse, and a closed-loop Practice matchup on the paired Citizens path. Earlier single-hit trials exposed a knockback mismatch. Each result applies to its tested runtime path and conditions.
+
+## Paired Citizens closed-loop regression
+
+```powershell
+.\tools\rust\cargo.bat test --locked -p pvp-policy --test paper_citizens
+```
+
+This test runs both policies from the same initial placement in the Rust `paper_citizens` driver and compares their decisions with a capture of the normal Paper Bot vs Bot path. It swaps seats for each RTT condition and reports the first differing action or accepted hit. The earlier component fixtures provide recorded inputs to individual stages. The paired fixture exercises how live tracker updates and a hit by the first bot affect the second bot's next decision. Capture the production path again when intentionally changing its decision, movement, attack, or tracker behavior. [Practice reproduction and fixture coverage](../../docs/simulator/README.md#paper-citizens-bot-vs-bot)
 
 ## Reproduce
 

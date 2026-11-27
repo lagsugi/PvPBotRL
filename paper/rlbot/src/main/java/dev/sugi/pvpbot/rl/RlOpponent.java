@@ -67,10 +67,9 @@ final class RlOpponent {
     }
 
     void validateEquipment(Player opponent) {
-        boolean fixed = settings.fixedEquipment();
-        requireSwordKit(getPlayer(), fixed);
-        requireSwordKit(opponent, fixed);
-        if (fixed && !Boolean.FALSE.equals(opponent.getWorld().getGameRuleValue(GameRules.NATURAL_HEALTH_REGENERATION))) {
+        requireSwordKit(getPlayer());
+        requireSwordKit(opponent);
+        if (!Boolean.FALSE.equals(opponent.getWorld().getGameRuleValue(GameRules.NATURAL_HEALTH_REGENERATION))) {
             throw new IllegalArgumentException("The fixed-equipment arena requires natural health regeneration off.");
         }
     }
@@ -167,14 +166,14 @@ final class RlOpponent {
         if (trace != null && action.click()) trace.record("attack", "hitAttempt=" + attempted);
     }
 
-    private static void requireSwordKit(Player player, boolean fixedEquipment) {
+    private static void requireSwordKit(Player player) {
         var inv = player.getInventory();
         ItemStack[] storage = inv.getStorageContents();
-        if (!isItem(storage[0], Material.DIAMOND_SWORD, false, fixedEquipment) || inv.getHeldItemSlot() != 0
-                || !isItem(inv.getHelmet(), Material.DIAMOND_HELMET, true, fixedEquipment)
-                || !isItem(inv.getChestplate(), Material.DIAMOND_CHESTPLATE, true, fixedEquipment)
-                || !isItem(inv.getLeggings(), Material.DIAMOND_LEGGINGS, true, fixedEquipment)
-                || !isItem(inv.getBoots(), Material.DIAMOND_BOOTS, true, fixedEquipment)
+        if (!isItem(storage[0], Material.DIAMOND_SWORD, false) || inv.getHeldItemSlot() != 0
+                || !isItem(inv.getHelmet(), Material.DIAMOND_HELMET, true)
+                || !isItem(inv.getChestplate(), Material.DIAMOND_CHESTPLATE, true)
+                || !isItem(inv.getLeggings(), Material.DIAMOND_LEGGINGS, true)
+                || !isItem(inv.getBoots(), Material.DIAMOND_BOOTS, true)
                 || !inv.getItemInOffHand().getType().isAir()) {
             throw new IllegalArgumentException("Invalid RL equipment on " + player.getName());
         }
@@ -185,9 +184,9 @@ final class RlOpponent {
         }
     }
 
-    private static boolean isItem(ItemStack item, Material material, boolean armor, boolean fixedEquipment) {
+    private static boolean isItem(ItemStack item, Material material, boolean armor) {
         if (item == null || item.getType() != material || item.getAmount() != 1) return false;
-        if ((item.hasItemMeta() && item.getItemMeta().isUnbreakable()) != fixedEquipment) return false;
+        if (!(item.hasItemMeta() && item.getItemMeta().isUnbreakable())) return false;
         var enchants = item.getEnchantments();
         return armor ? enchants.size() == 1 && enchants.getOrDefault(Enchantment.PROTECTION, 0) == 4
                 : enchants.isEmpty();

@@ -8,9 +8,17 @@ This report records historical measurements from several test builds. The measur
 
 The fixed observation ages and snapshot observations below describe earlier builds. The current Paper bot receives and interpolates the opponent's native tracker packets, with ages measured from application of those updates. [Current observation implementation](../../paper/rlbot/src/main/java/dev/sugi/pvpbot/rl/OpponentReplica.java)
 
-The durability results below cover the finite-durability configuration. Use the named profile to test unbreakable equipment separately. [Fixed-equipment profile](README.md#fixed-equipment-tournament-and-training-profile)
+The durability results below describe historical configurations. New Sword PvP matches use the fixed-equipment profile. [Fixed-equipment profile](README.md#fixed-equipment-tournament-and-training-profile)
 
 The November 21 follow-up measured outgoing motion on Paper at takeoff, during ascent, and during descent, and switched new Rust training and evaluation episodes to `paper_flat_v2`. [Knockback investigation and follow-up tests](knockback-parity.md)
+
+### Follow-up on November 27, 2026: paired Citizens decision order
+
+The earlier checks supplied scripted inputs, a measured incoming impulse, recorded tracker packets, or shared policy observations. A stationary receiver never chose a second action in the same tick after a hit, and replaying the same tracker packets held packet publication and delivery fixed. The inference corpus exercised the policy calculation with shared inputs. These checks left the interaction between two active Citizens bots unmeasured. The original G3 evaluation used the Rust client/server driver with `paper_flat_v2`, whose server rules did not change the decision schedule into the paired Citizens schedule.
+
+On Paper, the tracker update first reached the policy at decision 1. Original Rust delivered it at decision 2. During combat, the first bot's accepted hit could change the second bot's server-body velocity before that bot chose its action in the same tick. Original Rust chose both actions before advancing simulation. On the 0 ms Practice opening, delaying either the tracker feed by one decision or the victim's knockback until movement changed the live winner in both seat orders. Critical damage also contributed to the outcome. [Controlled tests and first differing decisions](../research/bots/g3.md#controlled-outcome-reversals-on-paper)
+
+The `paper_citizens` regression runs two live Rust policies against the recorded production Paper reference with swapped seats. At 0 and 2 ms it compares each action and accepted attack, including the critical flag. At all three tested RTTs (0, 2, and 20 ms) it compares the winner, terminal tick, and final HP. This establishes agreement for the captured Practice matchup. [Test command and scope](../../tools/parity/README.md#paired-citizens-closed-loop-regression)
 
 ### Follow-up on November 20, 2026: fixed-equipment verification
 
@@ -26,7 +34,7 @@ Compare the saved Rust environment and Paper deployment against these rules. The
 
 | Item | Verified behavior | Comparison with intended rules |
 | --- | --- | --- |
-| Equipment durability | Rust defaults and four saved next-generation GRU replays use `unbreakable: false`. The Paper kit validator used for these tests rejected unbreakable items. | This conflicts with the fixed-equipment intent. Retain historical finite-durability breakage tests. The effect of breakage on existing learned models is unmeasured. [Rust defaults](../../crates/pvp-sim/src/config.rs) · Example recording (`build/recurrent-ppo/nextgen-24h/replay-0.json`) · [Paper kit validation](../../paper/rlbot/src/main/java/dev/sugi/pvpbot/rl/RlOpponent.java) |
+| Equipment durability | Four saved next-generation GRU replays used `unbreakable: false`. The Paper kit validator used for these historical tests rejected unbreakable items. | Current Sword PvP matches use fixed equipment. Keep historical recordings under their saved rules. [Current profile](README.md#fixed-equipment-tournament-and-training-profile) · Example recording (`build/recurrent-ppo/nextgen-24h/replay-0.json`) |
 | Sneak | Rust's general controls and observations include sneak, but Recurrent PPO/G2 cannot output it. Four saved next-generation GRU replays contained zero sneak inputs. | The policy action space matches intent. Equivalent enforcement for human Paper players remains unverified. [Policy action conversion](../../crates/pvp-policy/src/recurrent.rs#L51) |
 | Hunger and natural regeneration | Omitted or disabled in the Rust duel profile. The earlier test ladder used `hunger: false` and `regen: false`. | Record the effective rules in the host arena. [Rust duel profile](README.md#supported-match-profile) |
 | Starting position and network | The training runner derives matches from seed and network condition. One recording starts at about 26.8 blocks, while the earlier `rl-flat` arena placed fighters 20 blocks apart. | Record the training distribution and fixed deployment settings. [Training runner](../../crates/pvp-rl/src/lib.rs#L171) |

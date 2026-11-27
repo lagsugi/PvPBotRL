@@ -35,11 +35,11 @@ The command requires `pvpbotrlexample.demo`. Hosting also uses `pvpbotrlexample.
 - For an existing build, run `stage register <id>`, then set `stage pos1 <id>` at one corner of the floor and `stage pos2 <id>` at the opposite corner at the top of the wall. Set `stage spawn <id> a`, `stage spawn <id> b`, and `stage spectator <id>` from their intended positions. Use `stage enable <id>` to validate and open it for play. Use solid full blocks for the floor and walls, and keep the interior clear.
 - Use `stage list` and `stage info <id>` to inspect arenas. Disable a custom arena before editing it. Arena operations run in batches, and in-use arenas cannot be modified. Removing a registered custom arena unregisters it. The built-in `practice` arena is managed by the plugin.
 
-PvP must be enabled in the arena world. For the fixed-equipment profile, disable natural regeneration in the world and use the same `equipment-profile` in both plugin configs. The built-in arena sets these world rules when it loads. [Equipment setup](RLBOT_SETUP.md#fixed-equipment-profile)
+PvP must be enabled and natural regeneration must be off in the arena world. The built-in arena sets these rules when it loads. The Example supplies the fixed Sword PvP kit in every match. [Equipment setup](RLBOT_SETUP.md#fixed-equipment-profile)
 
 ## Settings and recovery
 
-`plugins/PvPBotRLExample/config.yml` sets `match.max-concurrent` (default 8), `match.start-distance` (default 20 blocks for generated arenas), `stage.blocks-per-tick` (default 512), and `equipment-profile`. Run `/rlbotexample reload` to apply settings to subsequent matches. `PvPBotRL` separately limits the number of bot handles. Bot vs Bot uses two handles.
+`plugins/PvPBotRLExample/config.yml` sets `match.max-concurrent` (default 8), `match.start-distance` (default 20 blocks for generated arenas), and `stage.blocks-per-tick` (default 512). Run `/rlbotexample reload` to apply settings to subsequent matches. `PvPBotRL` separately limits the number of bot handles. Bot vs Bot uses two handles.
 
 Player state is saved before a fighter or spectator is moved. The Example restores it on exit, respawn, or the next login. If recovery fails, make the original destination available and use `recover`. Keep the `recovery/` directory and the per-arena journals and backups under `arenas/`. Back up the Example data and the associated worlds together with the server stopped.
 

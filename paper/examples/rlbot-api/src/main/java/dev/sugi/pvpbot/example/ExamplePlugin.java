@@ -25,7 +25,7 @@ public final class ExamplePlugin extends JavaPlugin implements Listener {
     private MatchManager matches;
     private Settings settings;
 
-    record Settings(int maxConcurrent, double distance, boolean fixedEquipment, int blockBatch) {}
+    record Settings(int maxConcurrent, double distance, int blockBatch) {}
 
     Settings settings() { return settings; }
 
@@ -78,12 +78,11 @@ public final class ExamplePlugin extends JavaPlugin implements Listener {
                 || number.doubleValue() < 4 || number.doubleValue() > 60) {
             throw new IllegalArgumentException("match.start-distance must be between 4 and 60.");
         }
-        boolean fixed = switch (disk.getString("equipment-profile", "finite_durability")) {
-            case "finite_durability" -> false;
-            case "sword_pvp_fixed_equipment_v1" -> true;
-            default -> throw new IllegalArgumentException("Unknown equipment-profile. Check config.yml.");
-        };
-        settings = new Settings(integer(disk, "match.max-concurrent", 8, 1, 64), number.doubleValue(), fixed,
+        String profile = disk.getString("equipment-profile", "sword_pvp_fixed_equipment_v1");
+        if (!"sword_pvp_fixed_equipment_v1".equals(profile) && !"finite_durability".equals(profile)) {
+            throw new IllegalArgumentException("Unknown equipment-profile. Check config.yml.");
+        }
+        settings = new Settings(integer(disk, "match.max-concurrent", 8, 1, 64), number.doubleValue(),
                 integer(disk, "stage.blocks-per-tick", 512, 1, 4096));
     }
 

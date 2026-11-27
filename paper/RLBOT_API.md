@@ -34,7 +34,7 @@ if (api == null) {
 | Handle automatic removal | Listen for `BotClosedEvent` and match its owner and bot UUID. Use its reason to handle a lost participant, owner/runtime shutdown, or input failure. The event also fires after explicit close. |
 | Record the bot settings | Call `bot.info()` for the resolved model ID, weights SHA-256 when applicable, policy version, and simulated RTT. |
 
-For `sword_pvp_fixed_equipment_v1` use unbreakable equipment and disable natural health regeneration in the arena world. The runtime's 300-second model clock runs while the round is active. Your host sets the round duration and owns the result.
+Equip both fighters with an unbreakable diamond sword and unbreakable Protection IV diamond armor, and disable natural health regeneration in the arena world. The runtime enforces the `sword_pvp_fixed_equipment_v1` rules at match start. The runtime's 300-second model clock runs while the round is active. Your host sets the round duration and owns the result.
 
 The host can show the bot to a spectator with `spectator.showEntity(this, bot.player())` and hide it with `spectator.hideEntity(this, bot.player())`. The server's `max-active-matches` setting limits the number of spawned bots. An idle bot uses a slot until it closes.
 

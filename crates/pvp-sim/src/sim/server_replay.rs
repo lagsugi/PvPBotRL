@@ -95,6 +95,9 @@ pub fn run(capture: Capture) -> Result<Vec<ReplayedEvent>, String> {
         return Err("Unsupported or empty server replay".into());
     }
     let mut config = capture.config;
+    if config.duel_driver == crate::config::DuelDriver::PaperCitizens {
+        return Err("Server packet replay requires the client_server driver".into());
+    }
     config.trace_capacity = 64;
     config.trace_states = false;
     let mut duel = Duel::new(config, capture.seed).map_err(|e| e.to_string())?;

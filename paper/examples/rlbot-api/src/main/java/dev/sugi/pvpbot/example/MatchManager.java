@@ -248,7 +248,7 @@ final class MatchManager {
     private void validateStart(StageStore.Entry entry) {
         Stage stage = entry.stage();
         World world = stage.world();
-        if (plugin.settings().fixedEquipment() && !Boolean.FALSE.equals(world.getGameRuleValue(GameRules.NATURAL_HEALTH_REGENERATION))) {
+        if (!Boolean.FALSE.equals(world.getGameRuleValue(GameRules.NATURAL_HEALTH_REGENERATION))) {
             throw new IllegalStateException("The fixed-equipment arena requires natural health regeneration off.");
         }
         stage.validateBounds(world);
@@ -268,10 +268,9 @@ final class MatchManager {
 
     private Duel start(Player host, Player humanA, String botA, Player humanB, String botB,
                        StageStore.Entry entry) throws IOException {
-        var settings = plugin.settings();
         var a = new Duel.Fighter(humanA, botA);
         var b = new Duel.Fighter(humanB, botB);
-        var match = new Duel(entry, host.getUniqueId(), a, b, settings);
+        var match = new Duel(entry, host.getUniqueId(), a, b);
         matches.put(match.id, match);
         arenas.put(match.arena, match);
         hosts.put(match.host, match);
@@ -311,13 +310,13 @@ final class MatchManager {
             fighter.entity = fighter.bot.player();
             fighter.botInfo = fighter.bot.info();
             seats.put(fighter.entity.getUniqueId(), new Seat(match, side));
-            changing(fighter.entity, () -> Duel.kit(fighter.entity, !match.settings.fixedEquipment()));
+            changing(fighter.entity, () -> Duel.kit(fighter.entity));
         } else {
             fighter.human.closeInventory();
             recovery.save(fighter.human);
             changing(fighter.human, () -> {
                 teleport(fighter.human, spawn);
-                Duel.kit(fighter.human, !match.settings.fixedEquipment());
+                Duel.kit(fighter.human);
             });
         }
         fighter.safe = spawn;

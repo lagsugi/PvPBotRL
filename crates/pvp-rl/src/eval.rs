@@ -95,8 +95,12 @@ fn paired(args: &[String], fixed_equipment: bool) -> Result<()> {
 
 fn main() -> Result<()> {
     let mut args: Vec<_> = std::env::args().skip(1).collect();
-    let fixed_equipment = args.last().is_some_and(|arg| arg == "--fixed-equipment");
-    if fixed_equipment {
+    let equipment_arg = args.last().map(String::as_str);
+    let fixed_equipment = equipment_arg != Some("--legacy-durability");
+    if matches!(
+        equipment_arg,
+        Some("--fixed-equipment" | "--legacy-durability")
+    ) {
         args.pop();
     }
     match args.first().map(String::as_str) {

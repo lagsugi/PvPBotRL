@@ -238,10 +238,17 @@ final class ParityFightProbe implements Listener {
                 }
                 playerConnections.put("human", new ParityPlayerConnection(human));
                 if (!bot) playerConnections.put("opponent", new ParityPlayerConnection(opponent));
-                prepareFighter(human, at);
-                prepareFighter(opponent, target);
-                if (oneDurability) setOneDurability();
+                prepareFighter(human, at, bot || !oneDurability);
+                prepareFighter(opponent, target, bot || !oneDurability);
                 if (bot) botHandle.start(human);
+                if (oneDurability) {
+                    // The historical break probe forces its test state after public kit validation.
+                    if (bot) {
+                        equipFighter(human, false);
+                        equipFighter(opponent, false);
+                    }
+                    setOneDurability();
+                }
             }
             if (age == FIRST_SAMPLE) {
                 var humanHandle = ((CraftPlayer) human).getHandle();
@@ -305,7 +312,8 @@ final class ParityFightProbe implements Listener {
                 Files.writeString(temporary, StateFiles.JSON.toJson(Map.ofEntries(
                         Map.entry("schema", 1), Map.entry("scope", scenario.equals("charged") ? "paper-single-charged-hit" : "paper-scripted-combat"),
                         Map.entry("capture_ticks", captureTicks),
-                        Map.entry("bot", bot), Map.entry("match", trialId), Map.entry("events", events), Map.entry("status", "complete"),
+                        Map.entry("bot", bot), Map.entry("unbreakable", !oneDurability),
+                        Map.entry("match", trialId), Map.entry("events", events), Map.entry("status", "complete"),
                         Map.entry("adapter_version", BotAvatar.BEHAVIOR_VERSION), Map.entry("motion_transport", BotAvatar.probeMotionEvents(opponent)),
                         Map.entry("player_connections", finishConnections()), Map.entry("player_move_events", moveEvents),
                         Map.entry("packet_handlers", packetHandlers), Map.entry("tick_starts", tickStarts),
@@ -339,7 +347,7 @@ final class ParityFightProbe implements Listener {
         }
     }
 
-    private static void prepareFighter(Player player, Location at) {
+    private static void prepareFighter(Player player, Location at, boolean unbreakable) {
         player.setGameMode(GameMode.SURVIVAL);
         if (!player.teleport(at)) throw new IllegalStateException("Could not position a parity fighter");
         player.setCollidable(false);
@@ -347,19 +355,24 @@ final class ParityFightProbe implements Listener {
         player.setSaturation(0);
         player.setExhaustion(0);
         player.setHealth(attribute(player, Attribute.MAX_HEALTH));
-        var inventory = player.getInventory();
-        inventory.clear();
-        inventory.setItem(0, new ItemStack(Material.DIAMOND_SWORD));
-        inventory.setHeldItemSlot(0);
-        inventory.setHelmet(armor(Material.DIAMOND_HELMET));
-        inventory.setChestplate(armor(Material.DIAMOND_CHESTPLATE));
-        inventory.setLeggings(armor(Material.DIAMOND_LEGGINGS));
-        inventory.setBoots(armor(Material.DIAMOND_BOOTS));
+        equipFighter(player, unbreakable);
     }
 
-    private static ItemStack armor(Material material) {
+    private static void equipFighter(Player player, boolean unbreakable) {
+        var inventory = player.getInventory();
+        inventory.clear();
+        inventory.setItem(0, item(Material.DIAMOND_SWORD, false, unbreakable));
+        inventory.setHeldItemSlot(0);
+        inventory.setHelmet(item(Material.DIAMOND_HELMET, true, unbreakable));
+        inventory.setChestplate(item(Material.DIAMOND_CHESTPLATE, true, unbreakable));
+        inventory.setLeggings(item(Material.DIAMOND_LEGGINGS, true, unbreakable));
+        inventory.setBoots(item(Material.DIAMOND_BOOTS, true, unbreakable));
+    }
+
+    private static ItemStack item(Material material, boolean armor, boolean unbreakable) {
         var item = new ItemStack(material);
-        item.addEnchantment(Enchantment.PROTECTION, 4);
+        if (armor) item.addEnchantment(Enchantment.PROTECTION, 4);
+        if (unbreakable) item.editMeta(meta -> meta.setUnbreakable(true));
         return item;
     }
 

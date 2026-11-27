@@ -20,12 +20,9 @@ pub fn run_matchup_with_model(
     batch.run_with(|duel| {
         let mut bots = styles.map(Bot::new);
         while !duel.is_finished() {
-            let obs = duel.observations();
-            let actions = [
-                bots[0].act_in_duel(duel, 0, &obs[0], model)?,
-                bots[1].act_in_duel(duel, 1, &obs[1], model)?,
-            ];
-            duel.step(actions)?;
+            duel.step_with_policy(|duel, seat, obs| {
+                bots[seat].act_in_duel(duel, seat, obs, model)
+            })?;
         }
         Ok(())
     })

@@ -1,7 +1,7 @@
 use crate::{
     action::{Action, AppliedAction, Look},
     combat,
-    config::{Config, SECOND_NS, ServerRules, SimError, TICK_NS},
+    config::{Config, DuelDriver, SECOND_NS, ServerRules, SimError, TICK_NS},
     math::{Vec3, aim_angles, cos, pack_angle, radians, sin, unpack_angle, wrap_degrees},
     network::{Downstream, Upstream, Wire, decode_delta, encode_delta, quantize_motion},
     observation::{Observation, Pick, pick},
@@ -12,6 +12,7 @@ use crate::{
 };
 use serde::{Deserialize, Serialize};
 
+mod citizens;
 pub mod replica_replay;
 pub mod server_replay;
 
@@ -88,6 +89,7 @@ pub struct Duel {
     client_ticks: [u64; 2],
     first_client: usize,
     paper_moves: Option<[server_replay::MoveEventState; 2]>,
+    citizens: Option<Box<citizens::Driver>>,
 }
 impl Duel {
     pub fn new(mut config: Config, seed: u64) -> Result<Self, SimError> {
@@ -95,9 +97,13 @@ impl Duel {
         if let Some(profile) = &config.ping_profile {
             profile.apply(&mut config.clients, seed);
         }
+        let is_citizens = config.duel_driver == DuelDriver::PaperCitizens;
         let server = std::array::from_fn(|p| {
             let mut player = ServerPlayer::new(config.spawns[p], config.floor_y);
             player.health = config.initial_health[p];
+            if is_citizens && player.body.on_ground {
+                player.body.velocity.y = -0.08 * f64::from(0.98_f32);
+            }
             player
         });
         let clients = std::array::from_fn(|p| {
@@ -107,6 +113,10 @@ impl Duel {
         });
         let replicas = std::array::from_fn(|p| {
             let mut replica = Replica::new(config.spawns[1 - p], config.floor_y);
+            if is_citizens {
+                // The pairing packet has no grounded bit. The first movement update sets it.
+                replica.body.on_ground = false;
+            }
             if config.expose_opponent_health {
                 replica.health = Some(config.initial_health[1 - p]);
                 replica.health_received_ns = Some(0);
@@ -116,7 +126,11 @@ impl Duel {
         let trackers = server.map(Tracker::new);
         Ok(Self {
             next_server: config.server_phase_ns,
-            first_client: config.first_client.unwrap_or((seed & 1) as usize),
+            first_client: config.first_client.unwrap_or(if is_citizens {
+                0
+            } else {
+                (seed & 1) as usize
+            }),
             trace: Trace::new(config.trace_capacity),
             config,
             seed,
@@ -132,6 +146,7 @@ impl Duel {
             frames: [0; 2],
             client_ticks: [0; 2],
             paper_moves: None,
+            citizens: is_citizens.then(Box::<citizens::Driver>::default),
         })
     }
     pub fn reset(&mut self, seed: u64) -> Result<[Observation; 2], SimError> {
@@ -157,12 +172,20 @@ impl Duel {
         if player > 1 {
             return Err(SimError::InvalidPlayer(player));
         }
-        Ok(Observation::new(
+        let mut obs = Observation::new(
             &self.clients[player],
             &self.replicas[player],
             self.time_ns,
             self.config.floor_y,
-        ))
+        );
+        if self.citizens.is_some() {
+            obs.target_under_crosshair = citizens::can_hit(
+                self.clients[player].body,
+                self.replicas[player].body,
+                self.config.floor_y,
+            );
+        }
+        Ok(obs)
     }
     pub fn observations(&self) -> [Observation; 2] {
         std::array::from_fn(|p| self.observe(p).unwrap())
@@ -195,7 +218,11 @@ impl Duel {
             server: self.server,
             clients: self.clients,
             replicas: self.replicas,
-            queued_up: std::array::from_fn(|p| self.wire.up[p].len()),
+            queued_up: std::array::from_fn(|p| {
+                self.citizens
+                    .as_ref()
+                    .map_or_else(|| self.wire.up[p].len(), |driver| driver.pending_count(p))
+            }),
             queued_down: std::array::from_fn(|p| self.wire.down[p].len()),
         }
     }
@@ -250,6 +277,40 @@ impl Duel {
         self.step_with_sounds(actions, |_| {})
     }
 
+    /// Query the controllers at the observation boundary of the configured driver.
+    /// On Paper a later seat may see changes to its own body caused by the first
+    /// seat's action. A driver error ends the current episode.
+    pub fn step_with_policy(
+        &mut self,
+        mut act: impl FnMut(&Self, usize, &Observation) -> Result<Action, SimError>,
+    ) -> Result<(StepResult, [Action; 2]), SimError> {
+        if self.is_finished() {
+            return Err(SimError::EpisodeFinished);
+        }
+        let mut actions = [Action::default(); 2];
+        let result = if self.citizens.is_some() {
+            let step = self.step_citizens(
+                |duel, seat| {
+                    let action = act(duel, seat, &duel.observe(seat)?)?;
+                    action.validate()?;
+                    actions[seat] = action;
+                    Ok(action.applied())
+                },
+                &mut |_| {},
+            );
+            if step.is_err() {
+                self.outcome = Outcome::Truncated;
+            }
+            step?
+        } else {
+            for (seat, observation) in self.observations().iter().enumerate() {
+                actions[seat] = act(self, seat, observation)?;
+            }
+            self.step(actions)?
+        };
+        Ok((result, actions))
+    }
+
     /// Report audible combat events at their virtual server times. Frontends
     /// schedule delivery to the listener. Batch training uses a no-op listener.
     pub fn step_with_sounds(
@@ -274,6 +335,9 @@ impl Duel {
         }
         for a in actions {
             a.validate()?;
+        }
+        if self.citizens.is_some() {
+            return self.step_citizens(|_, seat| Ok(actions[seat]), &mut emit);
         }
         let old_health = self.server.map(|p| p.health);
         for (p, a) in actions.into_iter().enumerate() {
@@ -308,6 +372,10 @@ impl Duel {
                 }
             }
         }
+        Ok(self.finish_step(old_health, end))
+    }
+
+    fn finish_step(&mut self, old_health: [f32; 2], end: u64) -> StepResult {
         self.decision_step += 1;
         if !self.is_finished() {
             self.time_ns = end;
@@ -327,7 +395,7 @@ impl Duel {
             rewards[winner] += self.config.reward.win;
             rewards[1 - winner] -= self.config.reward.win;
         }
-        Ok(StepResult {
+        StepResult {
             observations: self.observations(),
             rewards,
             terminated: matches!(self.outcome, Outcome::Victory { .. }),
@@ -335,7 +403,7 @@ impl Duel {
             outcome: self.outcome,
             decision_step: self.decision_step,
             time_ns: self.time_ns,
-        })
+        }
     }
     fn check_death(&mut self) {
         for p in 0..2 {
@@ -346,6 +414,15 @@ impl Duel {
         }
     }
     fn client_frame(&mut self, p: usize) {
+        self.drain_downstream(p);
+        let due = self.config.clients[p].tick_phase_ns + self.client_ticks[p] * TICK_NS;
+        if due <= self.time_ns {
+            self.client_tick(p);
+            self.client_ticks[p] += 1;
+        }
+    }
+
+    fn drain_downstream(&mut self, p: usize) {
         while self.wire.down[p]
             .front()
             .is_some_and(|e| e.arrival_ns <= self.time_ns)
@@ -359,11 +436,6 @@ impl Duel {
             }
             self.apply_down(p, e.packet);
             self.record_state("after_downstream", Some(p));
-        }
-        let due = self.config.clients[p].tick_phase_ns + self.client_ticks[p] * TICK_NS;
-        if due <= self.time_ns {
-            self.client_tick(p);
-            self.client_ticks[p] += 1;
         }
     }
     fn apply_down(&mut self, p: usize, packet: Downstream) {
@@ -433,6 +505,10 @@ impl Duel {
                 debug_assert_eq!(entity, 1 - p);
                 self.replicas[p].health = Some(health);
                 self.replicas[p].health_received_ns = Some(self.time_ns);
+                if self.citizens.is_some() {
+                    // Paper delivers opponent HP as entity metadata.
+                    self.replicas[p].metadata_received_ns = self.time_ns;
+                }
             }
             Downstream::Equipment { equipment } => {
                 let c = &mut self.clients[p];
@@ -701,8 +777,19 @@ impl Duel {
                 } else {
                     (&mut b[0], &mut a[0])
                 };
-                let result =
-                    combat::attack(attacker, victim, &mut self.rng, self.config.unbreakable);
+                let result = if let Some(driver) = &mut self.citizens {
+                    let result = combat::attack_with_velocity(
+                        attacker,
+                        victim,
+                        &mut self.rng,
+                        self.config.unbreakable,
+                        true,
+                    );
+                    driver.hurt_this_tick[target] |= result.motion.is_some();
+                    result
+                } else {
+                    combat::attack(attacker, victim, &mut self.rng, self.config.unbreakable)
+                };
                 let mut sound = |source, sound| {
                     emit(SoundEvent {
                         time_ns: self.time_ns,
@@ -739,7 +826,9 @@ impl Duel {
                         CombatSound::Weak
                     },
                 );
-                if let Some(v) = result.motion {
+                if let Some(v) = result.motion
+                    && self.citizens.is_none()
+                {
                     self.send_down(
                         target,
                         Downstream::Motion {
@@ -756,10 +845,12 @@ impl Duel {
                 }
             }
             Upstream::Swing => {
-                if matches!(
-                    self.config.server_rules,
-                    ServerRules::PaperSwing | ServerRules::PaperFlatV2
-                ) {
+                if self.citizens.is_some()
+                    || matches!(
+                        self.config.server_rules,
+                        ServerRules::PaperSwing | ServerRules::PaperFlatV2
+                    )
+                {
                     self.server[p].body.attack_ticks = 0;
                 }
             }
@@ -894,7 +985,9 @@ impl Duel {
                 || t.teleport_delay > 400
                 || delta.iter().any(|&v| !(-32768..=32767).contains(&v));
             let diff = (s.body.velocity - t.velocity).length_squared();
-            if diff > 1e-7 || (diff > 0.0 && s.body.velocity.length_squared() == 0.0) {
+            if (self.citizens.is_none() || s.needs_sync)
+                && (diff > 1e-7 || (diff > 0.0 && s.body.velocity.length_squared() == 0.0))
+            {
                 t.velocity = s.body.velocity;
                 self.send_down(
                     1 - p,
@@ -938,7 +1031,8 @@ impl Duel {
             }
             if dirty {
                 t.pose = s.body.pose;
-                if self.config.server_rules == ServerRules::PaperFlatV2
+                if self.citizens.is_none()
+                    && self.config.server_rules == ServerRules::PaperFlatV2
                     && t.sprinting != s.body.sprinting
                 {
                     self.send_down(
@@ -969,7 +1063,7 @@ impl Duel {
         }
         t.tick += 1;
         self.trackers[p] = t;
-        if self.server[p].hurt_marked {
+        if self.citizens.is_none() && self.server[p].hurt_marked {
             self.server[p].hurt_marked = false;
             for to in 0..2 {
                 self.send_down(

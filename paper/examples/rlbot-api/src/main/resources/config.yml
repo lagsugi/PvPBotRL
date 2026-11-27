@@ -1,5 +1,4 @@
-# Match the PvPBotRL runtime's equipment-profile.
-equipment-profile: finite_durability
+equipment-profile: sword_pvp_fixed_equipment_v1
 match:
   max-concurrent: 8
   start-distance: 20.0

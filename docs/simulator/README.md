@@ -36,7 +36,7 @@ The CLI prints JSON. `--trace` writes NDJSON and `--record` writes a versioned J
 | Combat target | Minecraft Java Edition 26.1.2 source behavior |
 | Players | Two, survival movement, 20 HP each |
 | Equipment | Diamond sword; four diamond armor pieces with Protection IV |
-| Durability | Enabled; broken equipment changes combat values |
+| Durability | Fixed for the sword and all four armor pieces |
 | Floor | Infinite, immutable horizontal plane at Y = 0; friction 0.6 |
 | Initial locations | (0, 0, -3) and (0, 0, 3), facing each other |
 | Movement and server rate | 20 ticks/second |
@@ -50,13 +50,13 @@ The CLI prints JSON. `--trace` writes NDJSON and `--record` writes a versioned J
 | Time limit | Truncation, with no health-based winner |
 | Reward | +1 winner / -1 loser; optional damage and time terms |
 
-The floor still participates in vertical collision, fall damage, and ray occlusion. There is no block grid, destruction, terrain generation, or player contact pushing. Equipment is represented by fixed modifiers and durability counters, not a general inventory system. Setting `unbreakable: true` is an explicit alternative profile, not the default.
+The floor still participates in vertical collision, fall damage, and ray occlusion. There is no block grid, destruction, terrain generation, or player contact pushing. Equipment is represented by fixed modifiers and durability counters.
 
-Configuration is JSON with strict field names and defaults for omitted top-level fields. See [`configs/duel.json`](../../configs/duel.json). `--config` is available for `duel` and `batch`; `--max-steps` overrides its episode limit. FPS, one-way delays, tick/frame phases, seat priority, floor height/friction, spawn states, rewards, durability mode, and trace capacity are configurable.
+Configuration is JSON with strict field names and defaults for omitted top-level fields. See [`configs/duel.json`](../../configs/duel.json). `--config` is available for `duel` and `batch`. `--max-steps` overrides its episode limit. FPS, one-way delays, tick/frame phases, seat priority, floor height/friction, spawn states, rewards, and trace capacity are configurable.
 
 ## Fixed-equipment tournament and training profile
 
-Use `sword_pvp_fixed_equipment_v1` for the next tournament, training, and evaluation runs after verifying the deployment.
+Use `sword_pvp_fixed_equipment_v1` for new Sword PvP matches, training, and evaluation.
 
 | Rule | Behavior |
 | --- | --- |
@@ -66,9 +66,9 @@ Use `sword_pvp_fixed_equipment_v1` for the next tournament, training, and evalua
 
 Finite durability makes the rules change mid-match when a piece breaks. Losing armor changes mitigation, and losing the sword changes attack damage and timing. Wear also depends on earlier exchanges, while the recurrent policy sees equipment presence without the remaining durability counters. Fixing equipment keeps a long match under the same rules as a short one and makes seed-paired evaluations easier to interpret. Disabling natural regeneration removes the health recovered by disengaging. Track timeouts and match duration separately.
 
-For CLI duels and batches, pass `--config configs/sword_pvp_fixed_equipment_v1.json`. The profile uses the simulator's existing `unbreakable: true` setting for the sword and all four armor pieces. Replays store the profile and effective setting in their config. The profile is independent of server movement and packet rules such as `paper_flat_v1`. Older settings and recordings load their original durability rules.
+CLI duels and batches apply this profile to new matches, including when a configuration file supplies other match settings. For a standalone preset, use `--config configs/sword_pvp_fixed_equipment_v1.json`. Replays store the effective profile. Historical recordings replay with their saved rules.
 
-For next-generation GRU runs, pass `-FixedEquipment` to `tools/research/recurrent-ppo/run-nextgen.bat` on both start and resume. Competitive evaluation and replay generation use the campaign's setting. The campaign, checkpoints, and evaluation manifest record the profile. Use a fresh output directory for a new campaign under these rules. [Next-generation GRU guide](../research/bots/next-gen-gru-run.md)
+New GRU campaigns, competitive evaluations, and replay generation use fixed equipment by default. Resuming a historical campaign follows its saved rules. Use a fresh output directory for a new campaign. [Next-generation GRU guide](../research/bots/next-gen-gru-run.md)
 
 On Paper, the match host equips both fighters with the five unbreakable items. PvPBotRL checks both loadouts and requires natural regeneration to be off in the arena world. [Paper setup](../../paper/RLBOT_SETUP.md#fixed-equipment-profile)
 
@@ -115,6 +115,23 @@ reward[p] = damage_weight * (opponent_HP_lost - own_HP_lost)
 ```
 
 It introduces no arena wall or artificial combat force. Reward coefficients are configurable; the defaults do not establish that a learned policy will avoid stalling. That behavior needs training and evaluation. A timeout is exposed separately from death so a trainer can choose its truncation/bootstrap policy.
+
+## Paper Citizens Bot vs Bot
+
+Use `configs/paper_citizens_practice.json` to reproduce the normal PvPBotRL paired NPC path on the flat Practice opening with fixed equipment. Run from the repository root in PowerShell.
+
+```powershell
+.\tools\rust\cargo.bat run --release --locked -- duel --config configs/paper_citizens_practice.json --bot-a g3-prototype --bot-b recurrent-g2-plus --record build/paper-citizens/duel.json
+.\tools\rust\cargo.bat run --release --locked -- replay --input build/paper-citizens/duel.json
+```
+
+The preset starts at 0 ms modeled RTT. For Paper's default 20 ms, pass `--ping-profile fixed --ping-a 20 --ping-b 20`. Change the bot order to swap physical seats. `batch` uses the same driver and seed handling as `duel`.
+
+Select this mode in Rust with `Config::duel_driver = DuelDriver::PaperCitizens` and call `Duel::step_with_policy` for closed-loop decisions. The lead seat alternates each server tick. A 0 ms attack can immediately change the second bot's own velocity and HP. Movement and tracker updates follow both decisions. Subsequent decisions consume the received tracker updates, including interpolation, metadata and motion packet quantization. The next decision gives actors their own current NPC state and received opponent information. FPS and virtual client phases belong to the client/server driver. `Duel::step` and `Batch::step` accept fixed inputs for recorded or scripted runs without mid-tick controller calls.
+
+The stored replay includes its driver. A config or replay with no driver field uses `client_server`, the driver used by the original training and evaluation. The Paper preset covers flat-floor Bot vs Bot physics. The open-floor model excludes arena walls and other entities.
+
+The regression fixture from Paper 26.1.2 build 74 and Citizens build 4270 checks every chosen action and accepted attack for G3 Prototype vs G2+ at symmetric 0 and 2 ms in both seats. All four action sequences and all 180 accepted hits match their Paper counterparts, including the hit tick, attacker and critical classification. At 20 ms the fixture checks the winner, terminal tick and HP in both seats. Final HP error was at most `0.000002 HP`. Paper reports a zero-based terminal tick, so Rust's `decision_steps` is one greater. [Paper fixture](../../tests/fixtures/parity/g3-paper-citizens.json) · [Regression test](../../crates/pvp-policy/tests/paper_citizens.rs)
 
 ## Module map
 

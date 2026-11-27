@@ -9,7 +9,7 @@ use std::{
     time::Instant,
 };
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
-const HELP: &str = "pvp-sim <duel|batch|replay> [options]\n\n  duel   [--bot-a NAME] [--bot-b NAME] [--config FILE] [--seed N] [--max-steps N] [--record FILE] [--trace FILE]\n  batch  [--bot-a NAME] [--bot-b NAME] [--config FILE] [--seed N] [--max-steps N] [--matches N] [--threads N]\n  replay --input FILE [--trace FILE]\n\nPing options (duel/batch): --ping-profile gamma|fixed, --ping-a MS, --ping-b MS, --ping-asymmetry 0..0.5.\nGamma: k=2 theta=35ms conditional on 5..150ms; sampled once per match. Default asymmetry half-width 0.1.\nBatch: --network-output FILE saves each lane seed and sampled timing.\n\nBots: baseline, pressure, orbit, counter, critical, critical-plus (Critical+), duel-rl, league-rl (G4), league-g5, league-g6, recurrent-ppo, recurrent-g2, recurrent-g2-plus.\nUse --recurrent-model FILE to override the bundled Recurrent-PPO weights.\nAll simulation time is virtual. No Minecraft process is launched.\nOutputs are JSON. Trace is NDJSON. --record stores replayable actions.\n";
+const HELP: &str = "pvp-sim <duel|batch|replay> [options]\n\n  duel   [--bot-a NAME] [--bot-b NAME] [--config FILE] [--seed N] [--max-steps N] [--record FILE] [--trace FILE]\n  batch  [--bot-a NAME] [--bot-b NAME] [--config FILE] [--seed N] [--max-steps N] [--matches N] [--threads N]\n  replay --input FILE [--trace FILE]\n\nPing options (duel/batch): --ping-profile gamma|fixed, --ping-a MS, --ping-b MS, --ping-asymmetry 0..0.5.\nGamma: k=2 theta=35ms conditional on 5..150ms; sampled once per match. Default asymmetry half-width 0.1.\nBatch: --network-output FILE saves each lane seed and sampled timing.\n\nBots: baseline, pressure, orbit, counter, critical, critical-plus (Critical+), duel-rl, league-rl (G4), league-g5, league-g6, recurrent-ppo, recurrent-g2, recurrent-g2-plus, g3-prototype.\nUse --config configs/paper_citizens_practice.json for paired Paper NPC timing.\nUse --recurrent-model FILE to override the bundled Recurrent-PPO weights.\nAll simulation time is virtual. No Minecraft process is launched.\nOutputs are JSON. Trace is NDJSON. --record stores replayable actions.\n";
 fn output(path: &str) -> Result<BufWriter<File>> {
     let file = open_output(path)?;
     file.set_len(0)?;
@@ -122,11 +122,12 @@ fn run() -> Result<()> {
             .transpose()?
             .unwrap_or(default))
     };
-    let mut config: Config = if let Some(path) = options.get("config") {
+    let config: Config = if let Some(path) = options.get("config") {
         serde_json::from_reader(BufReader::new(File::open(path)?))?
     } else {
         Config::default()
     };
+    let mut config = config.with_fixed_equipment();
     if options.contains_key("max-steps") {
         config.max_steps = number("max-steps", 6000)?;
     }
@@ -212,15 +213,12 @@ fn run() -> Result<()> {
             let mut bots = styles.map(policy::Bot::new);
             let start = Instant::now();
             while !d.is_finished() {
-                let obs = d.observations();
-                let actions = [
-                    bots[0].act_in_duel(&d, 0, &obs[0], model.as_ref())?,
-                    bots[1].act_in_duel(&d, 1, &obs[1], model.as_ref())?,
-                ];
+                let (_, actions) = d.step_with_policy(|duel, seat, obs| {
+                    bots[seat].act_in_duel(duel, seat, obs, model.as_ref())
+                })?;
                 if recording {
                     replay.record(actions);
                 }
-                d.step(actions)?;
                 write_trace(&mut d, &mut trace)?;
             }
             if let Some(path) = options.get("record") {

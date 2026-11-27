@@ -69,7 +69,6 @@ final class Duel {
     final World world;
     final UUID host;
     final Fighter[] fighters;
-    final ExamplePlugin.Settings settings;
     final BossBar timer = BossBar.bossBar(Component.text("Starting"), 1f, BossBar.Color.BLUE, BossBar.Overlay.PROGRESS);
     Phase phase = Phase.PREPARING;
     int elapsed;
@@ -77,13 +76,12 @@ final class Duel {
     MatchLog log;
     MatchHealthDisplay healthDisplay;
 
-    Duel(StageStore.Entry entry, UUID host, Fighter a, Fighter b, ExamplePlugin.Settings settings) {
+    Duel(StageStore.Entry entry, UUID host, Fighter a, Fighter b) {
         arena = entry.id();
         stage = entry.stage();
         world = stage.world();
         this.host = host;
         fighters = new Fighter[]{a, b};
-        this.settings = settings;
     }
 
     String mode() {
@@ -112,19 +110,19 @@ final class Duel {
         timer.progress((float) ticks / (phase == Phase.COUNTDOWN ? COUNTDOWN : MAX_TICKS));
     }
 
-    static void kit(Player player, boolean durability) {
+    static void kit(Player player) {
         if (player.getGameMode() != GameMode.SURVIVAL) player.setGameMode(GameMode.SURVIVAL);
         if (player.getGameMode() != GameMode.SURVIVAL) throw new IllegalStateException("Could not set survival mode.");
         player.closeInventory();
         player.setItemOnCursor(ItemStack.empty());
         player.getInventory().clear();
         player.getInventory().setHeldItemSlot(0);
-        player.getInventory().setItem(0, item(Material.DIAMOND_SWORD, false, durability));
+        player.getInventory().setItem(0, item(Material.DIAMOND_SWORD, false));
         player.getInventory().setArmorContents(new ItemStack[]{
-                item(Material.DIAMOND_BOOTS, true, durability),
-                item(Material.DIAMOND_LEGGINGS, true, durability),
-                item(Material.DIAMOND_CHESTPLATE, true, durability),
-                item(Material.DIAMOND_HELMET, true, durability)
+                item(Material.DIAMOND_BOOTS, true),
+                item(Material.DIAMOND_LEGGINGS, true),
+                item(Material.DIAMOND_CHESTPLATE, true),
+                item(Material.DIAMOND_HELMET, true)
         });
         PlayerRecovery.clearEffects(player);
         var health = Objects.requireNonNull(player.getAttribute(Attribute.MAX_HEALTH));
@@ -148,10 +146,10 @@ final class Duel {
         player.setAllowFlight(false);
     }
 
-    private static ItemStack item(Material material, boolean armor, boolean durability) {
+    private static ItemStack item(Material material, boolean armor) {
         var item = new ItemStack(material);
         if (armor) item.addEnchantment(Enchantment.PROTECTION, 4);
-        if (!durability) item.editMeta(meta -> meta.setUnbreakable(true));
+        item.editMeta(meta -> meta.setUnbreakable(true));
         return item;
     }
 }

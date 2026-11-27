@@ -95,6 +95,8 @@ class TrainingTests(unittest.TestCase):
                     args.resume = resume
                     campaign = Campaign(args)
                     try:
+                        self.assertEqual(campaign.state["settings"]["match_profile"], FIXED_EQUIPMENT_PROFILE)
+                        self.assertTrue(campaign.state["settings"]["unbreakable"])
                         with patch.object(campaign, "evaluate_dev", side_effect=RuntimeError("Reached baseline")) as baseline:
                             with self.assertRaises(AssertionError):
                                 campaign.run()

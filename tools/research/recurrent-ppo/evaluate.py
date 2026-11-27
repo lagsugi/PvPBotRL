@@ -29,6 +29,7 @@ def matches(model, final, threads, direct, common, max_steps, anchor=None, timeo
     ]
     if anchor:
         args.append(str(anchor.resolve()))
+    args.append("--legacy-durability")
     env = dict(os.environ, RAYON_NUM_THREADS=str(threads))
     return json.loads(subprocess.check_output(args, env=env, timeout=timeout))
 

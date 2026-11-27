@@ -127,6 +127,8 @@ def schedule(data, server_rules="paper_flat_v1"):
             "config": {"floor_y": floor_y, "server_rules": server_rules,
                        "spawns": [{k: b["body"][k] for k in ("position", "yaw", "pitch")} for b in initial]},
             "events": [{"time_ns": ns-start, **event} for ns, event, _ in events]}
+    if "unbreakable" in data:
+        case["config"]["unbreakable"] = data["unbreakable"]
     if all("has_moved" in connection.get(a, {}) for a in ACTORS):
         case["paper_moves"] = [move_state(connection[a]) for a in ACTORS]
     if "knockback_random" in data:

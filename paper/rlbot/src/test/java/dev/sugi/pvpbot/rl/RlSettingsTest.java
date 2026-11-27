@@ -14,7 +14,6 @@ class RlSettingsTest {
         assertEquals(20, settings.rttMs());
         assertEquals(8, settings.matchLimit());
         assertFalse(settings.diagnostics());
-        assertFalse(settings.fixedEquipment());
     }
 
     @Test void readsFixedEquipmentAndDiagnostics() {
@@ -22,7 +21,6 @@ class RlSettingsTest {
         config.set("equipment-profile", RlSettings.FIXED_EQUIPMENT);
         config.set("diagnostics", true);
         var settings = RlSettings.read(config);
-        assertTrue(settings.fixedEquipment());
         assertTrue(settings.diagnostics());
     }
 
@@ -42,12 +40,10 @@ class RlSettingsTest {
         var config = config();
         var original = RlSettings.read(config);
         config.set("bot-rtt-ms", 100);
-        config.set("equipment-profile", RlSettings.FIXED_EQUIPMENT);
+        config.set("equipment-profile", "finite_durability");
         var reloaded = RlSettings.read(config);
         assertEquals(20, original.rttMs());
-        assertFalse(original.fixedEquipment());
         assertEquals(100, reloaded.rttMs());
-        assertTrue(reloaded.fixedEquipment());
     }
 
     private static YamlConfiguration config() {

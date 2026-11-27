@@ -33,11 +33,11 @@ On the first installation, `-WithExample` builds and installs the Example beside
 
 ## Server configuration
 
-Edit `plugins/PvPBotRL/config.yml` in the standalone server directory. `bot-rtt-ms` sets the total modeled delay for the bot's incoming information and outgoing actions. `max-active-matches` limits the number of bot handles, including idle ones. `diagnostics: true` writes motion TSV files to `plugins/PvPBotRL/diagnostics/` as bots close. Reloaded RTT and equipment settings apply to newly spawned bots.
+Edit `plugins/PvPBotRL/config.yml` in the standalone server directory. `bot-rtt-ms` sets the total modeled delay for the bot's incoming information and outgoing actions. `max-active-matches` limits the number of bot handles, including idle ones. `diagnostics: true` writes motion TSV files to `plugins/PvPBotRL/diagnostics/` as bots close. Reloaded RTT settings apply to newly spawned bots.
 
 ### Fixed-equipment profile
 
-To use fixed equipment with the Example, set `equipment-profile: sword_pvp_fixed_equipment_v1` in both `plugins/PvPBotRL/config.yml` and `plugins/PvPBotRLExample/config.yml`, then restart. The Example issues an unbreakable diamond sword and unbreakable Protection IV diamond armor. Natural regeneration must be off in the arena world. The Example sets this rule in its built-in arena world. The default `finite_durability` profile uses ordinary item wear.
+Both plugins use `sword_pvp_fixed_equipment_v1`. The Example issues an unbreakable diamond sword and unbreakable Protection IV diamond armor. Natural regeneration must be off in the arena world. The Example sets this rule in its built-in arena world. The legacy `finite_durability` value in an existing YAML file is accepted as a compatibility alias for fixed equipment.
 
 ### Training models
 

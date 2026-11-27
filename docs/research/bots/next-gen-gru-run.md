@@ -12,6 +12,8 @@ Run from the repository root in PowerShell.
 
 The default output directory is `build/recurrent-ppo/nextgen-24h`. The run uses 512 environments, eight Rust threads, four Torch threads, and a cumulative 24-hour limit for the whole experiment. The launcher builds Rust in release mode before starting Python. On a machine without the Python environment, run `tools/research/recurrent-ppo/setup.bat` first.
 
+New campaigns use `sword_pvp_fixed_equipment_v1` for training and evaluation. Resume uses the rules recorded in the campaign. `-FixedEquipment` can require the fixed profile when resuming.
+
 To specify a fresh output directory:
 
 ```powershell

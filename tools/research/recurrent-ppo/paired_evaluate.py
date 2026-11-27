@@ -39,7 +39,7 @@ def make_cells(models, direct=8192, common=512, weak150=8192, weak120=2048, hist
 
 
 def plan(candidate, champion, cells, seed, max_steps, resamples=2000, quality=None, smoke=False,
-         fixed_equipment=False):
+         fixed_equipment=True):
     cells = [dict(c, seed=split_seed(seed, f"{c['kind']}:{c.get('id', c['rival'])}:{c['net']}"),
                   network=NETWORK_NAMES[c["net"]], opponent="champion" if c["kind"] == "direct" else
                   RIVAL_NAMES[int(c["rival"])] if c["kind"] == "common" else "history:" + c["id"][:12]) for c in cells]
@@ -161,7 +161,7 @@ def execute(manifest, output, threads=8, deadline=None, resume=False, adoption=T
     profile = manifest.get("match_profile")
     if profile is not None and (profile != FIXED_EQUIPMENT_PROFILE or manifest.get("unbreakable") is not True):
         raise ValueError("invalid evaluation match profile")
-    equipment_args = ["--fixed-equipment"] if profile == FIXED_EQUIPMENT_PROFILE else []
+    equipment_args = [] if profile == FIXED_EQUIPMENT_PROFILE else ["--legacy-durability"]
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     manifest_path = output / "manifest.json"
