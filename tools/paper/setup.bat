@@ -13,6 +13,9 @@ $ProgressPreference = 'SilentlyContinue'
 $project = (Resolve-Path -LiteralPath (Join-Path $scriptDirectory '..\..\paper')).Path
 $run = Join-Path $project 'run-rl-standalone'
 $plugins = Join-Path $run 'plugins'
+$installedExample = Join-Path $plugins 'pvpbot-rl-example.jar'
+# An installed Example must be updated together with the runtime.
+$buildExample = $WithExample -or (-not $BuildOnly -and (Test-Path -LiteralPath $installedExample -PathType Leaf))
 $dependencies = Join-Path $project '.gradle\pvpbot-dependencies'
 $jdk = if ($env:JAVA_HOME) { Join-Path $env:JAVA_HOME 'bin\javac.exe' } else { 'javac.exe' }
 $jdkVersion = & $jdk -version
@@ -58,7 +61,7 @@ try {
     }
     & (Join-Path $project 'gradlew.bat') @gradleArgs
     if ($LASTEXITCODE -ne 0) { throw "Gradle build failed with exit code $LASTEXITCODE" }
-    if ($WithExample) {
+    if ($buildExample) {
         $apiJar = Join-Path $project 'rlbot\build\libs\pvpbot-rl-0.1.0-api.jar'
         $exampleArgs = @('-p', (Join-Path $project 'examples\rlbot-api'), '--no-daemon', '--max-workers=1',
             "-PpvpBotApiJar=$apiJar", 'build')
@@ -114,9 +117,9 @@ New-Item -ItemType Directory -Path $plugins -Force | Out-Null
 Install-PinnedJar $paperJar 'paper-' $run
 Install-PinnedJar $citizensJar 'Citizens-' $plugins 'e6b0a0e3346bd2cb982bcd3e1b628143629042e1a50479ae3c24858e2cacde22'
 Copy-Item -LiteralPath (Join-Path $project 'rlbot\build\libs\pvpbot-rl-0.1.0.jar') -Destination (Join-Path $plugins 'PvPBotRL.jar') -Force
-if ($WithExample) {
+if ($buildExample) {
     $exampleJar = Join-Path $project 'examples\rlbot-api\build\libs\pvpbot-rl-example.jar'
-    Copy-Item -LiteralPath $exampleJar -Destination (Join-Path $plugins 'pvpbot-rl-example.jar') -Force
+    Copy-Item -LiteralPath $exampleJar -Destination $installedExample -Force
 }
 
 $repo = Split-Path -Parent $project

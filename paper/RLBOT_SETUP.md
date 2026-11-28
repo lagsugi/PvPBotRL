@@ -29,7 +29,7 @@ Use another PowerShell window to check status or stop the server.
 
 Read the [Minecraft EULA](https://www.minecraft.net/eula) before using `start.bat -AcceptEula` on first launch. The launcher checks and installs the pinned Paper and Citizens JARs, plus PvPBotRL, into `paper/run-rl-standalone/`. The server listens on `127.0.0.1:25565` and accepts authenticated local RCON commands on port 25575. It uses a fresh run directory. Back up the world and plugin data together with the server stopped.
 
-On the first installation, `-WithExample` builds and installs the Example beside the runtime. Connect with Minecraft Java Edition 26.1.2 and run `/rlbotexample start` to enter the arena. Run `/rlbotexample help` to see the other match options. API integrators can use `start.bat` on a fresh installation to install the runtime. The runtime commands `/rlbot list` and `/rlbot status` show available models and bot capacity. Administrators can apply runtime settings with `/rlbot reload`.
+On the first installation, `-WithExample` builds and installs the Example beside the runtime. Subsequent runs of `start.bat` or `setup.bat` update an installed Example together with the runtime, even without `-WithExample`. Connect with Minecraft Java Edition 26.1.2 and run `/rlbotexample start` to enter the arena. Run `/rlbotexample help` to see the other match options. API integrators can use `start.bat` on a fresh installation to install the runtime. The runtime commands `/rlbot list` and `/rlbot status` show available models and bot capacity. Administrators can apply runtime settings with `/rlbot reload`.
 
 ## Server configuration
 
